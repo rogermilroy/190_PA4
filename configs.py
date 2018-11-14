@@ -1,0 +1,12 @@
+cfg = {}
+cfg['input_dim'] = # input dimension to LSTM
+cfg['hidden_dim'] = # hidden dimension for LSTM
+cfg['output_dim'] = # output dimension of the model
+cfg['layers'] = # number of layers of LSTM
+cfg['dropout'] = # dropout rate between two layers of LSTM; useful only when layers > 1; between 0 and 1
+cfg['bidirectional'] = # True or False; True means using a bidirectional LSTM
+cfg['batch_size'] = # batch size of input
+cfg['learning_rate'] = # learning rate to be used
+cfg['L2_penalty'] = # weighting constant for L2 regularization term; this is a parameter when you define optimizer
+cfg['epochs'] = # number of epochs for which the model is trained
+cfg['cuda'] = #True or False depending whether you want to run your model on a GPU or not. If you set this to True, make sure to start a GPU pod on ieng6 server
