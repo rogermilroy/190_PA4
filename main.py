@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from models import *
 from config import cfg
 import pandas as pd
+from nltk.translate import bleu_score
 
 
 def load_data(fname):
