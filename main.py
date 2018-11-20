@@ -66,6 +66,12 @@ def save_to_file(outputs, fname):
 
 
 def add_limiters(data):
+    """
+    Adds limiters and strips tab characters from review/text. To be run on a Pandas Dataframe
+    before other processing.
+    :param data: Pandas Dataframe.
+    :return: Pandas Dataframe.
+    """
     temp = data.copy()
     temp['review/text'] = temp['review/text'].str.replace('\t', ' ') # TODO is this necessary?
     temp['review/text'] = '^' + temp['review/text'].str.strip() + '`' # start with ascii 94 end 96.
@@ -74,7 +80,7 @@ def add_limiters(data):
 
 def char2oh(text):
     """
-    Takes a string and returns a one-hot encoded Tensor.
+    Converts a string to a one-hot encoded 2D Tensor.
     :param text: String of the review to be encoded.
     :return: 2D Tensor. One hot encoded.
     """
@@ -87,6 +93,19 @@ def char2oh(text):
         values.append(temp)
     return torch.stack(values)
 
+def oh2char(tensor):
+    """
+    Converts one-hot encoded values to a string.
+    :param tensor: 2D Tensor of one-hot encoded values
+    :return: String.
+    """
+    chars = []
+    # iterate through tensor, get characters and add to list.
+    for row in tensor:
+        num = torch.argmax(row).item() + 32  # correct for our shifted index.
+        chars.append(chr(num))
+    return ''.join(chars)
+
 
 if __name__ == "__main__":
     data_dir = "../BeerAdvocatePA4"
@@ -96,8 +115,11 @@ if __name__ == "__main__":
 
     train_data = load_data(train_data_fname) # Generating the pandas DataFrame
     test_data = load_data(test_data_fname) # Generating the pandas DataFrame
-    test_data = add_limiters(train_data)
-    print(char2oh(train_data['review/text'][0]))
+    train_data = add_limiters(train_data) # for testing.
+    tes = char2oh(train_data['review/text'][0])
+    print(tes)
+    print(oh2char(tes))
+
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
     # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
     # X_test = process_test_data(test_data) # Converting DataFrame to numpy array
