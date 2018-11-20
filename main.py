@@ -63,7 +63,30 @@ def save_to_file(outputs, fname):
     # TODO: Given the list of generated review outputs and output file name, save all these reviews to
     # the file in .txt format.
     raise NotImplementedError
-    
+
+
+def add_limiters(data):
+    temp = data.copy()
+    temp['review/text'] = temp['review/text'].str.replace('\t', ' ') # TODO is this necessary?
+    temp['review/text'] = '^' + temp['review/text'].str.strip() + '`' # start with ascii 94 end 96.
+    return temp
+
+
+def char2oh(text):
+    """
+    Takes a string and returns a one-hot encoded Tensor.
+    :param text: String of the review to be encoded.
+    :return: 2D Tensor. One hot encoded.
+    """
+    values = []
+    # get ascii representation, create tensor and add one to index for each character
+    for char in text:
+        index = ord(char) - 32  # we don't use 0-31 as non printable.
+        temp = torch.zeros((1, 98), dtype=torch.float)
+        temp[0][index] = 1.0
+        values.append(temp)
+    return torch.stack(values)
+
 
 if __name__ == "__main__":
     data_dir = "../BeerAdvocatePA4"
@@ -73,7 +96,8 @@ if __name__ == "__main__":
 
     train_data = load_data(train_data_fname) # Generating the pandas DataFrame
     test_data = load_data(test_data_fname) # Generating the pandas DataFrame
-    print(train_data['review/overall'])
+    test_data = add_limiters(train_data)
+    print(char2oh(train_data['review/text'][0]))
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
     # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
     # X_test = process_test_data(test_data) # Converting DataFrame to numpy array
