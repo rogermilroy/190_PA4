@@ -5,15 +5,20 @@ from torch.autograd import Variable
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-from models import *
-from config import cfg
+# from models import *
+# from configs import cfg
 import pandas as pd
-from nltk.translate import bleu_score
+# from nltk.translate import bleu_score
 
 
 def load_data(fname):
     # TODO: From the csv file given by filename and return a pandas DataFrame of the read csv.
-    raise NotImplementedError
+    data = pd.read_csv(open(fname, 'r'))
+    to_drop = ['Unnamed: 0', 'beer/name', 'beer/beerId', 'beer/brewerId', 'beer/ABV',
+               'review/appearance', 'review/aroma', 'review/palate', 'review/taste',
+               'review/time', 'review/profileName']
+    data = data.drop(columns=to_drop)
+    return data
 
 
 def process_train_data(data):
@@ -61,23 +66,25 @@ def save_to_file(outputs, fname):
     
 
 if __name__ == "__main__":
-    train_data_fname = ""
-    test_data_fname = ""
+    data_dir = "../BeerAdvocatePA4"
+    train_data_fname = data_dir + "/Beeradvocate_Train.csv"
+    test_data_fname = data_dir + "/Beeradvocate_Test.csv"
     out_fname = ""
-    
+
     train_data = load_data(train_data_fname) # Generating the pandas DataFrame
     test_data = load_data(test_data_fname) # Generating the pandas DataFrame
-    train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
-    X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
-    X_test = process_test_data(test_data) # Converting DataFrame to numpy array
-    
-    model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
-    if cfg['cuda']:
-        computing_device = torch.device("cuda")
-    else:
-        computing_device = torch.device("cpu")
-    model.to(computing_device)
-    
-    train(model, X_train, y_train, X_valid, y_valid, cfg) # Train the model
-    outputs = generate(model, X_test, cfg) # Generate the outputs for test data
-    save_to_file(outputs, out_fname) # Save the generated outputs to a file
+    print(train_data['review/overall'])
+    # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
+    # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
+    # X_test = process_test_data(test_data) # Converting DataFrame to numpy array
+    #
+    # model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
+    # if cfg['cuda']:
+    #     computing_device = torch.device("cuda")
+    # else:
+    #     computing_device = torch.device("cpu")
+    # model.to(computing_device)
+    #
+    # train(model, X_train, y_train, X_valid, y_valid, cfg) # Train the model
+    # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
+    # save_to_file(outputs, out_fname) # Save the generated outputs to a file
