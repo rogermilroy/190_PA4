@@ -185,11 +185,22 @@ def oh2beer(tensor):
              'Happoshu': 100, 'American Pale Ale (APA)': 101, 'Saison / Farmhouse Ale': 102,
              'Scottish Gruit / Ancient Herbed Ale': 103}
     index = torch.argmax(tensor)
+    beer_style = None
     for beer, i in beers.items():
         if i == index:
             beer_style = beer
             break
     return beer_style
+
+
+def scale_beer_rating(rating):
+    """
+    Scale ratings to be between -1 and 1
+    :param rating: A float between 0. and 5.
+    :return: tensor of the new rating
+    """
+    new_rating = ((rating * 2) / 5) - 1
+    return torch.tensor(new_rating)  #TODO check if needs to be 2d for concatenation.
 
 
 if __name__ == "__main__":
@@ -202,7 +213,7 @@ if __name__ == "__main__":
     test_data = load_data(test_data_fname) # Generating the pandas DataFrame
     train_data = add_limiters(train_data) # for testing.
     tes = train_data['beer/style'][0]
-    print(tes)
+    print(scale_beer_rating(train_data['review/overall'][0]))
     print(beer2oh(tes))
     print(oh2beer(beer2oh(tes)))
 
