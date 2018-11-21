@@ -93,6 +93,7 @@ def char2oh(text):
         values.append(temp)
     return torch.stack(values)
 
+
 def oh2char(tensor):
     """
     Converts one-hot encoded values to a string.
@@ -101,10 +102,53 @@ def oh2char(tensor):
     """
     chars = []
     # iterate through tensor, get characters and add to list.
-    for row in tensor:
+    for row in tensor.split(1):
         num = torch.argmax(row).item() + 32  # correct for our shifted index.
         chars.append(chr(num))
     return ''.join(chars)
+
+
+def beer2oh(beer):
+    beers = {'American Double / Imperial Stout': 0, 'Euro Pale Lager': 1,
+             'American Pale Wheat Ale': 2, 'Belgian Pale Ale': 3, 'Rye Beer': 4,
+             'English Bitter': 5, 'Milk / Sweet Stout': 6, 'English Stout': 7, 'Kristalweizen': 8,
+             'Roggenbier': 9, 'Dortmunder / Export Lager': 10, 'English Dark Mild Ale': 11,
+             'Tripel': 12, 'Maibock / Helles Bock': 13, 'Smoked Beer': 14, 'American Black Ale': 15,
+             'American Barleywine': 16, 'American Adjunct Lager': 17, 'Low Alcohol Beer': 18,
+             'Quadrupel (Quad)': 19, 'American Porter': 20, 'Weizenbock': 21, 'Doppelbock': 22,
+             'Berliner Weissbier': 23, 'Old Ale': 24, 'English Pale Ale': 25,
+             'English Barleywine': 26, 'Czech Pilsener': 27, 'Flanders Oud Bruin': 28,
+             'American Wild Ale': 29, 'California Common / Steam Beer': 30,
+             'American Pale Lager': 31, 'Russian Imperial Stout': 32, 'Herbed / Spiced Beer': 33,
+             'American Double / Imperial IPA': 34, 'English Strong Ale': 35,
+             'Belgian Strong Dark Ale': 36, 'Vienna Lager': 37,
+             'American Double / Imperial Pilsner': 38, 'Munich Dunkel Lager': 39,
+             'American IPA': 40, 'Dunkelweizen': 41, 'Belgian Strong Pale Ale': 42, 'Faro': 43,
+             'Gueuze': 44, 'American Strong Ale': 45, 'American Blonde Ale': 46, 'Dubbel': 47,
+             'Extra Special / Strong Bitter (ESB)': 48, 'Lambic - Fruit': 49, 'Wheatwine': 50,
+             'Keller Bier / Zwickel Bier': 51, 'Irish Red Ale': 52, 'Munich Helles Lager': 53,
+             'Altbier': 54, 'Pumpkin Ale': 55, 'German Pilsener': 56, 'Chile Beer': 57,
+             'Baltic Porter': 58, 'Eisbock': 59, 'Braggot': 60, 'Kölsch': 61,
+             'Euro Strong Lager': 62, 'Lambic - Unblended': 63, 'Schwarzbier': 64,
+             'Belgian IPA': 65, 'Witbier': 66, 'Hefeweizen': 67, 'Bock': 68,
+             'Fruit / Vegetable Beer': 69, 'American Stout': 70, 'American Malt Liquor': 71,
+             'Scotch Ale / Wee Heavy': 72, 'Japanese Rice Lager': 73,
+             'Bière de Champagne / Bière Brut': 74, 'Winter Warmer': 75, 'Rauchbier': 76,
+             'Light Lager': 77, 'American Amber / Red Ale': 78, 'English Brown Ale': 79,
+             'Bière de Garde': 80, 'Gose': 81, 'Märzen / Oktoberfest': 82, 'Kvass': 83,
+             'American Amber / Red Lager': 84, 'Irish Dry Stout': 85, 'Cream Ale': 86,
+             'English India Pale Ale (IPA)': 87, 'Euro Dark Lager': 88, 'Scottish Ale': 89,
+             'English Porter': 90, 'Flanders Red Ale': 91, 'Oatmeal Stout': 92,
+             'American Dark Wheat Ale': 93, 'English Pale Mild Ale': 94, 'Belgian Dark Ale': 95,
+             'American Brown Ale': 96, 'Black & Tan': 97, 'Sahti': 98, 'Foreign / Export Stout': 99,
+             'Happoshu': 100, 'American Pale Ale (APA)': 101, 'Saison / Farmhouse Ale': 102,
+             'Scottish Gruit / Ancient Herbed Ale': 103}
+    index = beers[beer]
+    oh = torch.zeros((1, 104), dtype=torch.float)
+    oh[0][index] = 1.0
+    return oh
+
+
 
 
 if __name__ == "__main__":
@@ -116,9 +160,9 @@ if __name__ == "__main__":
     train_data = load_data(train_data_fname) # Generating the pandas DataFrame
     test_data = load_data(test_data_fname) # Generating the pandas DataFrame
     train_data = add_limiters(train_data) # for testing.
-    tes = char2oh(train_data['review/text'][0])
+    tes = train_data['beer/style'][0]
     print(tes)
-    print(oh2char(tes))
+    print(beer2oh(tes))
 
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
     # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
