@@ -3,6 +3,11 @@ import torch
 
 
 def get_beer_categories(dataset):
+    """
+    Worker to find the set of beer styles in the dataset.
+    :param dataset:
+    :return:
+    """
     styles = set()
     # loop through data
     for item in dataset['beer/style'].iteritems():
@@ -15,33 +20,84 @@ def get_beer_categories(dataset):
     beer_dict = {beers[i]: i for i in range(len(beers))}
     return beer_dict
 
+
 def add_limiters(data):
     """
     Adds limiters and strips tab characters from review/text. To be run on a Pandas Dataframe
     before other processing.
-    :param data: Pandas Dataframe.
-    :return: Pandas Dataframe.
+    :param data: list of strings
+    :return: list of strings
     """
-    temp = data.copy()
-    temp['review/text'] = temp['review/text'].str.replace('\t', ' ') # TODO is this necessary?
-    temp['review/text'] = '^' + temp['review/text'].str.strip() + '`' # start with ascii 94 end 96.
-    return temp
+    new = []
+    for string in data:
+        temp = string.replace('\t', ' ')
+        temp = '^' + temp.strip() + '`'
+        new.append(temp)
+    return new
+
+
+def find_longest(data):
+    """
+    Finds the length of the longest string in a list.
+    :param data:
+    :return:
+    """
+    longest = 0
+    for item in data:
+        if len(item) > longest:
+            longest = len(item)
+    return longest
+
+
+def pad_data(orig_data):
+    """
+    Pads a list or tuple of strings to be the same length after adding delimiters.
+    :param orig_data: (list or tuple) the unpadded strings.
+    :return: (list of strings) the padded strings.
+    """
+    delim = add_limiters(orig_data)
+    # find the longest sequence
+    max_length = find_longest(delim)
+    #iterate and pad.
+    padded = []
+    for text in delim:
+        difference = max_length - len(text)
+        if difference > 0:
+            temp = text + (difference * '`')
+            padded.append(temp)
+        else:
+            padded.append(text)
+    return padded
+
+
+def texts2oh(texts):
+    """
+    Wrapper that takes a tuple or list of text, pads and converts to one-hot encoded form.
+    :param texts:
+    :return:
+    """
+    padded = pad_data(texts)
+    ohtexts = []
+    for text in padded:
+        oh = char2oh(text)
+        ohtexts.append(oh)
+    return ohtexts
 
 
 def char2oh(text):
     """
     Converts a string to a one-hot encoded 2D Tensor.
     :param text: String of the review to be encoded.
-    :return: 2D Tensor. One hot encoded.
+    :return: list of Tensors. One hot encoded.
     """
     values = []
     # get ascii representation, create tensor and add one to index for each character
     for char in text:
         index = ord(char) - 32  # we don't use 0-31 as non printable.
-        temp = torch.zeros((1, 98), dtype=torch.float)
-        temp[0][index] = 1.0
+        temp = torch.zeros(98, dtype=torch.float64)
+        temp[index] = 1.0
         values.append(temp)
-    return torch.stack(values)
+    return values
 
 
 def oh2char(tensor):
@@ -59,6 +115,11 @@ def oh2char(tensor):
 
 
 def beer2oh(beer):
+    """
+    Converts string to one-hot encoding.
+    :param beer:
+    :return:
+    """
     beers = {'American Double / Imperial Stout': 0, 'Euro Pale Lager': 1,
              'American Pale Wheat Ale': 2, 'Belgian Pale Ale': 3, 'Rye Beer': 4,
              'English Bitter': 5, 'Milk / Sweet Stout': 6, 'English Stout': 7, 'Kristalweizen': 8,
@@ -94,12 +155,17 @@ def beer2oh(beer):
              'Happoshu': 100, 'American Pale Ale (APA)': 101, 'Saison / Farmhouse Ale': 102,
              'Scottish Gruit / Ancient Herbed Ale': 103}
     index = beers[beer]
-    oh = torch.zeros((1, 104), dtype=torch.float)
-    oh[0][index] = 1.0
+    oh = torch.zeros(104, dtype=torch.float64)
+    oh[index] = 1.0
     return oh
 
 
 def oh2beer(tensor):
+    """
+    Converts one-hot encoded vector to string.
+    :param tensor:
+    :return:
+    """
     beers = {'American Double / Imperial Stout': 0, 'Euro Pale Lager': 1,
              'American Pale Wheat Ale': 2, 'Belgian Pale Ale': 3, 'Rye Beer': 4,
              'English Bitter': 5, 'Milk / Sweet Stout': 6, 'English Stout': 7, 'Kristalweizen': 8,
@@ -150,14 +216,71 @@ def scale_beer_rating(rating):
     :return: tensor of the new rating
     """
     new_rating = ((rating * 2) / 5) - 1
-    return torch.tensor([new_rating])  #TODO check if needs to be 2d for concatenation.
+    return torch.tensor([new_rating])
 
 
-def get_metadata(row):
-    beer = torch.squeeze(beer2oh(row['beer/style']))
-    rating = scale_beer_rating(row['review/overall'])
-
+def get_metadata(beer, rating):
+    """
+    Wrapper, converts string and float to metadata feature vector.
+    :param beer:
+    :param rating:
+    :return:
+    """
+    beer = beer2oh(beer)
+    rating = scale_beer_rating(rating)
     return torch.cat((beer, rating))
+
+
+def get_metadatas(beers, ratings):
+    """
+    Wrapper method for get_metadata that handles lists.
+    :param beers:
+    :param ratings:
+    :return:
+    """
+    metadatas = []
+    for i in range(len(beers)):
+        metadata = get_metadata(beers[i], ratings[i])
+        metadatas.append(metadata)
+    return metadatas
+
+
+def concat_metadata(text, metadata):
+    """
+    Concatenates every character with the metadata.
+    :param text:
+    :param metadata:
+    :return:
+    """
+    cat = []
+    for char in text:
+        cat.append(torch.cat((char, metadata)))
+    return cat
+
+
+def concat_metadatas(texts, metadatas):
+    """
+    Wrapper for concat_metadata to handle lists
+    :param texts:
+    :param metadatas:
+    :return:
+    """
+    concatenated = []
+    for i in range(len(texts)):
+        concatenated.append(concat_metadata(texts[i], metadatas[i]))
+    return concatenated
+
+
+def to_tensor(collection):
+    """
+    Converts a list of lists of tensors into a multidimensional tensor.
+    :param collection: A list of list of tensors.
+    :return: Multi dimensional tensor.
+    """
+    temp = []
+    for l in collection:
+        temp.append(torch.stack(l))
+    return torch.stack(temp)
 
 
 if __name__ == "__main__":
