@@ -58,7 +58,7 @@ def pad_data(orig_data):
     delim = add_limiters(orig_data)
     # find the longest sequence
     max_length = find_longest(delim)
-    #iterate and pad.
+    # iterate and pad.
     padded = []
     for text in delim:
         difference = max_length - len(text)
