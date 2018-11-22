@@ -20,7 +20,8 @@ def process_train_data(texts, beers, ratings, character_only=False):
     :param beers:
     :param ratings:
     :param character_only:
-    :return:
+    :return: tensor dims (N x s x d) N is minibatch size, s is sequence length and d is 98 if
+    char_only or 203 otherwise.
     """
     data = texts2oh(texts)
     # if we are not just training the language model.
