@@ -28,8 +28,11 @@ class BeerTrainDataset(Dataset):
     """
 
     def __init__(self, filename):
-
-        self.data = pd.read_csv(filename)
+        data = pd.read_csv(open(filename, 'r'))
+        to_drop = ['Unnamed: 0', 'beer/name', 'beer/beerId', 'beer/brewerId', 'beer/ABV',
+                   'review/appearance', 'review/aroma', 'review/palate', 'review/taste',
+                   'review/time', 'review/profileName']
+        self.data = data.drop(columns=to_drop)
 
     def __len__(self):
 
@@ -44,14 +47,15 @@ class BeerTrainDataset(Dataset):
         """
 
         row = self.data.iloc[ind]
-        text = utilities.char2oh(row['review/text'])
-        metadata = utilities.get_metadata(row)
+        text = row['review/text']
+        beer = row['beer/style']
+        rating = row['review/overall']
 
         # Return review and metadata
-        return text, metadata
+        return text, beer, rating
 
 
-def create_split_loaders(batch_size, seed, filename, p_val=0.1, shuffle=True, extras={}):
+def create_split_loaders(batch_size, seed, filename, p_val=0.2, shuffle=True, extras={}):
     """ Creates the DataLoader objects for the training, validation, and test sets.
 
     Params:
