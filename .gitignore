@@ -1,0 +1,4 @@
+# stop Mac files being uploaded
+.DS_Store
+# stop PyCharm files being uploaded
+.idea
