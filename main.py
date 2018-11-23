@@ -30,12 +30,6 @@ def process_train_data(texts, beers, ratings, character_only=False):
         metadatas = get_metadatas(beers, ratings)
         data = concat_metadatas(data, metadatas)
     return to_tensor(data)
-
-    
-def train_valid_split(data, labels):
-    # TODO: Takes in train data and labels as numpy array (or a torch Tensor/ Variable) and
-    # splits it into training and validation data.
-    raise NotImplementedError
     
     
 def process_test_data(data):
