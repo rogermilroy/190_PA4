@@ -57,7 +57,9 @@ def generate(model, X_test, cfg):
 def save_to_file(outputs, fname):
     # TODO: Given the list of generated review outputs and output file name, save all these reviews to
     # the file in .txt format.
-    raise NotImplementedError
+    with open(fname, 'w') as file:
+        for output in outputs:
+            file.write(output + '\n')  # TODO test!
 
 
 if __name__ == "__main__":
