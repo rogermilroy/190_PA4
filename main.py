@@ -16,10 +16,10 @@ from beer_dataloader import *
 def process_train_data(texts, beers, ratings, character_only=False):
     """
     Processes a minibatch into one-hot encoding ready for input to the network.
-    :param texts:
-    :param beers:
-    :param ratings:
-    :param character_only:
+    :param texts: A minibatch of reviews as a tuple.
+    :param beers: A minibatch of beers as a tuple
+    :param ratings: A minibatch of ratings as a tuple.
+    :param character_only: True if we are only training the language model.
     :return: tensor dims (N x s x d) N is minibatch size, s is sequence length and d is 98 if
     char_only or 203 otherwise.
     """
@@ -32,11 +32,15 @@ def process_train_data(texts, beers, ratings, character_only=False):
     return to_tensor(data)
     
     
-def process_test_data(data):
-    # TODO: Takes in pandas DataFrame and returns a numpy array (or a torch Tensor/ Variable)
-    # that has all input features. Note that test data does not contain any review so you don't
-    # have to worry about one hot encoding the data.
-    raise NotImplementedError
+def process_test_data(beers, ratings):
+    """
+    Processesd a minibatch of test data into one hot encoding.
+    :param beers: A minibatch of beers as a tuple.
+    :param ratings: A minibatch of ratings as a tuple.
+    :return: Tensor dims (N x d)
+    """
+    data = get_metadatas(beers, ratings)
+    return torch.stack(data)
 
 
 def train(model, X_train, y_train, X_valid, y_valid, cfg):
@@ -73,9 +77,13 @@ if __name__ == "__main__":
 
     train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
     text1, beers1, rating1 = iter(train_loader).next()
+    test_loader = create_test_loader(2, 42, test_data_fname)
+    val_text, test_beers, test_rating = iter(val_loader).next()
     print(text1, beers1, rating1)
     batch = process_train_data(text1, beers1, rating1, True)
     print(batch)
+    test_batch = process_test_data(test_beers, test_rating)
+    print(test_batch)
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
     # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
     # X_test = process_test_data(test_data) # Converting DataFrame to numpy array
