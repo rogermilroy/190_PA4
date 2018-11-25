@@ -31,13 +31,13 @@ def process_train_data(texts, beers, ratings, character_only=False):
         data = concat_metadatas(data, metadatas)
     return to_tensor(data)
 
-    
+
 def train_valid_split(data, labels):
     # TODO: Takes in train data and labels as numpy array (or a torch Tensor/ Variable) and
     # splits it into training and validation data.
     raise NotImplementedError
-    
-    
+
+
 def process_test_data(data):
     # TODO: Takes in pandas DataFrame and returns a numpy array (or a torch Tensor/ Variable)
     # that has all input features. Note that test data does not contain any review so you don't
@@ -47,15 +47,79 @@ def process_test_data(data):
 
 def train(model, X_train, y_train, X_valid, y_valid, cfg):
     # TODO: Train the model!
-    raise NotImplementedError
-    
-    
+
+    num_epochs = cfg['epochs']
+    print_every = 1
+    plot_every = 1
+    learning_rate = cfg['learning_rate']
+    in_size = len(X_train)
+    val_size = len(X_valid)
+
+    model = baselineLSTM(cfg)
+    model.to(computing_device)
+
+    # use adam optimizer with default params and given learning rate
+    optimizier = torch.optim.Adam(model.parameters(), learning_rate)
+
+    # use cross entropy loss as loss function
+    criterion = nn.CrossEntropyLoss()
+
+    # save important stats
+    start_time = time.time()
+    all_losses = []
+    training_loss_avg = 0
+
+    for epoch in range(num_epochs):
+        print("Epoch: " + epoch)
+
+        # training
+        model.zero_grad()
+        training_loss = 0
+        for i in range(in_size):
+            output = model(X_train[i])
+            training_loss += criterion(output, y_train[i])
+
+        training_loss.backward()
+        optimizer.step()
+
+        # calculate loss
+        training_loss = training_loss.data[0] / in_size
+        training_loss_avg += training_loss
+
+
+        # validation
+        validation_loss = 0
+        for i in range(val_size):
+            output = model(X_valid[i])
+            validation_loss += criterion(output, y_valid[i])
+
+        # calculate loss
+        validation_loss = validation_loss.data[0] / val_size
+        # break if loss goes up too many times consecutively
+        if(False):
+            # TODO BREAK AFTER VALIDATION LOSS INCREASES
+            break;
+
+
+        # plotting and printing every n epochs
+        if epoch % print_every == 0:
+            print('[%s] (epoch: %d - %d%%)' % (time_since(start), epoch, epoch / num_epochs * 100))
+            print('Training Loss: %d' % training_loss)
+            print('Validation Loss: %d' % validation_loss)
+
+        if epoch % plot_every == 0:
+            all_losses.append(loss_avg / plot_every)
+            loss_avg = 0
+
+
+
+
 def generate(model, X_test, cfg):
     # TODO: Given n rows in test data, generate a list of n strings, where each string is the review
     # corresponding to each input row in test data.
     raise NotImplementedError
-    
-    
+
+
 def save_to_file(outputs, fname):
     # TODO: Given the list of generated review outputs and output file name, save all these reviews to
     # the file in .txt format.
