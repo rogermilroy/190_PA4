@@ -81,14 +81,17 @@ def train(model, train_loader, val_loader, cfg):
 
             # training
             model.zero_grad()
+            #hidden = model.init_hidden()
+            training_loss = 0
+            #for c in range(len(text)):
             output = model(batch)
-            training_loss = criterion(output, text)
+            training_loss += criterion(output, batch)
 
             training_loss.backward()
             optimizer.step()
 
             # calculate loss
-            training_loss = training_loss.data[0] / in_size
+            training_loss = training_loss.data[0] / len(text)
             training_loss_avg += training_loss
 
         # Get next minibatch of data for validation

@@ -32,14 +32,16 @@ class baselineLSTM(nn.Module):
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
 
-    def init_hidden(self):
-        return Variable(torch.zeros(self.layers, self.batch_size, self.hidden_dim))
+    def init_hidden(self, seq_len):
+        return Variable(torch.zeros(self.batch_size, self.layers, seq_len, self.hidden_dim))
 
     def forward(self, sequence):
         # Takes in the sequence of the form (batch_size x sequence_length x input_dim) and
         # returns the output of form (batch_size x sequence_length x output_dim)
 
-        hidden = self.init_hidden()
+        print("shape: ", sequence.shape)
+        print(list(sequence.shape)[1])
+        hidden = self.init_hidden(list(sequence.shape)[1])
         out, hidden = self.lstm(sequence, hidden)
         return out
 
