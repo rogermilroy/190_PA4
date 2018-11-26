@@ -2,23 +2,24 @@ import torch
 import torch.nn as nn
 import torch.nn.init as torch_init
 from torch.autograd import Variable
+from configs import cfg
 
-class baselineLSTM(nn.Module)
-'''
-Implementation of Hochreiter and Schmidhuber's LSTM
-'''
+class baselineLSTM(nn.Module):
+    '''
+    Implementation of Hochreiter and Schmidhuber's LSTM
+    '''
     def __init__(self, config):
         super(baselineLSTM, self).__init__()
 
         # Initialize your layers and variables that you want;
         # Keep in mind to include initialization for initial hidden states of LSTM, you
         # are going to need it, so design this class wisely.
-        self.input_dim = config.cfg['input_dim']
-        self.hidden_dim = config.cfg['hidden_dim']
-        self.layers = config.cfg['layers']
-        self.dropout = config.cfg['dropout']
-        self.bidirectional = config.cfg['bidirectional']
-        self.batch_size = config.cfg['batch_size']
+        self.input_dim = cfg['input_dim']
+        self.hidden_dim = cfg['hidden_dim']
+        self.layers = cfg['layers']
+        self.dropout = cfg['dropout']
+        self.bidirectional = cfg['bidirectional']
+        self.batch_size = cfg['batch_size']
 
         # initialize lstm layer
         self.lstm = nn.LSTM(input_size=self.input_dim,

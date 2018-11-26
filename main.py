@@ -5,10 +5,10 @@ from torch.autograd import Variable
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-# from models import *
-# from configs import cfg
+from models import *
+from configs import cfg
 import pandas as pd
-# from nltk.translate import bleu_score
+from nltk.translate import bleu_score
 from utilities import *
 from beer_dataloader import *
 
@@ -45,7 +45,7 @@ def process_test_data(data):
     raise NotImplementedError
 
 
-def train(model, X_train, y_train, X_valid, y_valid, cfg):
+def train(model, train_loader, val_loader, cfg):
     # TODO: Train the model!
 
     num_epochs = cfg['epochs']
@@ -72,33 +72,41 @@ def train(model, X_train, y_train, X_valid, y_valid, cfg):
     for epoch in range(num_epochs):
         print("Epoch: " + epoch)
 
-        # training
-        model.zero_grad()
-        training_loss = 0
-        for i in range(in_size):
-            output = model(X_train[i])
-            training_loss += criterion(output, y_train[i])
+        # Get next minibatch of data for training
+        torch.cuda.empty_cache()
+        for minibatch_count, (text, beer, rating) in enumerate(train_loader, 0):
 
-        training_loss.backward()
-        optimizer.step()
+            batch = process_train_data(text, beer, rating, True)
 
-        # calculate loss
-        training_loss = training_loss.data[0] / in_size
-        training_loss_avg += training_loss
+            # training
+            model.zero_grad()
+            output = model(batch)
+            training_loss = criterion(output, text)
 
+            training_loss.backward()
+            optimizer.step()
 
-        # validation
-        validation_loss = 0
-        for i in range(val_size):
-            output = model(X_valid[i])
-            validation_loss += criterion(output, y_valid[i])
+            # calculate loss
+            training_loss = training_loss.data[0] / in_size
+            training_loss_avg += training_loss
 
-        # calculate loss
-        validation_loss = validation_loss.data[0] / val_size
-        # break if loss goes up too many times consecutively
-        if(False):
-            # TODO BREAK AFTER VALIDATION LOSS INCREASES
-            break;
+        # Get next minibatch of data for validation
+        torch.cuda.empty_cache()
+        for minibatch_count, (text, beer, rating) in enumerate(val_loader, 0):
+
+            batch = process_train_data(text, beer, rating, True)
+
+            # validation
+            validation_loss = 0
+            output = model(batch)
+            validation_loss = criterion(output, text)
+
+            # calculate loss
+            validation_loss = validation_loss.data[0] / val_size
+            # break if loss goes up too many times consecutively
+            if(False):
+                # TODO BREAK AFTER VALIDATION LOSS INCREASES
+                break;
 
 
         # plotting and printing every n epochs
@@ -106,6 +114,8 @@ def train(model, X_train, y_train, X_valid, y_valid, cfg):
             print('[%s] (epoch: %d - %d%%)' % (time_since(start), epoch, epoch / num_epochs * 100))
             print('Training Loss: %d' % training_loss)
             print('Validation Loss: %d' % validation_loss)
+
+            print('Generated Text: ', generate(model, None,cfg))
 
         if epoch % plot_every == 0:
             all_losses.append(loss_avg / plot_every)
@@ -143,20 +153,21 @@ if __name__ == "__main__":
 
     train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
     text1, beers1, rating1 = iter(train_loader).next()
-    print(text1, beers1, rating1)
+    print("Text: ", text1, "Beers: ", beers1, "Rating: ", rating1)
     batch = process_train_data(text1, beers1, rating1, True)
-    print(batch)
+    print("Batch: ", batch)
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
     # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
     # X_test = process_test_data(test_data) # Converting DataFrame to numpy array
     #
-    # model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
-    # if cfg['cuda']:
-    #     computing_device = torch.device("cuda")
-    # else:
-    #     computing_device = torch.device("cpu")
-    # model.to(computing_device)
-    #
+    model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
+    if cfg['cuda']:
+        computing_device = torch.device("cuda")
+    else:
+        computing_device = torch.device("cpu")
+    model.to(computing_device)
+
     # train(model, X_train, y_train, X_valid, y_valid, cfg) # Train the model
+    train(model, train_loader, val_loader, cfg)
     # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file
