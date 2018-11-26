@@ -1,5 +1,6 @@
 import main
 import torch
+from nltk.translate import bleu_score
 
 
 def get_beer_categories(dataset):
@@ -283,13 +284,26 @@ def to_tensor(collection):
     return torch.stack(temp)
 
 
+def get_bleu_scores(outputs, targets):
+    """
+    Computes the bleu score for a list of network outputs and the corresponding target review.
+    :param outputs: A list of strings, the network outputs.
+    :param targets: A list of strings, the target review.
+    :return:
+    """
+    scores = []
+    for i in range(len(outputs)):
+        score = bleu_score.corpus_bleu([[targets[i].split()]], [outputs[i].split()])
+        scores.append(score)
+    return scores
+
+
 if __name__ == "__main__":
     data_dir = "../BeerAdvocatePA4"
     train_data_fname = data_dir + "/Beeradvocate_Train.csv"
     test_data_fname = data_dir + "/Beeradvocate_Test.csv"
     out_fname = ""
 
-    train_data = main.load_data(train_data_fname) # Generating the pandas DataFrame
-
-    print(get_beer_categories(train_data))
-    print(get_metadata(train_data.iloc[2]))
+    print(get_bleu_scores(['Hello there, this is a test a big one'], ['Hello there, this is a '
+                                                                       'test '
+                                                                   'run not a big one.']))
