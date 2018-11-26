@@ -1,6 +1,8 @@
 import main
 import torch
 from nltk.translate import bleu_score
+from torch.distributions import one_hot_categorical
+import re
 
 
 def get_beer_categories(dataset):
@@ -71,6 +73,18 @@ def pad_data(orig_data):
     return padded
 
 
+def strip_padding(texts):
+    """
+    Strips the SOS and EOS characters.
+    :param texts: List of strings.
+    :return: List of strings.
+    """
+    stripped = []
+    for text in texts:
+        stripped.append(re.sub('[\^`]', '', text))
+    return stripped
+
+
 def texts2oh(texts):
     """
     Wrapper that takes a tuple or list of text, pads and converts to one-hot encoded form.
@@ -83,6 +97,21 @@ def texts2oh(texts):
         oh = char2oh(text)
         ohtexts.append(oh)
     return ohtexts
+
+
+def oh2texts(ohtexts):
+    """
+    Converts a list of lists of one-hot encoded letters into readable form.
+    :param ohtexts: List of lists of tensors.
+    :return: List of strings.
+    """
+    texts = []
+    for text in ohtexts:
+        chars = []
+        for char in text:
+            chars.append(oh2char(char))
+        texts.append(''.join(chars))
+    return strip_padding(texts)
 
 
 def char2oh(text):
@@ -298,6 +327,29 @@ def get_bleu_scores(outputs, targets):
     return scores
 
 
+def all_finished(letters):
+    for letter in letters:
+        if letter != char2oh('`'):
+            # if we find a letter that isn't the EOS char we are not done.
+            return False
+    return True
+
+
+def get_predicted_letters(distributions):
+    """
+    Sample from the distributions from the network.
+    TODO may need to apply softmax.
+    :param distributions: 2d tensor. Output from network.
+    :return: List of tensors. The predicted letters in one hot encoding.
+    """
+    predictions = []
+    for dist in distributions:
+        sampler = one_hot_categorical.OneHotCategorical(dist)
+        prediction = sampler.sample()
+        predictions.append(prediction)
+    return predictions
+
+
 if __name__ == "__main__":
     data_dir = "../BeerAdvocatePA4"
     train_data_fname = data_dir + "/Beeradvocate_Train.csv"
@@ -307,3 +359,5 @@ if __name__ == "__main__":
     print(get_bleu_scores(['Hello there, this is a test a big one'], ['Hello there, this is a '
                                                                        'test '
                                                                    'run not a big one.']))
+
+    print(strip_padding(['^Hello thersr, `````', '^^there wasa amistake`']))
