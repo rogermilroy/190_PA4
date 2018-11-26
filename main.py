@@ -7,8 +7,6 @@ import os
 import matplotlib.pyplot as plt
 # from models import *
 # from configs import cfg
-import pandas as pd
-# from nltk.translate import bleu_score
 from utilities import *
 from beer_dataloader import *
 
@@ -49,9 +47,28 @@ def train(model, X_train, y_train, X_valid, y_valid, cfg):
     
     
 def generate(model, X_test, cfg):
-    # TODO: Given n rows in test data, generate a list of n strings, where each string is the review
-    # corresponding to each input row in test data.
-    raise NotImplementedError
+    """
+    Given n rows in test data, generate a list of n strings, where each string is the review
+    corresponding to each input row in test data.
+    :param model:
+    :param X_test:
+    :param cfg:
+    :return:
+    """
+    # Initialise a list of SOS characters. TODO test!!
+    letters = [char2oh('^') for i in range(len(X_test))]
+    gen_texts = []
+
+    # Loop until only EOS is predicted.
+    while not all_finished(letters):
+        # format the data for input to the network.
+        inp = concat_metadata(letters, X_test)
+        outputs = model.forward(inp)
+        # sample from softmax distribution.
+        letters = get_predicted_letters(outputs)
+        gen_texts.append(letters)
+    # convert to strings and return.
+    return oh2texts(gen_texts)
     
     
 def save_to_file(outputs, fname):
