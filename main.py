@@ -11,6 +11,7 @@ import pandas as pd
 from nltk.translate import bleu_score
 from utilities import *
 from beer_dataloader import *
+import time
 
 
 def process_train_data(texts, beers, ratings, character_only=False):
@@ -52,8 +53,8 @@ def train(model, train_loader, val_loader, cfg):
     print_every = 1
     plot_every = 1
     learning_rate = cfg['learning_rate']
-    in_size = len(X_train)
-    val_size = len(X_valid)
+    in_size = 1 # TODO CHANGE TO CORRECT DIMENSION
+    val_size = 1 # TODO CHANGE TO CORRECT DIMENSION
 
     model = baselineLSTM(cfg)
     model.to(computing_device)
@@ -70,7 +71,7 @@ def train(model, train_loader, val_loader, cfg):
     training_loss_avg = 0
 
     for epoch in range(num_epochs):
-        print("Epoch: " + epoch)
+        print("Epoch: " + str(epoch))
 
         # Get next minibatch of data for training
         torch.cuda.empty_cache()
@@ -156,6 +157,7 @@ if __name__ == "__main__":
     print("Text: ", text1, "Beers: ", beers1, "Rating: ", rating1)
     batch = process_train_data(text1, beers1, rating1, True)
     print("Batch: ", batch)
+    print("Batch Dimensions: ", batch.shape)
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
     # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
     # X_test = process_test_data(test_data) # Converting DataFrame to numpy array

@@ -16,6 +16,7 @@ class baselineLSTM(nn.Module):
         # are going to need it, so design this class wisely.
         self.input_dim = cfg['input_dim']
         self.hidden_dim = cfg['hidden_dim']
+        self.output_dim = cfg['hidden_dim']
         self.layers = cfg['layers']
         self.dropout = cfg['dropout']
         self.bidirectional = cfg['bidirectional']
@@ -23,7 +24,7 @@ class baselineLSTM(nn.Module):
 
         # initialize lstm layer
         self.lstm = nn.LSTM(input_size=self.input_dim,
-                            hidden_state=self.hidden_dim,
+                            hidden_size=self.hidden_dim,
                             num_layers=self.layers,
                             dropout=self.dropout,
                             bidirectional=self.bidirectional)
@@ -38,7 +39,7 @@ class baselineLSTM(nn.Module):
         # Takes in the sequence of the form (batch_size x sequence_length x input_dim) and
         # returns the output of form (batch_size x sequence_length x output_dim)
 
-        hidden = init_hidden()
+        hidden = self.init_hidden()
         out, hidden = self.lstm(sequence, hidden)
         return out
 
