@@ -40,8 +40,8 @@ def add_limiters(data):
 def find_longest(data):
     """
     Finds the length of the longest string in a list.
-    :param data:
-    :return:
+    :param data: List of strings.
+    :return: int length of the longest string.
     """
     longest = 0
     for item in data:
@@ -74,8 +74,8 @@ def pad_data(orig_data):
 def texts2oh(texts):
     """
     Wrapper that takes a tuple or list of text, pads and converts to one-hot encoded form.
-    :param texts:
-    :return:
+    :param texts: Tuple or list of strings. The texts to pad.
+    :return: list of tensors. One hot encoded and padded.
     """
     padded = pad_data(texts)
     ohtexts = []
@@ -118,8 +118,8 @@ def oh2char(tensor):
 def beer2oh(beer):
     """
     Converts string to one-hot encoding.
-    :param beer:
-    :return:
+    :param beer: String. The beer to be encoded.
+    :return: Tensor. One-hot encoded.
     """
     beers = {'American Double / Imperial Stout': 0, 'Euro Pale Lager': 1,
              'American Pale Wheat Ale': 2, 'Belgian Pale Ale': 3, 'Rye Beer': 4,
@@ -164,8 +164,8 @@ def beer2oh(beer):
 def oh2beer(tensor):
     """
     Converts one-hot encoded vector to string.
-    :param tensor:
-    :return:
+    :param tensor: Tensor. One-hot encoded representation of the beer.
+    :return: String. The beer.
     """
     beers = {'American Double / Imperial Stout': 0, 'Euro Pale Lager': 1,
              'American Pale Wheat Ale': 2, 'Belgian Pale Ale': 3, 'Rye Beer': 4,
@@ -235,9 +235,9 @@ def get_metadata(beer, rating):
 def get_metadatas(beers, ratings):
     """
     Wrapper method for get_metadata that handles lists.
-    :param beers:
-    :param ratings:
-    :return:
+    :param beers: List of beers.
+    :param ratings: List of ratings.
+    :return: List of tensors. In encoded form.
     """
     metadatas = []
     for i in range(len(beers)):
@@ -249,9 +249,9 @@ def get_metadatas(beers, ratings):
 def concat_metadata(text, metadata):
     """
     Concatenates every character with the metadata.
-    :param text:
-    :param metadata:
-    :return:
+    :param text: List of tensors. The review text.
+    :param metadata: List of tensors. The metadata.
+    :return: List of tensors. The concatenated data.
     """
     cat = []
     for char in text:
