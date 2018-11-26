@@ -56,9 +56,6 @@ def train(model, train_loader, val_loader, cfg):
     in_size = 1 # TODO CHANGE TO CORRECT DIMENSION
     val_size = 1 # TODO CHANGE TO CORRECT DIMENSION
 
-    model = baselineLSTM(cfg)
-    model.to(computing_device)
-
     # use adam optimizer with default params and given learning rate
     optimizier = torch.optim.Adam(model.parameters(), learning_rate)
 
@@ -81,11 +78,12 @@ def train(model, train_loader, val_loader, cfg):
 
             # training
             model.zero_grad()
-            #hidden = model.init_hidden()
             training_loss = 0
-            #for c in range(len(text)):
-            output = model(batch)
-            training_loss += criterion(output, batch)
+            for c in range(len(text)):
+                tens = torch.unsqueeze(batch[c], 0)
+                output = model(tens)
+                targets = to_indices(batch[c+1])
+                training_loss += criterion(torch.squeeze(output), targets)
 
             training_loss.backward()
             optimizer.step()

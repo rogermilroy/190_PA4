@@ -1,7 +1,7 @@
 cfg = {}
 cfg['input_dim'] = 98 # input dimension to LSTM
 cfg['hidden_dim'] = 10 # hidden dimension for LSTM
-cfg['output_dim'] = 8 # output dimension of the model
+cfg['output_dim'] = 98 # output dimension of the model
 cfg['layers'] = 2 # number of layers of LSTM
 cfg['dropout'] = 0 # dropout rate between two layers of LSTM; useful only when layers > 1; between 0 and 1
 cfg['bidirectional'] = False # True or False; True means using a bidirectional LSTM

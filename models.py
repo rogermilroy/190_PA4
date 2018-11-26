@@ -21,6 +21,8 @@ class baselineLSTM(nn.Module):
         self.dropout = cfg['dropout']
         self.bidirectional = cfg['bidirectional']
         self.batch_size = cfg['batch_size']
+        self.cell_state = None
+        self.hidden_state = None
 
         # initialize lstm layer
         self.lstm = nn.LSTM(input_size=self.input_dim,
@@ -32,16 +34,20 @@ class baselineLSTM(nn.Module):
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
 
-    def init_hidden(self, seq_len):
-        return Variable(torch.zeros(self.batch_size, self.layers, seq_len, self.hidden_dim))
-
     def forward(self, sequence):
         # Takes in the sequence of the form (batch_size x sequence_length x input_dim) and
         # returns the output of form (batch_size x sequence_length x output_dim)
 
         print("shape: ", sequence.shape)
         print(list(sequence.shape)[1])
-        hidden = self.init_hidden(list(sequence.shape)[1])
-        out, hidden = self.lstm(sequence, hidden)
+        hidden = (self.hidden_state, self.cell_state)
+        if self.cell_state is None or self.hidden_state is None:
+            out, states = self.lstm(sequence)
+        else:
+            out, states = self.lstm(sequence, hidden)
+        self.hidden_state = states[0]
+        self.cell_state = states[1]
+
+        out = self.hidden2out(out)
         return out
 
