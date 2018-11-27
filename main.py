@@ -57,7 +57,7 @@ def train(model, train_loader, val_loader, cfg):
     val_size = 1 # TODO CHANGE TO CORRECT DIMENSION
 
     # use adam optimizer with default params and given learning rate
-    optimizier = torch.optim.Adam(model.parameters(), learning_rate)
+    optimizer = torch.optim.Adam(model.parameters(), learning_rate)
 
     # use cross entropy loss as loss function
     criterion = nn.CrossEntropyLoss()
@@ -83,9 +83,10 @@ def train(model, train_loader, val_loader, cfg):
                 tens = torch.unsqueeze(batch[c], 0)
                 output = model(tens)
                 targets = to_indices(batch[c+1])
-                training_loss += criterion(torch.squeeze(output), targets)
+                inputs = torch.squeeze(output)
+                training_loss += criterion(inputs, targets)
 
-            training_loss.backward()
+            training_loss.backward(retain_graph=True)
             optimizer.step()
 
             # calculate loss

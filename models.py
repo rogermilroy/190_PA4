@@ -16,7 +16,7 @@ class baselineLSTM(nn.Module):
         # are going to need it, so design this class wisely.
         self.input_dim = cfg['input_dim']
         self.hidden_dim = cfg['hidden_dim']
-        self.output_dim = cfg['hidden_dim']
+        self.output_dim = cfg['output_dim']
         self.layers = cfg['layers']
         self.dropout = cfg['dropout']
         self.bidirectional = cfg['bidirectional']

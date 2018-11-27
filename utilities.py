@@ -298,7 +298,7 @@ def to_indices(targets):
     for target in targets:
         index = torch.argmax(target)
         indices.append(index)
-    return torch.stack(indices).to(torch.long)
+    return torch.stack(indices)
 
 
 if __name__ == "__main__":
