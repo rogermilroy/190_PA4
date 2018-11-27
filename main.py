@@ -130,23 +130,23 @@ def train(model, train_loader, val_loader, cfg):
 
 
 
-def generate(model, X_test, cfg):
+def generate(model, batch, cfg):
     """
     Given n rows in test data, generate a list of n strings, where each string is the review
     corresponding to each input row in test data.
     :param model:
-    :param X_test:
+    :param batch:
     :param cfg:
     :return:
     """
     # Initialise a list of SOS characters. TODO test!!
-    letters = [char2oh('^') for i in range(len(X_test))]
+    letters = [char2oh('^') for i in range(len(batch))]
     gen_texts = []
 
     # Loop until only EOS is predicted.
     while not all_finished(letters):
         # format the data for input to the network.
-        inp = concat_metadata(letters, X_test)
+        inp = concat_metadata(letters, batch)
         outputs = model.forward(inp)
         # sample from softmax distribution.
         letters = get_predicted_letters(outputs)
@@ -193,6 +193,8 @@ if __name__ == "__main__":
     else:
         computing_device = torch.device("cpu")
     model.to(computing_device)
+
+    generate(model, batch, cfg)
 
     train(model, train_loader, val_loader, cfg)
     # outputs = generate(model, X_test, cfg) # Generate the outputs for test data

@@ -347,7 +347,7 @@ def get_bleu_scores(outputs, targets):
 
 def all_finished(letters):
     for letter in letters:
-        if letter != char2oh('`'):
+        if letter != char2oh('`')[0]:
             # if we find a letter that isn't the EOS char we are not done.
             return False
     return True
