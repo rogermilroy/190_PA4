@@ -32,8 +32,8 @@ class BeerTrainDataset(Dataset):
         to_drop = ['Unnamed: 0', 'beer/name', 'beer/beerId', 'beer/brewerId', 'beer/ABV',
                    'review/appearance', 'review/aroma', 'review/palate', 'review/taste',
                    'review/time', 'review/profileName']
+        data = data.drop(columns=to_drop)
         self.data = data.dropna()
-        print(self.data)
 
 
     def __len__(self):
