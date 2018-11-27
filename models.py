@@ -35,8 +35,8 @@ class baselineLSTM(nn.Module):
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
 
     def forward(self, sequence):
-        # Takes in the sequence of the form (batch_size x sequence_length x input_dim) and
-        # returns the output of form (batch_size x sequence_length x output_dim)
+        # Takes in the sequence of the form (1 x batch_size x input_dim) and
+        # returns the output of form (1 x batch_size x output_dim)
 
         print("shape: ", sequence.shape)
         print(list(sequence.shape)[1])

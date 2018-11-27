@@ -47,7 +47,7 @@ def train(model, train_loader, val_loader, cfg):
 
     num_epochs = cfg['epochs']
     print_every = 1
-    plot_every = 1
+    plot_every = 2000
     learning_rate = cfg['learning_rate']
     in_size = 1 # TODO CHANGE TO CORRECT DIMENSION
     val_size = 1 # TODO CHANGE TO CORRECT DIMENSION
