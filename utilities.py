@@ -3,6 +3,7 @@ import torch
 from nltk.translate import bleu_score
 from torch.distributions import one_hot_categorical
 import re
+from beer_dataloader import *
 
 
 def get_beer_categories(dataset):
@@ -124,7 +125,7 @@ def char2oh(text):
     # get ascii representation, create tensor and add one to index for each character
     for char in text:
         index = ord(char) - 32  # we don't use 0-31 as non printable.
-        temp = torch.zeros(98, dtype=torch.float64)
+        temp = torch.zeros(98, dtype=torch.float)
         temp[index] = 1.0
         values.append(temp)
     return values
@@ -185,7 +186,7 @@ def beer2oh(beer):
              'Happoshu': 100, 'American Pale Ale (APA)': 101, 'Saison / Farmhouse Ale': 102,
              'Scottish Gruit / Ancient Herbed Ale': 103}
     index = beers[beer]
-    oh = torch.zeros(104, dtype=torch.float64)
+    oh = torch.zeros(104, dtype=torch.float)
     oh[index] = 1.0
     return oh
 
@@ -303,14 +304,31 @@ def concat_metadatas(texts, metadatas):
 
 def to_tensor(collection):
     """
-    Converts a list of lists of tensors into a multidimensional tensor.
+    Converts a list of lists of tensors into a multidimensional tensor. (seq, batch, data)
     :param collection: A list of list of tensors.
     :return: Multi dimensional tensor.
     """
     temp = []
     for l in collection:
         temp.append(torch.stack(l))
-    return torch.stack(temp)
+    tens = torch.stack(temp)
+    return reshape_data(tens)
+
+
+def reshape_data(tensor):
+    batch_size = tensor.size()[0]
+    sequence_len = tensor.size()[1]
+    letters = torch.split(tensor, 1, 1)
+    in_sequence = torch.cat(letters, 0)
+    return torch.reshape(in_sequence, (sequence_len, batch_size, -1))
+
+
+def to_indices(targets):
+    indices = []
+    for target in targets:
+        index = torch.argmax(target)
+        indices.append(index)
+    return torch.stack(indices)
 
 
 def get_bleu_scores(outputs, targets):
@@ -356,8 +374,17 @@ if __name__ == "__main__":
     test_data_fname = data_dir + "/Beeradvocate_Test.csv"
     out_fname = ""
 
+    train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
+    text1, beers1, rating1 = iter(train_loader).next()
     print(get_bleu_scores(['Hello there, this is a test a big one'], ['Hello there, this is a '
                                                                        'test '
                                                                    'run not a big one.']))
 
+    data = to_tensor(texts2oh(text1))
+    print(data)
+    print(data.size())
+
+    reshaped = reshape_data(data)
+    print(reshaped)
+    print(reshaped.size())
     print(strip_padding(['^Hello thersr, `````', '^^there wasa amistake`']))
