@@ -2,6 +2,7 @@ import main
 import torch
 from nltk.translate import bleu_score
 from torch.distributions import one_hot_categorical
+from torch.nn.functional import softmax
 import re
 from beer_dataloader import *
 
@@ -139,7 +140,7 @@ def oh2char(tensor):
     """
     chars = []
     # iterate through tensor, get characters and add to list.
-    for row in tensor.split(1):
+    for row in tensor:
         num = torch.argmax(row).item() + 32  # correct for our shifted index.
         chars.append(chr(num))
     return ''.join(chars)
@@ -353,13 +354,14 @@ def all_finished(letters):
     return True
 
 
-def get_predicted_letters(distributions):
+def get_predicted_letters(outputs):
     """
     Sample from the distributions from the network.
-    TODO may need to apply softmax.
+    TODO need to add temperature to softmax.
     :param distributions: 2d tensor. Output from network.
     :return: List of tensors. The predicted letters in one hot encoding.
     """
+    distributions = softmax(outputs, 0)
     predictions = []
     for dist in distributions:
         sampler = one_hot_categorical.OneHotCategorical(dist)
@@ -388,3 +390,6 @@ if __name__ == "__main__":
     print(reshaped)
     print(reshaped.size())
     print(strip_padding(['^Hello thersr, `````', '^^there wasa amistake`']))
+
+    test_out = torch.tensor([[25., 32., -10., 17.]])
+    print(get_predicted_letters(test_out))
