@@ -1,5 +1,8 @@
 import main
 import torch
+from nltk.translate import bleu_score
+from torch.distributions import one_hot_categorical
+import re
 from beer_dataloader import *
 
 
@@ -40,8 +43,8 @@ def add_limiters(data):
 def find_longest(data):
     """
     Finds the length of the longest string in a list.
-    :param data:
-    :return:
+    :param data: List of strings.
+    :return: int length of the longest string.
     """
     longest = 0
     for item in data:
@@ -71,11 +74,23 @@ def pad_data(orig_data):
     return padded
 
 
+def strip_padding(texts):
+    """
+    Strips the SOS and EOS characters.
+    :param texts: List of strings.
+    :return: List of strings.
+    """
+    stripped = []
+    for text in texts:
+        stripped.append(re.sub('[\^`]', '', text))
+    return stripped
+
+
 def texts2oh(texts):
     """
     Wrapper that takes a tuple or list of text, pads and converts to one-hot encoded form.
-    :param texts:
-    :return:
+    :param texts: Tuple or list of strings. The texts to pad.
+    :return: list of tensors. One hot encoded and padded.
     """
     padded = pad_data(texts)
     ohtexts = []
@@ -83,6 +98,21 @@ def texts2oh(texts):
         oh = char2oh(text)
         ohtexts.append(oh)
     return ohtexts
+
+
+def oh2texts(ohtexts):
+    """
+    Converts a list of lists of one-hot encoded letters into readable form.
+    :param ohtexts: List of lists of tensors.
+    :return: List of strings.
+    """
+    texts = []
+    for text in ohtexts:
+        chars = []
+        for char in text:
+            chars.append(oh2char(char))
+        texts.append(''.join(chars))
+    return strip_padding(texts)
 
 
 def char2oh(text):
@@ -118,8 +148,8 @@ def oh2char(tensor):
 def beer2oh(beer):
     """
     Converts string to one-hot encoding.
-    :param beer:
-    :return:
+    :param beer: String. The beer to be encoded.
+    :return: Tensor. One-hot encoded.
     """
     beers = {'American Double / Imperial Stout': 0, 'Euro Pale Lager': 1,
              'American Pale Wheat Ale': 2, 'Belgian Pale Ale': 3, 'Rye Beer': 4,
@@ -164,8 +194,8 @@ def beer2oh(beer):
 def oh2beer(tensor):
     """
     Converts one-hot encoded vector to string.
-    :param tensor:
-    :return:
+    :param tensor: Tensor. One-hot encoded representation of the beer.
+    :return: String. The beer.
     """
     beers = {'American Double / Imperial Stout': 0, 'Euro Pale Lager': 1,
              'American Pale Wheat Ale': 2, 'Belgian Pale Ale': 3, 'Rye Beer': 4,
@@ -235,9 +265,9 @@ def get_metadata(beer, rating):
 def get_metadatas(beers, ratings):
     """
     Wrapper method for get_metadata that handles lists.
-    :param beers:
-    :param ratings:
-    :return:
+    :param beers: List of beers.
+    :param ratings: List of ratings.
+    :return: List of tensors. In encoded form.
     """
     metadatas = []
     for i in range(len(beers)):
@@ -249,9 +279,9 @@ def get_metadatas(beers, ratings):
 def concat_metadata(text, metadata):
     """
     Concatenates every character with the metadata.
-    :param text:
-    :param metadata:
-    :return:
+    :param text: List of tensors. The review text.
+    :param metadata: List of tensors. The metadata.
+    :return: List of tensors. The concatenated data.
     """
     cat = []
     for char in text:
@@ -301,6 +331,43 @@ def to_indices(targets):
     return torch.stack(indices)
 
 
+def get_bleu_scores(outputs, targets):
+    """
+    Computes the bleu score for a list of network outputs and the corresponding target review.
+    :param outputs: A list of strings, the network outputs.
+    :param targets: A list of strings, the target review.
+    :return:
+    """
+    scores = []
+    for i in range(len(outputs)):
+        score = bleu_score.corpus_bleu([[targets[i].split()]], [outputs[i].split()])
+        scores.append(score)
+    return scores
+
+
+def all_finished(letters):
+    for letter in letters:
+        if letter != char2oh('`'):
+            # if we find a letter that isn't the EOS char we are not done.
+            return False
+    return True
+
+
+def get_predicted_letters(distributions):
+    """
+    Sample from the distributions from the network.
+    TODO may need to apply softmax.
+    :param distributions: 2d tensor. Output from network.
+    :return: List of tensors. The predicted letters in one hot encoding.
+    """
+    predictions = []
+    for dist in distributions:
+        sampler = one_hot_categorical.OneHotCategorical(dist)
+        prediction = sampler.sample()
+        predictions.append(prediction)
+    return predictions
+
+
 if __name__ == "__main__":
     data_dir = "../BeerAdvocatePA4"
     train_data_fname = data_dir + "/Beeradvocate_Train.csv"
@@ -309,6 +376,9 @@ if __name__ == "__main__":
 
     train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
     text1, beers1, rating1 = iter(train_loader).next()
+    print(get_bleu_scores(['Hello there, this is a test a big one'], ['Hello there, this is a '
+                                                                       'test '
+                                                                   'run not a big one.']))
 
     data = to_tensor(texts2oh(text1))
     print(data)
@@ -317,3 +387,4 @@ if __name__ == "__main__":
     reshaped = reshape_data(data)
     print(reshaped)
     print(reshaped.size())
+    print(strip_padding(['^Hello thersr, `````', '^^there wasa amistake`']))

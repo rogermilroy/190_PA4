@@ -7,8 +7,6 @@ import os
 import matplotlib.pyplot as plt
 from models import *
 from configs import cfg
-import pandas as pd
-from nltk.translate import bleu_score
 from utilities import *
 from beer_dataloader import *
 import time
@@ -17,11 +15,11 @@ import time
 def process_train_data(texts, beers, ratings, character_only=False):
     """
     Processes a minibatch into one-hot encoding ready for input to the network.
-    :param texts:
-    :param beers:
-    :param ratings:
-    :param character_only:
-    :return: tensor dims (N x s x d) N is minibatch size, s is sequence length and d is 98 if
+    :param texts: A minibatch of reviews as a tuple.
+    :param beers: A minibatch of beers as a tuple
+    :param ratings: A minibatch of ratings as a tuple.
+    :param character_only: True if we are only training the language model.
+    :return: tensor dims (s x N x d) N is minibatch size, s is sequence length and d is 98 if
     char_only or 203 otherwise.
     """
     data = texts2oh(texts)
@@ -33,17 +31,15 @@ def process_train_data(texts, beers, ratings, character_only=False):
     return to_tensor(data)
 
 
-def train_valid_split(data, labels):
-    # TODO: Takes in train data and labels as numpy array (or a torch Tensor/ Variable) and
-    # splits it into training and validation data.
-    raise NotImplementedError
-
-
-def process_test_data(data):
-    # TODO: Takes in pandas DataFrame and returns a numpy array (or a torch Tensor/ Variable)
-    # that has all input features. Note that test data does not contain any review so you don't
-    # have to worry about one hot encoding the data.
-    raise NotImplementedError
+def process_test_data(beers, ratings):
+    """
+    Processesd a minibatch of test data into one hot encoding.
+    :param beers: A minibatch of beers as a tuple.
+    :param ratings: A minibatch of ratings as a tuple.
+    :return: Tensor dims (N x d)
+    """
+    data = get_metadatas(beers, ratings)
+    return torch.stack(data)
 
 
 def train(model, train_loader, val_loader, cfg):
@@ -51,7 +47,7 @@ def train(model, train_loader, val_loader, cfg):
 
     num_epochs = cfg['epochs']
     print_every = 1
-    plot_every = 1
+    plot_every = 2000
     learning_rate = cfg['learning_rate']
     in_size = 1 # TODO CHANGE TO CORRECT DIMENSION
     val_size = 1 # TODO CHANGE TO CORRECT DIMENSION
@@ -128,15 +124,35 @@ def train(model, train_loader, val_loader, cfg):
 
 
 def generate(model, X_test, cfg):
-    # TODO: Given n rows in test data, generate a list of n strings, where each string is the review
-    # corresponding to each input row in test data.
-    raise NotImplementedError
+    """
+    Given n rows in test data, generate a list of n strings, where each string is the review
+    corresponding to each input row in test data.
+    :param model:
+    :param X_test:
+    :param cfg:
+    :return:
+    """
+    # Initialise a list of SOS characters. TODO test!!
+    letters = [char2oh('^') for i in range(len(X_test))]
+    gen_texts = []
 
+    # Loop until only EOS is predicted.
+    while not all_finished(letters):
+        # format the data for input to the network.
+        inp = concat_metadata(letters, X_test)
+        outputs = model.forward(inp)
+        # sample from softmax distribution.
+        letters = get_predicted_letters(outputs)
+        gen_texts.append(letters)
+    # convert to strings and return.
+    return oh2texts(gen_texts)
 
 def save_to_file(outputs, fname):
     # TODO: Given the list of generated review outputs and output file name, save all these reviews to
     # the file in .txt format.
-    raise NotImplementedError
+    with open(fname, 'w') as file:
+        for output in outputs:
+            file.write(output + '\n')  # TODO test!
 
 
 if __name__ == "__main__":
@@ -171,7 +187,6 @@ if __name__ == "__main__":
         computing_device = torch.device("cpu")
     model.to(computing_device)
 
-    # train(model, X_train, y_train, X_valid, y_valid, cfg) # Train the model
     train(model, train_loader, val_loader, cfg)
     # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file
