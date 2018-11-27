@@ -79,33 +79,40 @@ def train(model, train_loader, val_loader, cfg):
                 tens = torch.unsqueeze(batch[c], 0)
                 output = model(tens)
                 targets = to_indices(batch[c+1])
-                inputs = torch.squeeze(output)
-                training_loss += criterion(inputs, targets)
+                crit_inputs = torch.squeeze(output)
+                training_loss += criterion(crit_inputs, targets)
 
             training_loss.backward(retain_graph=True)
             optimizer.step()
 
             # calculate loss
-            training_loss = training_loss.data[0] / len(text)
+            training_loss = training_loss / len(text)
             training_loss_avg += training_loss
 
-        # Get next minibatch of data for validation
-        torch.cuda.empty_cache()
-        for minibatch_count, (text, beer, rating) in enumerate(val_loader, 0):
+            # Calculate validation of every plot_every minibatches
+            if minibatch_count % plot_every == 0:
 
-            batch = process_train_data(text, beer, rating, True)
+                # Get next minibatch of data for validation
+                torch.cuda.empty_cache()
+                for minibatch_count, (text, beer, rating) in enumerate(val_loader, 0):
 
-            # validation
-            validation_loss = 0
-            output = model(batch)
-            validation_loss = criterion(output, text)
+                    batch = process_train_data(text, beer, rating, True)
 
-            # calculate loss
-            validation_loss = validation_loss.data[0] / val_size
-            # break if loss goes up too many times consecutively
-            if(False):
-                # TODO BREAK AFTER VALIDATION LOSS INCREASES
-                break;
+                    # validation
+                    validation_loss = 0
+                    for c in range(len(text)):
+                        tens = torch.unsqueeze(batch[c], 0)
+                        output = model(tens)
+                        targets = to_indices(batch[c+1])
+                        crit_inputs = torch.squeeze(output)
+                        validation_loss += criterion(crit_inputs, targets)
+
+                    # calculate loss
+                    validation_loss = validation_loss / val_size
+                    # break if loss goes up too many times consecutively
+                    if(False):
+                        # TODO BREAK AFTER VALIDATION LOSS INCREASES
+                        break;
 
 
         # plotting and printing every n epochs
