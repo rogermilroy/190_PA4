@@ -96,7 +96,7 @@ def texts2oh(texts):
     padded = pad_data(texts)
     ohtexts = []
     for text in padded:
-        oh = char2oh(text)
+        oh = string2oh(text)
         ohtexts.append(oh)
     return ohtexts
 
@@ -109,14 +109,14 @@ def oh2texts(ohtexts):
     """
     texts = []
     for text in ohtexts:
-        chars = []
+        strings = []
         for char in text:
-            chars.append(oh2char(char))
-        texts.append(''.join(chars))
+            strings.append(oh2string(char))
+        texts.append(''.join(strings))
     return strip_padding(texts)
 
 
-def char2oh(text):
+def string2oh(text):
     """
     Converts a string to a one-hot encoded 2D Tensor.
     :param text: String of the review to be encoded.
@@ -125,14 +125,11 @@ def char2oh(text):
     values = []
     # get ascii representation, create tensor and add one to index for each character
     for char in text:
-        index = ord(char) - 32  # we don't use 0-31 as non printable.
-        temp = torch.zeros(98, dtype=torch.float)
-        temp[index] = 1.0
-        values.append(temp)
+        values.append(char2oh(char))
     return values
 
 
-def oh2char(tensor):
+def oh2string(tensor):
     """
     Converts one-hot encoded values to a string.
     :param tensor: 2D Tensor of one-hot encoded values
@@ -141,9 +138,19 @@ def oh2char(tensor):
     chars = []
     # iterate through tensor, get characters and add to list.
     for row in tensor:
-        num = torch.argmax(row).item() + 32  # correct for our shifted index.
-        chars.append(chr(num))
+        chars.append(oh2char(row))
     return ''.join(chars)
+
+
+def char2oh(char):
+    index = ord(char) - 32  # we don't use 0-31 as non printable.
+    temp = torch.zeros(98, dtype=torch.float)
+    temp[index] = 1.0
+    return temp
+
+
+def oh2char(tensor):
+    return chr(torch.argmax(tensor).item() + 32)
 
 
 def beer2oh(beer):
@@ -248,7 +255,7 @@ def scale_beer_rating(rating):
     :return: tensor of the new rating
     """
     new_rating = ((rating * 2) / 5) - 1
-    return torch.tensor([new_rating])
+    return torch.tensor([new_rating], dtype=torch.float)
 
 
 def get_metadata(beer, rating):
@@ -277,7 +284,14 @@ def get_metadatas(beers, ratings):
     return metadatas
 
 
-def concat_metadata(text, metadata):
+def cat_batch_data(letter, metadata):
+    data = []
+    for i in range(len(letter)):
+        data.append(torch.cat((torch.squeeze(letter[i]), torch.squeeze(metadata[i]))))
+    return torch.stack(data)
+
+
+def concat_sequence_metadata(text, metadata):
     """
     Concatenates every character with the metadata.
     :param text: List of tensors. The review text.
@@ -299,7 +313,7 @@ def concat_metadatas(texts, metadatas):
     """
     concatenated = []
     for i in range(len(texts)):
-        concatenated.append(concat_metadata(texts[i], metadatas[i]))
+        concatenated.append(concat_sequence_metadata(texts[i], metadatas[i]))
     return concatenated
 
 
@@ -327,9 +341,12 @@ def reshape_data(tensor):
 def to_indices(targets):
     indices = []
     for target in targets:
-        index = torch.argmax(target)
-        indices.append(index)
+        indices.append(to_index(target))
     return torch.stack(indices)
+
+
+def to_index(target):
+    return torch.argmax(target)
 
 
 def get_bleu_scores(outputs, targets):
@@ -348,7 +365,7 @@ def get_bleu_scores(outputs, targets):
 
 def all_finished(letters):
     for letter in letters:
-        if letter != char2oh('`'):
+        if to_index(letter) != to_index(char2oh('`')):
             # if we find a letter that isn't the EOS char we are not done.
             return False
     return True
@@ -361,13 +378,21 @@ def get_predicted_letters(outputs):
     :param distributions: 2d tensor. Output from network.
     :return: List of tensors. The predicted letters in one hot encoding.
     """
-    distributions = softmax(outputs, 0)
+    distributions = softmax(outputs, 1)
     predictions = []
     for dist in distributions:
         sampler = one_hot_categorical.OneHotCategorical(dist)
         prediction = sampler.sample()
         predictions.append(prediction)
     return predictions
+
+
+def get_terminating_batch(batch):
+    batch_size = batch.size()[0]
+    term = []
+    for i in range(batch_size):
+        term.append(char2oh('`')[0])
+    return torch.stack(term)
 
 
 if __name__ == "__main__":

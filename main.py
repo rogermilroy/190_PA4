@@ -70,7 +70,7 @@ def train(model, train_loader, val_loader, cfg):
         torch.cuda.empty_cache()
         for minibatch_count, (text, beer, rating) in enumerate(train_loader, 0):
 
-            batch = process_train_data(text, beer, rating, True)
+            batch = process_train_data(text, beer, rating)
 
             # training
             model.zero_grad()
@@ -78,7 +78,10 @@ def train(model, train_loader, val_loader, cfg):
             for c in range(len(text)):
                 tens = torch.unsqueeze(batch[c], 0)
                 output = model(tens)
-                targets = to_indices(batch[c+1])
+                if c < len(text) - 1:
+                    targets = to_indices(batch[c+1])
+                else:
+                    targets = to_indices(get_terminating_batch(batch[c]))
                 inputs = torch.squeeze(output)
                 training_loss += criterion(inputs, targets)
 
@@ -88,11 +91,13 @@ def train(model, train_loader, val_loader, cfg):
             # calculate loss
             training_loss = training_loss.data[0] / len(text)
             training_loss_avg += training_loss
+            if minibatch_count == 100:
+                break
 
         # Get next minibatch of data for validation
         torch.cuda.empty_cache()
         for minibatch_count, (text, beer, rating) in enumerate(val_loader, 0):
-
+            break
             batch = process_train_data(text, beer, rating, True)
 
             # validation
@@ -109,18 +114,16 @@ def train(model, train_loader, val_loader, cfg):
 
 
         # plotting and printing every n epochs
-        if epoch % print_every == 0:
+        if epoch % print_every == 10000:
             print('[%s] (epoch: %d - %d%%)' % (time_since(start), epoch, epoch / num_epochs * 100))
             print('Training Loss: %d' % training_loss)
             print('Validation Loss: %d' % validation_loss)
 
-            print('Generated Text: ', generate(model, None,cfg))
+            print('Generated Text: ', generate(model, None, cfg))
 
-        if epoch % plot_every == 0:
+        if epoch % plot_every == 10000:
             all_losses.append(loss_avg / plot_every)
             loss_avg = 0
-
-
 
 
 def generate(model, X_test, cfg):
@@ -135,17 +138,19 @@ def generate(model, X_test, cfg):
     # Initialise a list of SOS characters. TODO test!!
     letters = [char2oh('^') for i in range(len(X_test))]
     gen_texts = []
+    list_batch = list(torch.split(X_test, 1))
 
     # Loop until only EOS is predicted.
     while not all_finished(letters):
         # format the data for input to the network.
-        inp = concat_metadata(letters, X_test)
-        outputs = model.forward(inp)
+        inp = cat_batch_data(letters, list_batch)
+        outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
         # sample from softmax distribution.
         letters = get_predicted_letters(outputs)
-        gen_texts.append(letters)
+        gen_texts.append(letters) # TODO reshape.
     # convert to strings and return.
     return oh2texts(gen_texts)
+
 
 def save_to_file(outputs, fname):
     # TODO: Given the list of generated review outputs and output file name, save all these reviews to
@@ -172,8 +177,9 @@ if __name__ == "__main__":
 
     train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
     text1, beers1, rating1 = iter(train_loader).next()
+    text2, beers2, ratings2 = iter(val_loader).next()
     print("Text: ", text1, "Beers: ", beers1, "Rating: ", rating1)
-    batch = process_train_data(text1, beers1, rating1, True)
+    batch = process_train_data(text1, beers1, rating1)
     print("Batch: ", batch)
     print("Batch Dimensions: ", batch.shape)
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
@@ -188,5 +194,6 @@ if __name__ == "__main__":
     model.to(computing_device)
 
     train(model, train_loader, val_loader, cfg)
-    # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
+    outputs = generate(model, process_test_data(beers2, ratings2), cfg) # Generate the outputs for test
+    # data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file
