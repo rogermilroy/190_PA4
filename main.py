@@ -70,7 +70,7 @@ def train(model, train_loader, val_loader, cfg):
         torch.cuda.empty_cache()
         for minibatch_count, (text, beer, rating) in enumerate(train_loader, 0):
 
-            batch = process_train_data(text, beer, rating)
+            batch = process_train_data(text, beer, rating, True)
 
             # training
             model.zero_grad()
@@ -82,63 +82,68 @@ def train(model, train_loader, val_loader, cfg):
                     targets = to_indices(batch[c+1])
                 else:
                     targets = to_indices(get_terminating_batch(batch[c]))
-                inputs = torch.squeeze(output)
-                training_loss += criterion(inputs, targets)
+                crit_inputs = torch.squeeze(output)
+                training_loss += criterion(crit_inputs, targets)
 
             training_loss.backward(retain_graph=True)
             optimizer.step()
 
             # calculate loss
-            training_loss = training_loss.data[0] / len(text)
+            training_loss = training_loss / len(text)
             training_loss_avg += training_loss
-            if minibatch_count == 100:
-                break
 
-        # Get next minibatch of data for validation
-        torch.cuda.empty_cache()
-        for minibatch_count, (text, beer, rating) in enumerate(val_loader, 0):
-            break
-            batch = process_train_data(text, beer, rating, True)
+            # Calculate validation of every plot_every minibatches
+            if minibatch_count % plot_every == 0:
 
-            # validation
-            validation_loss = 0
-            output = model(batch)
-            validation_loss = criterion(output, text)
+                # Get next minibatch of data for validation
+                torch.cuda.empty_cache()
+                for minibatch_count, (text, beer, rating) in enumerate(val_loader, 0):
 
-            # calculate loss
-            validation_loss = validation_loss.data[0] / val_size
-            # break if loss goes up too many times consecutively
-            if(False):
-                # TODO BREAK AFTER VALIDATION LOSS INCREASES
-                break;
+                    batch = process_train_data(text, beer, rating, True)
+
+                    # validation
+                    validation_loss = 0
+                    for c in range(len(text)):
+                        tens = torch.unsqueeze(batch[c], 0)
+                        output = model(tens)
+                        targets = to_indices(batch[c+1])
+                        crit_inputs = torch.squeeze(output)
+                        validation_loss += criterion(crit_inputs, targets)
+
+                    # calculate loss
+                    validation_loss = validation_loss / val_size
+                    # break if loss goes up too many times consecutively
+                    if(False):
+                        # TODO BREAK AFTER VALIDATION LOSS INCREASES
+                        break;
 
 
         # plotting and printing every n epochs
-        if epoch % print_every == 10000:
+        if epoch % print_every == 0:
             print('[%s] (epoch: %d - %d%%)' % (time_since(start), epoch, epoch / num_epochs * 100))
             print('Training Loss: %d' % training_loss)
             print('Validation Loss: %d' % validation_loss)
 
             print('Generated Text: ', generate(model, None, cfg))
 
-        if epoch % plot_every == 10000:
+        if epoch % plot_every == 0:
             all_losses.append(loss_avg / plot_every)
             loss_avg = 0
 
 
-def generate(model, X_test, cfg):
+def generate(model, batch, cfg):
     """
     Given n rows in test data, generate a list of n strings, where each string is the review
     corresponding to each input row in test data.
     :param model:
-    :param X_test:
+    :param batch:
     :param cfg:
     :return:
     """
     # Initialise a list of SOS characters. TODO test!!
-    letters = [char2oh('^') for i in range(len(X_test))]
+    letters = [char2oh('^') for i in range(len(batch))]
     gen_texts = []
-    list_batch = list(torch.split(X_test, 1))
+    list_batch = list(torch.split(batch, 1))
 
     # Loop until only EOS is predicted.
     while not all_finished(letters):
@@ -177,9 +182,8 @@ if __name__ == "__main__":
 
     train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
     text1, beers1, rating1 = iter(train_loader).next()
-    text2, beers2, ratings2 = iter(val_loader).next()
     print("Text: ", text1, "Beers: ", beers1, "Rating: ", rating1)
-    batch = process_train_data(text1, beers1, rating1)
+    batch = process_train_data(text1, beers1, rating1, True)
     print("Batch: ", batch)
     print("Batch Dimensions: ", batch.shape)
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
@@ -193,7 +197,8 @@ if __name__ == "__main__":
         computing_device = torch.device("cpu")
     model.to(computing_device)
 
+    generate(model, batch, cfg)
+
     train(model, train_loader, val_loader, cfg)
-    outputs = generate(model, process_test_data(beers2, ratings2), cfg) # Generate the outputs for test
-    # data
+    # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file
