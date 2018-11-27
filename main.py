@@ -49,8 +49,6 @@ def train(model, train_loader, val_loader, cfg):
     print_every = 1
     plot_every = 2000
     learning_rate = cfg['learning_rate']
-    in_size = 1 # TODO CHANGE TO CORRECT DIMENSION
-    val_size = 1 # TODO CHANGE TO CORRECT DIMENSION
 
     # use adam optimizer with default params and given learning rate
     optimizer = torch.optim.Adam(model.parameters(), learning_rate)
@@ -70,7 +68,7 @@ def train(model, train_loader, val_loader, cfg):
         torch.cuda.empty_cache()
         for minibatch_count, (text, beer, rating) in enumerate(train_loader, 0):
 
-            batch = process_train_data(text, beer, rating, True)
+            batch = process_train_data(text, beer, rating)
 
             # training
             model.zero_grad()
@@ -97,21 +95,21 @@ def train(model, train_loader, val_loader, cfg):
 
                 # Get next minibatch of data for validation
                 torch.cuda.empty_cache()
-                for minibatch_count, (text, beer, rating) in enumerate(val_loader, 0):
+                for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader, 0):
 
-                    batch = process_train_data(text, beer, rating, True)
+                    val_batch = process_train_data(val_text, val_beer, val_rating)
 
-                    # validation
+                    # validation TODO use generate?
                     validation_loss = 0
-                    for c in range(len(text)):
-                        tens = torch.unsqueeze(batch[c], 0)
+                    for c in range(len(val_text)):
+                        tens = torch.unsqueeze(val_batch[c], 0)
                         output = model(tens)
                         targets = to_indices(batch[c+1])
                         crit_inputs = torch.squeeze(output)
                         validation_loss += criterion(crit_inputs, targets)
 
                     # calculate loss
-                    validation_loss = validation_loss / val_size
+                    validation_loss = validation_loss / val_batch.size()[0]
                     # break if loss goes up too many times consecutively
                     if(False):
                         # TODO BREAK AFTER VALIDATION LOSS INCREASES
@@ -119,16 +117,16 @@ def train(model, train_loader, val_loader, cfg):
 
 
         # plotting and printing every n epochs
-        if epoch % print_every == 0:
-            print('[%s] (epoch: %d - %d%%)' % (time_since(start), epoch, epoch / num_epochs * 100))
-            print('Training Loss: %d' % training_loss)
-            print('Validation Loss: %d' % validation_loss)
-
-            print('Generated Text: ', generate(model, None, cfg))
-
-        if epoch % plot_every == 0:
-            all_losses.append(loss_avg / plot_every)
-            loss_avg = 0
+        # if epoch % print_every == 0:
+        #     print('[%s] (epoch: %d - %d%%)' % (time_since(start), epoch, epoch / num_epochs * 100))
+        #     print('Training Loss: %d' % training_loss)
+        #     print('Validation Loss: %d' % validation_loss)
+        #
+        #     # print('Generated Text: ', generate(model, None, cfg))
+        #
+        # if epoch % plot_every == 0:
+        #     all_losses.append(loss_avg / plot_every)
+        #     loss_avg = 0
 
 
 def generate(model, batch, cfg):
@@ -152,9 +150,9 @@ def generate(model, batch, cfg):
         outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
         # sample from softmax distribution.
         letters = get_predicted_letters(outputs)
-        gen_texts.append(letters) # TODO reshape.
+        gen_texts.append(letters)
     # convert to strings and return.
-    return oh2texts(gen_texts)
+    return oh2texts(sequence2batch(gen_texts))
 
 
 def save_to_file(outputs, fname):
@@ -183,7 +181,8 @@ if __name__ == "__main__":
     train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
     text1, beers1, rating1 = iter(train_loader).next()
     print("Text: ", text1, "Beers: ", beers1, "Rating: ", rating1)
-    batch = process_train_data(text1, beers1, rating1, True)
+    batch = process_train_data(text1, beers1, rating1)
+    test_batch = process_test_data(beers1, rating1)
     print("Batch: ", batch)
     print("Batch Dimensions: ", batch.shape)
     # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
@@ -197,8 +196,8 @@ if __name__ == "__main__":
         computing_device = torch.device("cpu")
     model.to(computing_device)
 
-    generate(model, batch, cfg)
-
     train(model, train_loader, val_loader, cfg)
+
+    print(generate(model, test_batch, cfg))
     # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file
