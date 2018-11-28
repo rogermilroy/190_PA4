@@ -46,9 +46,9 @@ def train(model, train_loader, val_loader, cfg):
     # TODO: Train the model!
 
     num_epochs = cfg['epochs']
-    print_every = 1
-    plot_every = 2000
+    save_every = 10000
     learning_rate = cfg['learning_rate']
+    batch_size = cfg['batch_size']
 
     # use adam optimizer with default params and given learning rate
     optimizer = torch.optim.Adam(model.parameters(), learning_rate)
@@ -58,8 +58,13 @@ def train(model, train_loader, val_loader, cfg):
 
     # save important stats
     start_time = time.time()
-    all_losses = []
+    training_losses = []
+    validation_losses = []
+    bleu_scores = []
     training_loss_avg = 0
+    validation_loss_avg = 0
+    best_val = 10000000
+    best_params = None
 
     for epoch in range(num_epochs):
         print("Epoch: " + str(epoch))
@@ -67,11 +72,13 @@ def train(model, train_loader, val_loader, cfg):
         # Get next minibatch of data for training
         torch.cuda.empty_cache()
         for minibatch_count, (text, beer, rating) in enumerate(train_loader, 0):
+            print("On minibatch: ", minibatch_count)
 
             batch = process_train_data(text, beer, rating)
 
             # training
             model.zero_grad()
+            model.reset_hidden()
             training_loss = 0
             for c in range(len(text)):
                 tens = torch.unsqueeze(batch[c], 0)
@@ -87,46 +94,71 @@ def train(model, train_loader, val_loader, cfg):
             optimizer.step()
 
             # calculate loss
-            training_loss = training_loss / len(text)
-            training_loss_avg += training_loss
+            training_loss_avg += (training_loss / batch_size).item()
+            print((training_loss / batch_size).item())
 
             # Calculate validation of every plot_every minibatches
-            if minibatch_count % plot_every == 0:
+            if minibatch_count % save_every == 0 and minibatch_count != 0:
+                print("Validation ", (minibatch_count / save_every))
 
+                # add the average training loss to an array to plot later.
+                training_loss_avg = training_loss_avg / float(save_every)
+                training_losses.append(training_loss_avg)
+                print("Training loss: ", training_loss_avg)
+                training_loss_avg = 0
+                bleu_score_avg = 0
+                validation_loss_avg = 0
+
+                val_samples = 0
                 # Get next minibatch of data for validation
                 torch.cuda.empty_cache()
-                for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader, 0):
+                for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader,
+                                                                                       0):
 
                     val_batch = process_train_data(val_text, val_beer, val_rating)
-
-                    # validation TODO use generate?
+                    val_samples += batch_size
+                    # validation
                     validation_loss = 0
                     for c in range(len(val_text)):
-                        tens = torch.unsqueeze(val_batch[c], 0)
-                        output = model(tens)
-                        targets = to_indices(batch[c+1])
-                        crit_inputs = torch.squeeze(output)
-                        validation_loss += criterion(crit_inputs, targets)
+                        val_tens = torch.unsqueeze(val_batch[c], 0)
+                        val_output = model(val_tens)
+                        if c < len(val_text) - 1:
+                            val_targets = to_indices(val_batch[c + 1])
+                        else:
+                            val_targets = to_indices(get_terminating_batch(val_batch[c]))
+                        val_crit_inputs = torch.squeeze(val_output)
+                        validation_loss += float(criterion(val_crit_inputs, val_targets))
 
-                    # calculate loss
-                    validation_loss = validation_loss / val_batch.size()[0]
-                    # break if loss goes up too many times consecutively
-                    if(False):
-                        # TODO BREAK AFTER VALIDATION LOSS INCREASES
-                        break;
+                    # calculate loss per review
+                    validation_loss_avg += (validation_loss / float(batch_size))
 
+                    # generate reviews and check bleu scores.
+                    generated_val_reviews = generate(model, process_test_data(val_beer,
+                                                                              val_rating), cfg)
+                    print('generated.')
+                    bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
+                    bleu_score_avg += torch.mean(bleu_scores)  # TODO verify.
 
-        # plotting and printing every n epochs
-        # if epoch % print_every == 0:
-        #     print('[%s] (epoch: %d - %d%%)' % (time_since(start), epoch, epoch / num_epochs * 100))
-        #     print('Training Loss: %d' % training_loss)
-        #     print('Validation Loss: %d' % validation_loss)
-        #
-        #     # print('Generated Text: ', generate(model, None, cfg))
-        #
-        # if epoch % plot_every == 0:
-        #     all_losses.append(loss_avg / plot_every)
-        #     loss_avg = 0
+                # add average loss over validation set to array
+                validation_loss_avg /= float(val_samples)
+                validation_losses.append(validation_loss_avg)
+                bleu_score_avg = (bleu_score_avg / float(val_samples)).item()
+                bleu_scores.append(bleu_score_avg)
+                print("Validation Loss: ", validation_loss_avg)
+                print("BLEU score: ", bleu_score_avg)
+
+                # keep best parameters so far and keep track of them.
+                if validation_loss_avg < best_val:
+                    print("Updated params!")
+                    best_val = validation_loss_avg
+                    best_params = model.state_dict()
+
+                # break if loss goes up too many times consecutively
+                if (False):
+                    # TODO BREAK AFTER VALIDATION LOSS INCREASES
+                    break;
+
+    return training_losses, validation_losses, bleu_scores
 
 
 def generate(model, batch, cfg):
@@ -138,13 +170,13 @@ def generate(model, batch, cfg):
     :param cfg:
     :return:
     """
-    # Initialise a list of SOS characters. TODO test!!
+    # Initialise a list of SOS characters.
     letters = [char2oh('^') for i in range(len(batch))]
     gen_texts = []
     list_batch = list(torch.split(batch, 1))
 
     # Loop until only EOS is predicted.
-    while not all_finished(letters):
+    while not all_finished(letters):  # TODO maybe change to just one EOS to ensure stopping.
         # format the data for input to the network.
         inp = cat_batch_data(letters, list_batch)
         outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
@@ -178,17 +210,15 @@ if __name__ == "__main__":
     # print(utilities.beer2oh(tes))
     # print(utilities.oh2beer(utilities.beer2oh(tes)))
 
-    train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
+    train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
+                                                    subset=True)
     text1, beers1, rating1 = iter(train_loader).next()
     print("Text: ", text1, "Beers: ", beers1, "Rating: ", rating1)
     batch = process_train_data(text1, beers1, rating1)
     test_batch = process_test_data(beers1, rating1)
     print("Batch: ", batch)
     print("Batch Dimensions: ", batch.shape)
-    # train_data, train_labels = process_train_data(train_data) # Converting DataFrame to numpy array
-    # X_train, y_train, X_valid, y_valid = train_valid_split(train_data, train_labels) # Splitting the train data into train-valid data
-    # X_test = process_test_data(test_data) # Converting DataFrame to numpy array
-    #
+
     model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
     if cfg['cuda']:
         computing_device = torch.device("cuda")
