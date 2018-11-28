@@ -342,7 +342,6 @@ def sequence2batch(sequence_list):
     return transposed
 
 
-
 def to_indices(targets):
     indices = []
     for target in targets:
@@ -364,7 +363,7 @@ def get_bleu_scores(outputs, targets):
     scores = []
     for i in range(len(outputs)):
         score = bleu_score.corpus_bleu([[targets[i].split()]], [outputs[i].split()])
-        scores.append(score)
+        scores.append(float(score))
     return scores
 
 
