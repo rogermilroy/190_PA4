@@ -109,10 +109,7 @@ def oh2texts(ohtexts):
     """
     texts = []
     for text in ohtexts:
-        strings = []
-        for char in text:
-            strings.append(oh2string(char))
-        texts.append(''.join(strings))
+        texts.append(oh2string(text))
     return strip_padding(texts)
 
 
@@ -327,15 +324,23 @@ def to_tensor(collection):
     for l in collection:
         temp.append(torch.stack(l))
     tens = torch.stack(temp)
-    return reshape_data(tens)
+    return batch2sequence(tens)
 
 
-def reshape_data(tensor):
+def batch2sequence(tensor):
     batch_size = tensor.size()[0]
     sequence_len = tensor.size()[1]
     letters = torch.split(tensor, 1, 1)
     in_sequence = torch.cat(letters, 0)
     return torch.reshape(in_sequence, (sequence_len, batch_size, -1))
+
+
+def sequence2batch(sequence_list):
+    transposed = []
+    for i in range(len(sequence_list[0])):
+        transposed.append([row[i] for row in sequence_list])
+    return transposed
+
 
 
 def to_indices(targets):
@@ -411,7 +416,7 @@ if __name__ == "__main__":
     print(data)
     print(data.size())
 
-    reshaped = reshape_data(data)
+    reshaped = batch2sequence(data)
     print(reshaped)
     print(reshaped.size())
     print(strip_padding(['^Hello thersr, `````', '^^there wasa amistake`']))
