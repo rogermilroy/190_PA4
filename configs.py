@@ -1,5 +1,5 @@
 cfg = {}
-cfg['input_dim'] = 98 # input dimension to LSTM
+cfg['input_dim'] = 203 # input dimension to LSTM
 cfg['hidden_dim'] = 10 # hidden dimension for LSTM
 cfg['output_dim'] = 98 # output dimension of the model
 cfg['layers'] = 2 # number of layers of LSTM
