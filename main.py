@@ -193,7 +193,7 @@ def save_to_file(outputs, fname):
 
 
 if __name__ == "__main__":
-    data_dir = "../BeerAdvocatePA4"
+    data_dir = "/datasets/cs190f-public/BeerAdvocateDataset"
     train_data_fname = data_dir + "/Beeradvocate_Train.csv"
     test_data_fname = data_dir + "/Beeradvocate_Test.csv"
     out_fname = ""
