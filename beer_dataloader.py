@@ -35,7 +35,6 @@ class BeerTrainDataset(Dataset):
         data = data.drop(columns=to_drop)
         self.data = data.dropna()
 
-
     def __len__(self):
 
         # Return the total number of data samples
@@ -89,7 +88,8 @@ class BeerTestDataset(Dataset):
         return beer, rating
 
 
-def create_split_loaders(batch_size, seed, filename, p_val=0.2, shuffle=True, extras={}):
+def create_split_loaders(batch_size, seed, filename, p_val=0.2, shuffle=True, extras={},
+                         subset=False):
     """ Creates the DataLoader objects for the training, validation, and test sets.
 
     Params:
@@ -116,7 +116,11 @@ def create_split_loaders(batch_size, seed, filename, p_val=0.2, shuffle=True, ex
     dataset = BeerTrainDataset(filename)
 
     # Dimensions and indices of training set
-    dataset_size = len(dataset)
+    if subset:
+        dataset_size = int(len(dataset) * 0.1)
+    else:
+        dataset_size = len(dataset)
+
     all_indices = list(range(dataset_size))
 
     # Shuffle dataset before dividing into training & test sets
