@@ -34,12 +34,14 @@ class baselineLSTM(nn.Module):
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
 
+    def reset_hidden(self):
+        self.cell_state = None
+        self.hidden_state = None
+
     def forward(self, sequence):
         # Takes in the sequence of the form (1 x batch_size x input_dim) and
         # returns the output of form (1 x batch_size x output_dim)
 
-        print("shape: ", sequence.shape)
-        print(list(sequence.shape)[1])
         hidden = (self.hidden_state, self.cell_state)
         if self.cell_state is None or self.hidden_state is None:
             out, states = self.lstm(sequence)
