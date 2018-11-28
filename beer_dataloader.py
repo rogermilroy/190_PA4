@@ -148,7 +148,7 @@ def create_split_loaders(batch_size, seed, filename, p_val=0.2, shuffle=True, ex
                             sampler=sample_val, num_workers=num_workers,
                             pin_memory=pin_memory)
 
-    # Return the training and validation DataLoader objects
+    # Return the training, validation, test DataLoader objects
     return (train_loader, val_loader)
 
 
