@@ -43,10 +43,9 @@ def process_test_data(beers, ratings):
 
 
 def train(model, train_loader, val_loader, cfg):
-    # TODO: Train the model!
 
     num_epochs = cfg['epochs']
-    save_every = 10000
+    save_every = 1000
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
@@ -135,9 +134,8 @@ def train(model, train_loader, val_loader, cfg):
                     # generate reviews and check bleu scores.
                     generated_val_reviews = generate(model, process_test_data(val_beer,
                                                                               val_rating), cfg)
-                    print('generated.')
                     bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
-                    bleu_score_avg += torch.mean(bleu_scores)  # TODO verify.
+                    bleu_score_avg += torch.mean(bleu_scores)
 
                 # add average loss over validation set to array
                 validation_loss_avg /= float(val_samples)
@@ -176,7 +174,7 @@ def generate(model, batch, cfg):
     list_batch = list(torch.split(batch, 1))
 
     # Loop until only EOS is predicted.
-    while not all_finished(letters) and len(letters) < cfg['max_len']:
+    while not all_finished(letters) and len(gen_texts) < cfg['max_len']:
         inp = cat_batch_data(letters, list_batch)
         outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
         # sample from softmax distribution.
