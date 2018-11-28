@@ -176,8 +176,7 @@ def generate(model, batch, cfg):
     list_batch = list(torch.split(batch, 1))
 
     # Loop until only EOS is predicted.
-    while not all_finished(letters):  # TODO maybe change to just one EOS to ensure stopping.
-        # format the data for input to the network.
+    while not all_finished(letters) and len(letters) < cfg['max_len']:
         inp = cat_batch_data(letters, list_batch)
         outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
         # sample from softmax distribution.
