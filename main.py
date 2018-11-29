@@ -209,9 +209,6 @@ if __name__ == "__main__":
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     subset=True)
-    text1, beers1, rating1 = iter(train_loader).next()
-    batch = process_train_data(text1, beers1, rating1)
-    test_batch = process_test_data(beers1, rating1)
 
     model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
     if cfg['cuda']:
