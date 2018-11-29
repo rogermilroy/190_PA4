@@ -91,7 +91,8 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                 else:
                     targets = to_indices(get_terminating_batch(batch[c], computing_device))
                 crit_inputs = torch.squeeze(output)
-                training_loss += criterion(crit_inputs, targets)
+                loss = criterion(crit_inputs, targets)
+                training_loss += loss
 
             training_loss.backward()
             optimizer.step()
@@ -99,6 +100,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             # calculate loss
             minibatch_loss_avg = (training_loss / batch_size).item()
             training_loss_avg += minibatch_loss_avg
+            print(loss)
             print(training_loss)
             print(minibatch_loss_avg)
 
