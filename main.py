@@ -96,8 +96,10 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             optimizer.step()
 
             # calculate loss
-            training_loss_avg += (training_loss / batch_size).item()
-            print((training_loss / batch_size).item())
+            minibatch_loss_avg = (training_loss / batch_size).item()
+            training_loss_avg += minibatch_loss_avg
+            print(training_loss)
+            print(minibatch_loss_avg)
 
             training_loss = 0
 
@@ -139,12 +141,15 @@ def train(model, train_loader, val_loader, cfg, computing_device):
 
                     # generate reviews and check bleu scores.
                     generated_val_reviews = generate(model, process_test_data(val_beer,
-                                                                              val_rating), cfg)
+                                                                              val_rating,
+                                                                              computing_device),
+                                                     cfg,
+                                                     computing_device)
                     bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
                     bleu_score_avg += torch.mean(bleu_scores)
 
                 # add average loss over validation set to array
-                validation_loss_avg /= float(val_samples)
+                validation_loss_avg = validation_loss_avg / float(val_samples)
                 validation_losses.append(validation_loss_avg)
                 bleu_score_avg = (bleu_score_avg / float(val_samples)).item()
                 bleu_scores.append(bleu_score_avg)
@@ -165,7 +170,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     return training_losses, validation_losses, bleu_scores
 
 
-def generate(model, batch, cfg):
+def generate(model, batch, cfg, computing_device):
     """
     Given n rows in test data, generate a list of n strings, where each string is the review
     corresponding to each input row in test data.
@@ -175,7 +180,7 @@ def generate(model, batch, cfg):
     :return:
     """
     # Initialise a list of SOS characters.
-    letters = [char2oh('^') for i in range(len(batch))]
+    letters = [char2oh('^', computing_device) for i in range(len(batch))]
     gen_texts = []
     list_batch = list(torch.split(batch, 1))
 
