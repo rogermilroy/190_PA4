@@ -48,7 +48,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     model.to(computing_device)
 
     num_epochs = cfg['epochs']
-    save_every = 1000
+    save_every = 100
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
@@ -224,7 +224,7 @@ if __name__ == "__main__":
     use_cuda = torch.cuda.is_available()
 
     # Setup GPU optimization if CUDA is supported
-    if use_cuda:
+    if use_cuda and cfg['cuda']:
         computing_device = torch.device("cuda")
         extras = {"num_workers": 3, "pin_memory": True}
         print("CUDA is supported")
