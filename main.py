@@ -4,6 +4,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 import numpy as np
 import os
+import sys
 import matplotlib.pyplot as plt
 from models import *
 from configs import cfg
@@ -217,7 +218,17 @@ if __name__ == "__main__":
     # print(utilities.beer2oh(tes))
     # print(utilities.oh2beer(utilities.beer2oh(tes)))
 
-    model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
+
+    modeltype = cfg['model'].lower()
+    if(modeltype == 'lstm' or modeltype == 'baselinelstm'):
+        print("Using LSTM Model")
+        model = baselineLSTM(cfg)
+    elif(modeltype == 'gru'):
+        print("Using GRU Model")
+        model = gru(cfg)
+    else:
+        print("Model ", modeltype, " not found")
+        sys.exit()
 
     # Check if your system supports CUDA
     use_cuda = torch.cuda.is_available()

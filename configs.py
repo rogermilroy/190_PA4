@@ -1,4 +1,5 @@
 cfg = {}
+cfg['model'] = 'gru' # input model
 cfg['input_dim'] = 203 # input dimension to LSTM
 cfg['hidden_dim'] = 100 # hidden dimension for LSTM
 cfg['output_dim'] = 98 # output dimension of the model
