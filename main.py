@@ -100,20 +100,20 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             # calculate loss
             minibatch_loss_avg = (training_loss / batch_size).item()
             training_loss_avg += minibatch_loss_avg
-            print(loss)
-            print(training_loss)
-            print(minibatch_loss_avg)
+            print("Loss: ", loss)
+            print("Training Loss: ", training_loss)
+            print("Minibatch Loss Avg: ", minibatch_loss_avg)
 
             training_loss = 0
 
             # Calculate validation of every plot_every minibatches
             if minibatch_count % save_every == 0 and minibatch_count != 0:
-                print("Validation ", (minibatch_count / save_every))
+                print("Validation: ", (minibatch_count / save_every))
 
                 # add the average training loss to an array to plot later.
                 training_loss_avg = training_loss_avg / float(save_every)
                 training_losses.append(training_loss_avg)
-                print("Training loss: ", training_loss_avg)
+                print("Training Loss Avg: ", training_loss_avg)
                 training_loss_avg = 0
                 bleu_score_avg = 0
                 validation_loss_avg = 0
@@ -121,15 +121,16 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                 val_samples = 0
                 # Get next minibatch of data for validation
                 torch.cuda.empty_cache()
-                for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader,
-                                                                                       0):
-
+                for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader, 0):
                     val_batch = process_train_data(val_text, val_beer, val_rating, computing_device)
                     val_batch.to(computing_device)
                     val_samples += batch_size
+
                     # validation
                     validation_loss = 0
-                    for c in range(val_batch.size()[0]):
+                    model.zero_grad()
+                    model.reset_hidden()
+                    for c in range(len(val_text)):
                         val_tens = torch.unsqueeze(val_batch[c], 0)
                         val_output = model(val_tens)
                         if c < len(val_text) - 1:
