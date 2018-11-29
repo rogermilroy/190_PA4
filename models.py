@@ -67,7 +67,6 @@ class gru(nn.Module):
         self.dropout = cfg['dropout']
         self.bidirectional = cfg['bidirectional']
         self.batch_size = cfg['batch_size']
-        self.cell_state = None
         self.hidden_state = None
 
         # initialize GRU layer
@@ -81,20 +80,17 @@ class gru(nn.Module):
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
 
     def reset_hidden(self):
-        self.cell_state = None
         self.hidden_state = None
 
     def forward(self, sequence):
         # Takes in the sequence of the form (1 x batch_size x input_dim) and
         # returns the output of form (1 x batch_size x output_dim)
 
-        hidden = (self.hidden_state, self.cell_state)
-        if self.cell_state is None or self.hidden_state is None:
-            out, states = self.gru(sequence)
+        if self.hidden_state is None:
+            out, hidden = self.gru(sequence)
         else:
-            out, states = self.gru(sequence, hidden)
-        self.hidden_state = states[0]
-        self.cell_state = states[1]
+            out, hidden = self.gru(sequence, self.hidden_state)
+        self.hidden_state = hidden
 
         out = self.hidden2out(out)
         return out
