@@ -89,12 +89,14 @@ def train(model, train_loader, val_loader, cfg):
                 crit_inputs = torch.squeeze(output)
                 training_loss += criterion(crit_inputs, targets)
 
-            training_loss.backward(retain_graph=True)
+            training_loss.backward()
             optimizer.step()
 
             # calculate loss
             training_loss_avg += (training_loss / batch_size).item()
             print((training_loss / batch_size).item())
+
+            training_loss = 0
 
             # Calculate validation of every plot_every minibatches
             if minibatch_count % save_every == 0 and minibatch_count != 0:
@@ -193,7 +195,7 @@ def save_to_file(outputs, fname):
 
 
 if __name__ == "__main__":
-    data_dir = "/datasets/cs190f-public/BeerAdvocateDataset"
+    data_dir = "../BeerAdvocateDataset"
     train_data_fname = data_dir + "/Beeradvocate_Train.csv"
     test_data_fname = data_dir + "/Beeradvocate_Test.csv"
     out_fname = ""
