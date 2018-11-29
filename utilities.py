@@ -101,18 +101,6 @@ def texts2oh(texts, computing_device):
     return ohtexts
 
 
-def oh2texts(ohtexts):
-    """
-    Converts a list of lists of one-hot encoded letters into readable form.
-    :param ohtexts: List of lists of tensors.
-    :return: List of strings.
-    """
-    texts = []
-    for text in ohtexts:
-        texts.append(oh2string(text))
-    return strip_padding(texts)
-
-
 def string2oh(text, computing_device):
     """
     Converts a string to a one-hot encoded 2D Tensor.
@@ -126,6 +114,25 @@ def string2oh(text, computing_device):
     return torch.stack(values)
 
 
+def char2oh(char, computing_device):
+    index = ord(char) - 32  # we don't use 0-31 as non printable.
+    temp = torch.zeros(98, dtype=torch.float, device=computing_device)
+    temp[index] = 1.0
+    return temp
+
+
+def oh2texts(ohtexts):
+    """
+    Converts a list of lists of one-hot encoded letters into readable form.
+    :param ohtexts: Tensor.
+    :return: List of strings.
+    """
+    texts = []
+    for text in ohtexts:
+        texts.append(oh2string(text))
+    return strip_padding(texts)
+
+
 def oh2string(tensor):
     """
     Converts one-hot encoded values to a string.
@@ -137,13 +144,6 @@ def oh2string(tensor):
     for row in tensor:
         chars.append(oh2char(row))
     return ''.join(chars)
-
-
-def char2oh(char, computing_device):
-    index = ord(char) - 32  # we don't use 0-31 as non printable.
-    temp = torch.zeros(98, dtype=torch.float, device=computing_device)
-    temp[index] = 1.0
-    return temp
 
 
 def oh2char(tensor):
@@ -284,7 +284,6 @@ def get_metadatas(beers, ratings, computing_device):
 
 
 def cat_batch_data(letter, metadata):
-    # TODO test.
     if letter.size()[1] != metadata.size()[1]:
         cat = torch.cat((letter.permute(1, 0), metadata.permute(1, 0)))
         return cat.permute(1, 0)
@@ -324,18 +323,11 @@ def concat_metadatas(texts, metadatas):
 
 
 def batch2sequence(tensor):
-    batch_size = tensor.size()[0]
-    sequence_len = tensor.size()[1]
-    letters = torch.split(tensor, 1, 1)
-    in_sequence = torch.cat(letters, 0)
-    return torch.reshape(in_sequence, (sequence_len, batch_size, -1))
+    return tensor.permute(1, 0, 2)
 
 
 def sequence2batch(sequence_list):
-    transposed = []
-    for i in range(len(sequence_list[0])):
-        transposed.append([row[i] for row in sequence_list])
-    return transposed
+    return sequence_list.permute(1, 0, 2)
 
 
 def to_indices(targets):

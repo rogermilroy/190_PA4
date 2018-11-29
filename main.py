@@ -29,7 +29,7 @@ def process_train_data(texts, beers, ratings, computing_device, character_only=F
         # concatenate text and metadata.
         metadatas = get_metadatas(beers, ratings, computing_device)
         data = concat_metadatas(data, metadatas)
-    return data
+    return batch2sequence(data)
 
 
 def process_test_data(beers, ratings, computing_device):
@@ -82,7 +82,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             model.zero_grad()
             model.reset_hidden()
             training_loss = 0
-            for c in range(len(text)):
+            for c in range(batch.size()[0]):
                 tens = torch.unsqueeze(batch[c], 0)
                 output = model(tens)
                 if c < len(text) - 1:
@@ -126,7 +126,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                     val_samples += batch_size
                     # validation
                     validation_loss = 0
-                    for c in range(len(val_text)):
+                    for c in range(val_batch.size()[0]):
                         val_tens = torch.unsqueeze(val_batch[c], 0)
                         val_output = model(val_tens)
                         if c < len(val_text) - 1:
@@ -182,17 +182,16 @@ def generate(model, batch, cfg, computing_device):
     # Initialise a list of SOS characters.
     letters = torch.stack([char2oh('^', computing_device) for i in range(len(batch))])
     gen_texts = []
-    list_batch = batch
 
     # Loop until only EOS is predicted.
     while not all_finished(letters, computing_device) and len(gen_texts) < cfg['max_len']:
-        inp = cat_batch_data(letters, list_batch)
+        inp = cat_batch_data(letters, batch)
         outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
         # sample from softmax distribution.
-        letters = torch.stack(get_predicted_letters(outputs))
+        letters = get_predicted_letters(outputs)
         gen_texts.append(letters)
     # convert to strings and return.
-    return oh2texts(sequence2batch(gen_texts))
+    return oh2texts(sequence2batch(torch.stack(gen_texts)))
 
 
 def save_to_file(outputs, fname):
