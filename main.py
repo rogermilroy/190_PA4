@@ -76,7 +76,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             print("On minibatch: ", minibatch_count)
 
             batch = process_train_data(text, beer, rating)
-
+            batch.to(computing_device)
             # training
             model.zero_grad()
             model.reset_hidden()
@@ -119,6 +119,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                                                                                        0):
 
                     val_batch = process_train_data(val_text, val_beer, val_rating)
+                    val_batch.to(computing_device)
                     val_samples += batch_size
                     # validation
                     validation_loss = 0
