@@ -29,7 +29,7 @@ def process_train_data(texts, beers, ratings, computing_device, character_only=F
         # concatenate text and metadata.
         metadatas = get_metadatas(beers, ratings, computing_device)
         data = concat_metadatas(data, metadatas)
-    return to_tensor(data)
+    return data
 
 
 def process_test_data(beers, ratings, computing_device):
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     # Setup GPU optimization if CUDA is supported
     if use_cuda and cfg['cuda']:
         computing_device = torch.device("cuda")
-        extras = {"num_workers": 3, "pin_memory": True}
+        extras = {"num_workers": 4, "pin_memory": True}
         print("CUDA is supported")
     else:  # Otherwise, train on the CPU
         computing_device = torch.device("cpu")
