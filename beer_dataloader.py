@@ -28,7 +28,7 @@ class BeerTrainDataset(Dataset):
     """
 
     def __init__(self, filename):
-        data = pd.read_csv(open(filename, 'r'), encoding='utf-8')
+        data = pd.read_csv(open(filename, 'r', encoding='utf-8'))
         to_drop = ['Unnamed: 0', 'beer/name', 'beer/beerId', 'beer/brewerId', 'beer/ABV',
                    'review/appearance', 'review/aroma', 'review/palate', 'review/taste',
                    'review/time', 'review/profileName']
@@ -62,7 +62,7 @@ class BeerTestDataset(Dataset):
     """
 
     def __init__(self, filename):
-        data = pd.read_csv(open(filename, 'r'), encoding='utf-8')
+        data = pd.read_csv(open(filename, 'r', encoding='utf-8'))
         to_drop = ['Unnamed: 0', 'beer/name', 'beer/beerId', 'beer/brewerId', 'beer/ABV',
                    'review/appearance', 'review/aroma', 'review/palate', 'review/taste',
                    'review/time', 'review/profileName']
