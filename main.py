@@ -83,13 +83,13 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             model.reset_hidden()
             training_loss = 0
             for c in range(len(text)):
-                tens = torch.unsqueeze(batch[c], 0).to(computing_device)
+                tens = torch.unsqueeze(batch[c], 0)
                 output = model(tens)
                 if c < len(text) - 1:
-                    targets = to_indices(batch[c+1]).to(computing_device)
+                    targets = to_indices(batch[c+1])
                 else:
-                    targets = to_indices(get_terminating_batch(batch[c])).to(computing_device)
-                crit_inputs = torch.squeeze(output).to(computing_device)
+                    targets = to_indices(get_terminating_batch(batch[c], computing_device))
+                crit_inputs = torch.squeeze(output)
                 training_loss += criterion(crit_inputs, targets)
 
             training_loss.backward()
@@ -130,7 +130,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                         if c < len(val_text) - 1:
                             val_targets = to_indices(val_batch[c + 1])
                         else:
-                            val_targets = to_indices(get_terminating_batch(val_batch[c]))
+                            val_targets = to_indices(get_terminating_batch(val_batch[c], computing_device))
                         val_crit_inputs = torch.squeeze(val_output)
                         validation_loss += float(criterion(val_crit_inputs, val_targets))
 
