@@ -141,7 +141,7 @@ def oh2string(tensor):
 
 def char2oh(char, computing_device):
     index = ord(char) - 32  # we don't use 0-31 as non printable.
-    temp = torch.zeros(98, dtype=torch.float).to(computing_device)
+    temp = torch.zeros(98, dtype=torch.float, device=computing_device)
     temp[index] = 1.0
     return temp
 
@@ -191,7 +191,7 @@ def beer2oh(beer, computing_device):
              'Happoshu': 100, 'American Pale Ale (APA)': 101, 'Saison / Farmhouse Ale': 102,
              'Scottish Gruit / Ancient Herbed Ale': 103}
     index = beers[beer]
-    oh = torch.zeros(104, dtype=torch.float).to(computing_device)
+    oh = torch.zeros(104, dtype=torch.float, device=computing_device)
     oh[index] = 1.0
     return oh
 
@@ -252,7 +252,7 @@ def scale_beer_rating(rating, computing_device):
     :return: tensor of the new rating
     """
     new_rating = ((rating * 2) / 5) - 1
-    return torch.tensor([new_rating], dtype=torch.float).to(computing_device)
+    return torch.tensor([new_rating], dtype=torch.float, device=computing_device)
 
 
 def get_metadata(beer, rating, computing_device):
@@ -393,11 +393,11 @@ def get_predicted_letters(outputs):
     return predictions
 
 
-def get_terminating_batch(batch):
+def get_terminating_batch(batch, computing_device):
     batch_size = batch.size()[0]
     term = []
     for i in range(batch_size):
-        term.append(char2oh('`')[0])
+        term.append(char2oh('`', computing_device))
     return torch.stack(term)
 
 
