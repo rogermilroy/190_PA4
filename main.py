@@ -48,7 +48,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     model.to(computing_device)
 
     num_epochs = cfg['epochs']
-    save_every = 100
+    save_every = 10
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
@@ -180,16 +180,16 @@ def generate(model, batch, cfg, computing_device):
     :return:
     """
     # Initialise a list of SOS characters.
-    letters = [char2oh('^', computing_device) for i in range(len(batch))]
+    letters = torch.stack([char2oh('^', computing_device) for i in range(len(batch))])
     gen_texts = []
-    list_batch = list(torch.split(batch, 1))
+    list_batch = batch
 
     # Loop until only EOS is predicted.
-    while not all_finished(letters) and len(gen_texts) < cfg['max_len']:
+    while not all_finished(letters, computing_device) and len(gen_texts) < cfg['max_len']:
         inp = cat_batch_data(letters, list_batch)
         outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
         # sample from softmax distribution.
-        letters = get_predicted_letters(outputs)
+        letters = torch.stack(get_predicted_letters(outputs))
         gen_texts.append(letters)
     # convert to strings and return.
     return oh2texts(sequence2batch(gen_texts))

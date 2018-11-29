@@ -5,6 +5,7 @@ from torch.distributions import one_hot_categorical
 from torch.nn.functional import softmax
 import re
 from beer_dataloader import *
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 def get_beer_categories(dataset):
@@ -95,9 +96,13 @@ def texts2oh(texts, computing_device):
     """
     padded = pad_data(texts)
     ohtexts = []
-    for text in padded:
-        oh = string2oh(text, computing_device)
-        ohtexts.append(oh)
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        outs =  [executor.submit(string2oh, text, computing_device) for text in
+                             padded]
+        for out in as_completed(outs):
+            pass
+        ohtexts = [t.result() for t in outs]
+
     return ohtexts
 
 
@@ -284,17 +289,20 @@ def get_metadatas(beers, ratings, computing_device):
 
 
 def cat_batch_data(letter, metadata):
-    data = []
-    for i in range(len(letter)):
-        data.append(torch.cat((torch.squeeze(letter[i]), torch.squeeze(metadata[i]))))
-    return torch.stack(data)
+    # TODO test.
+    if letter.size()[1] != metadata.size()[1]:
+        cat = torch.cat((letter.permute(1, 0), metadata.permute(1, 0)))
+        return cat.permute(1, 0)
+    else:
+        cat = torch.cat((letter, metadata))
+        return cat
 
 
 def concat_sequence_metadata(text, metadata):
     """
     Concatenates every character with the metadata.
     :param text: List of tensors. The review text.
-    :param metadata: List of tensors. The metadata.
+    :param metadata: Tensor. The metadata.
     :return: List of tensors. The concatenated data.
     """
     cat = []
@@ -373,9 +381,9 @@ def get_bleu_scores(outputs, targets):
     return scores
 
 
-def all_finished(letters):
+def all_finished(letters, computing_device):
     for letter in letters:
-        if to_index(letter) != to_index(char2oh('`')):
+        if to_index(letter) != to_index(char2oh('`', computing_device)):
             # if we find a letter that isn't the EOS char we are not done.
             return False
     return True
@@ -411,20 +419,26 @@ if __name__ == "__main__":
     test_data_fname = data_dir + "/Beeradvocate_Test.csv"
     out_fname = ""
 
-    train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
-    text1, beers1, rating1 = iter(train_loader).next()
-    print(get_bleu_scores(['Hello there, this is a test a big one'], ['Hello there, this is a '
-                                                                       'test '
-                                                                   'run not a big one.']))
+    # train_loader, val_loader = create_split_loaders(2, 42, train_data_fname)
+    # text1, beers1, rating1 = iter(train_loader).next()
+    # print(get_bleu_scores(['Hello there, this is a test a big one'], ['Hello there, this is a '
+    #                                                                    'test '
+    #                                                                'run not a big one.']))
+    #
+    # data = to_tensor(texts2oh(text1))
+    # print(data)
+    # print(data.size())
+    #
+    # reshaped = batch2sequence(data)
+    # print(reshaped)
+    # print(reshaped.size())
+    # print(strip_padding(['^Hello thersr, `````', '^^there wasa amistake`']))
+    #
+    # test_out = torch.tensor([[25., 32., -10., 17.]])
+    # print(get_predicted_letters(test_out))
 
-    data = to_tensor(texts2oh(text1))
-    print(data)
-    print(data.size())
+    a = torch.tensor([[1., 2., 3.], [3., 2., 1.]])
+    b = torch.tensor([[4., 4.], [5., 5.]])
 
-    reshaped = batch2sequence(data)
-    print(reshaped)
-    print(reshaped.size())
-    print(strip_padding(['^Hello thersr, `````', '^^there wasa amistake`']))
-
-    test_out = torch.tensor([[25., 32., -10., 17.]])
-    print(get_predicted_letters(test_out))
+    c = concat_sequence_metadata(a, b)
+    print(c)
