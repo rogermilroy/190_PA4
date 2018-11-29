@@ -352,7 +352,11 @@ def to_indices(targets):
 
 
 def to_index(target):
-    return torch.argmax(target)
+    non_zeros = torch.nonzero(target.view(-1).data).squeeze()
+    if len(non_zeros.size()) > 0:
+        return non_zeros[0]
+    else:
+        return non_zeros
 
 
 def get_bleu_scores(outputs, targets):
