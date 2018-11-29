@@ -210,11 +210,8 @@ if __name__ == "__main__":
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     subset=True)
     text1, beers1, rating1 = iter(train_loader).next()
-    print("Text: ", text1, "Beers: ", beers1, "Rating: ", rating1)
     batch = process_train_data(text1, beers1, rating1)
     test_batch = process_test_data(beers1, rating1)
-    print("Batch: ", batch)
-    print("Batch Dimensions: ", batch.shape)
 
     model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
     if cfg['cuda']:
@@ -225,6 +222,5 @@ if __name__ == "__main__":
 
     train(model, train_loader, val_loader, cfg)
 
-    print(generate(model, test_batch, cfg))
     # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file
