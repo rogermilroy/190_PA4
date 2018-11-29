@@ -5,7 +5,6 @@ from torch.distributions import one_hot_categorical
 from torch.nn.functional import softmax
 import re
 from beer_dataloader import *
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 def get_beer_categories(dataset):
@@ -96,13 +95,9 @@ def texts2oh(texts, computing_device):
     """
     padded = pad_data(texts)
     ohtexts = []
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        outs =  [executor.submit(string2oh, text, computing_device) for text in
-                             padded]
-        for out in as_completed(outs):
-            pass
-        ohtexts = [t.result() for t in outs]
-
+    for text in padded:
+        oh = string2oh(text, computing_device)
+        ohtexts.append(oh)
     return ohtexts
 
 
@@ -128,7 +123,7 @@ def string2oh(text, computing_device):
     # get ascii representation, create tensor and add one to index for each character
     for char in text:
         values.append(char2oh(char, computing_device))
-    return values
+    return torch.stack(values)
 
 
 def oh2string(tensor):
@@ -305,10 +300,14 @@ def concat_sequence_metadata(text, metadata):
     :param metadata: Tensor. The metadata.
     :return: List of tensors. The concatenated data.
     """
-    cat = []
-    for char in text:
-        cat.append(torch.cat((char, metadata)))
-    return cat
+    seq_len = text.size()[0]
+    meta = torch.stack([metadata for i in range(seq_len)])
+    if text.size()[1] != meta.size()[1]:
+        cat = torch.cat((text.permute(1, 0), meta.permute(1, 0)))
+        return cat.permute(1, 0)
+    else:
+        cat = torch.cat((text, metadata))
+        return cat
 
 
 def concat_metadatas(texts, metadatas):
@@ -321,20 +320,7 @@ def concat_metadatas(texts, metadatas):
     concatenated = []
     for i in range(len(texts)):
         concatenated.append(concat_sequence_metadata(texts[i], metadatas[i]))
-    return concatenated
-
-
-def to_tensor(collection):
-    """
-    Converts a list of lists of tensors into a multidimensional tensor. (seq, batch, data)
-    :param collection: A list of list of tensors.
-    :return: Multi dimensional tensor.
-    """
-    temp = []
-    for l in collection:
-        temp.append(torch.stack(l))
-    tens = torch.stack(temp)
-    return batch2sequence(tens)
+    return torch.stack(concatenated)
 
 
 def batch2sequence(tensor):
@@ -397,12 +383,11 @@ def get_predicted_letters(outputs):
     :return: List of tensors. The predicted letters in one hot encoding.
     """
     distributions = softmax(outputs, 1)
-    predictions = []
-    for dist in distributions:
-        sampler = one_hot_categorical.OneHotCategorical(dist)
-        prediction = sampler.sample()
-        predictions.append(prediction)
-    return predictions
+
+    sampler = one_hot_categorical.OneHotCategorical(distributions)
+    prediction = sampler.sample()
+
+    return prediction
 
 
 def get_terminating_batch(batch, computing_device):
