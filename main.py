@@ -12,33 +12,34 @@ from beer_dataloader import *
 import time
 
 
-def process_train_data(texts, beers, ratings, character_only=False):
+def process_train_data(texts, beers, ratings, computing_device, character_only=False):
     """
     Processes a minibatch into one-hot encoding ready for input to the network.
     :param texts: A minibatch of reviews as a tuple.
     :param beers: A minibatch of beers as a tuple
     :param ratings: A minibatch of ratings as a tuple.
+    :param computing_device: The device the tensors should be on.
     :param character_only: True if we are only training the language model.
     :return: tensor dims (s x N x d) N is minibatch size, s is sequence length and d is 98 if
     char_only or 203 otherwise.
     """
-    data = texts2oh(texts)
+    data = texts2oh(texts, computing_device)
     # if we are not just training the language model.
     if not character_only:
         # concatenate text and metadata.
-        metadatas = get_metadatas(beers, ratings)
+        metadatas = get_metadatas(beers, ratings, computing_device)
         data = concat_metadatas(data, metadatas)
     return to_tensor(data)
 
 
-def process_test_data(beers, ratings):
+def process_test_data(beers, ratings, computing_device):
     """
     Processesd a minibatch of test data into one hot encoding.
     :param beers: A minibatch of beers as a tuple.
     :param ratings: A minibatch of ratings as a tuple.
     :return: Tensor dims (N x d)
     """
-    data = get_metadatas(beers, ratings)
+    data = get_metadatas(beers, ratings, computing_device)
     return torch.stack(data)
 
 
@@ -75,7 +76,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
         for minibatch_count, (text, beer, rating) in enumerate(train_loader, 0):
             print("On minibatch: ", minibatch_count)
 
-            batch = process_train_data(text, beer, rating)
+            batch = process_train_data(text, beer, rating, computing_device)
 
             # training
             model.zero_grad()
@@ -118,7 +119,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                 for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader,
                                                                                        0):
 
-                    val_batch = process_train_data(val_text, val_beer, val_rating)
+                    val_batch = process_train_data(val_text, val_beer, val_rating, computing_device)
                     val_batch.to(computing_device)
                     val_samples += batch_size
                     # validation

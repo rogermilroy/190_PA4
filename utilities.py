@@ -87,7 +87,7 @@ def strip_padding(texts):
     return stripped
 
 
-def texts2oh(texts):
+def texts2oh(texts, computing_device):
     """
     Wrapper that takes a tuple or list of text, pads and converts to one-hot encoded form.
     :param texts: Tuple or list of strings. The texts to pad.
@@ -96,7 +96,7 @@ def texts2oh(texts):
     padded = pad_data(texts)
     ohtexts = []
     for text in padded:
-        oh = string2oh(text)
+        oh = string2oh(text, computing_device)
         ohtexts.append(oh)
     return ohtexts
 
@@ -113,7 +113,7 @@ def oh2texts(ohtexts):
     return strip_padding(texts)
 
 
-def string2oh(text):
+def string2oh(text, computing_device):
     """
     Converts a string to a one-hot encoded 2D Tensor.
     :param text: String of the review to be encoded.
@@ -122,7 +122,7 @@ def string2oh(text):
     values = []
     # get ascii representation, create tensor and add one to index for each character
     for char in text:
-        values.append(char2oh(char))
+        values.append(char2oh(char, computing_device))
     return values
 
 
@@ -139,9 +139,9 @@ def oh2string(tensor):
     return ''.join(chars)
 
 
-def char2oh(char):
+def char2oh(char, computing_device):
     index = ord(char) - 32  # we don't use 0-31 as non printable.
-    temp = torch.zeros(98, dtype=torch.float)
+    temp = torch.zeros(98, dtype=torch.float).to(computing_device)
     temp[index] = 1.0
     return temp
 
@@ -150,7 +150,7 @@ def oh2char(tensor):
     return chr(torch.argmax(tensor).item() + 32)
 
 
-def beer2oh(beer):
+def beer2oh(beer, computing_device):
     """
     Converts string to one-hot encoding.
     :param beer: String. The beer to be encoded.
@@ -191,7 +191,7 @@ def beer2oh(beer):
              'Happoshu': 100, 'American Pale Ale (APA)': 101, 'Saison / Farmhouse Ale': 102,
              'Scottish Gruit / Ancient Herbed Ale': 103}
     index = beers[beer]
-    oh = torch.zeros(104, dtype=torch.float)
+    oh = torch.zeros(104, dtype=torch.float).to(computing_device)
     oh[index] = 1.0
     return oh
 
@@ -245,38 +245,40 @@ def oh2beer(tensor):
     return beer_style
 
 
-def scale_beer_rating(rating):
+def scale_beer_rating(rating, computing_device):
     """
     Scale ratings to be between -1 and 1
     :param rating: A float between 0. and 5.
     :return: tensor of the new rating
     """
     new_rating = ((rating * 2) / 5) - 1
-    return torch.tensor([new_rating], dtype=torch.float)
+    return torch.tensor([new_rating], dtype=torch.float).to(computing_device)
 
 
-def get_metadata(beer, rating):
+def get_metadata(beer, rating, computing_device):
     """
     Wrapper, converts string and float to metadata feature vector.
     :param beer:
     :param rating:
+    :param computing_device
     :return:
     """
-    beer = beer2oh(beer)
-    rating = scale_beer_rating(rating)
+    beer = beer2oh(beer, computing_device)
+    rating = scale_beer_rating(rating, computing_device)
     return torch.cat((beer, rating))
 
 
-def get_metadatas(beers, ratings):
+def get_metadatas(beers, ratings, computing_device):
     """
     Wrapper method for get_metadata that handles lists.
     :param beers: List of beers.
     :param ratings: List of ratings.
+    :param computing_device
     :return: List of tensors. In encoded form.
     """
     metadatas = []
     for i in range(len(beers)):
-        metadata = get_metadata(beers[i], ratings[i])
+        metadata = get_metadata(beers[i], ratings[i], computing_device)
         metadatas.append(metadata)
     return metadatas
 
