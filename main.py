@@ -44,6 +44,21 @@ def process_test_data(beers, ratings):
 
 def train(model, train_loader, val_loader, cfg):
 
+    # Check if your system supports CUDA
+    use_cuda = torch.cuda.is_available()
+
+    # Setup GPU optimization if CUDA is supported
+    if use_cuda:
+        computing_device = torch.device("cuda")
+        extras = {"num_workers": 3, "pin_memory": True}
+        print("CUDA is supported")
+    else:  # Otherwise, train on the CPU
+        computing_device = torch.device("cpu")
+        extras = False
+        print("CUDA NOT supported")
+
+    model.to(computing_device)
+
     num_epochs = cfg['epochs']
     save_every = 1000
     learning_rate = cfg['learning_rate']
@@ -209,15 +224,7 @@ if __name__ == "__main__":
     # print(utilities.beer2oh(tes))
     # print(utilities.oh2beer(utilities.beer2oh(tes)))
 
-    train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
-                                                    subset=True)
-
     model = baselineLSTM(cfg) # Replace this with model = <your model name>(cfg)
-    if cfg['cuda']:
-        computing_device = torch.device("cuda")
-    else:
-        computing_device = torch.device("cpu")
-    model.to(computing_device)
 
     train(model, train_loader, val_loader, cfg)
 
