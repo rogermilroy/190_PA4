@@ -76,19 +76,19 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             print("On minibatch: ", minibatch_count)
 
             batch = process_train_data(text, beer, rating)
-            batch.to(computing_device)
+
             # training
             model.zero_grad()
             model.reset_hidden()
             training_loss = 0
             for c in range(len(text)):
-                tens = torch.unsqueeze(batch[c], 0)
+                tens = torch.unsqueeze(batch[c], 0).to(computing_device)
                 output = model(tens)
                 if c < len(text) - 1:
-                    targets = to_indices(batch[c+1])
+                    targets = to_indices(batch[c+1]).to(computing_device)
                 else:
-                    targets = to_indices(get_terminating_batch(batch[c]))
-                crit_inputs = torch.squeeze(output)
+                    targets = to_indices(get_terminating_batch(batch[c])).to(computing_device)
+                crit_inputs = torch.squeeze(output).to(computing_device)
                 training_loss += criterion(crit_inputs, targets)
 
             training_loss.backward()
