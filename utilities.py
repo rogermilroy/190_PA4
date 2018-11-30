@@ -338,6 +338,7 @@ def to_indices(targets):
 def to_index(target):
     return torch.argmax(target[:98])
 
+
 def get_bleu_scores(outputs, targets):
     """
     Computes the bleu score for a list of network outputs and the corresponding target review.
