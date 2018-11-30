@@ -240,7 +240,7 @@ if __name__ == "__main__":
         print("CUDA NOT supported")
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
-                                                    extras=extras, subset=True)
+                                                    extras=extras)
 
     training_losses, validation_losses, bleu_scores, params = train(model, train_loader,
                                                                     val_loader,
