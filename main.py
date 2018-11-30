@@ -134,7 +134,6 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                             val_targets = to_indices(val_batch[c + 1])
                         else:
                             val_targets = to_indices(val_batch[c])
-                        # val_crit_inputs = torch.squeeze(val_output)
                         validation_loss += float(criterion(val_output, val_targets))
 
                     # calculate loss per review
