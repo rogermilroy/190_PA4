@@ -32,7 +32,6 @@ class baselineLSTM(nn.Module):
                             bidirectional=self.bidirectional)
 
         self.recurrent_normed = nn.BatchNorm1d(self.hidden_dim)
-        torch_init.xavier_normal(self.lstm.all_weights)
 
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
@@ -82,7 +81,6 @@ class gru(nn.Module):
                             bidirectional=self.bidirectional)
 
         self.recurrent_normed = nn.BatchNorm1d(self.hidden_dim)
-        torch_init.xavier_normal(self.gru.all_weights)
 
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
