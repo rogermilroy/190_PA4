@@ -52,8 +52,8 @@ class baselineLSTM(nn.Module):
             out, states = self.lstm(sequence, hidden)
         self.hidden_state = states[0]
         self.cell_state = states[1]
-
-        out = self.hidden2out(self.recurrent_normed(out))
+        out = self.recurrent_normed(torch.squeeze(out))
+        out = self.hidden2out(out)
         return out
 
 
@@ -99,7 +99,10 @@ class gru(nn.Module):
             out, hidden = self.gru(sequence, self.hidden_state)
         self.hidden_state = hidden
 
-        out = self.hidden2out(self.recurrent_normed(out))
+        # normalise
+        out = self.recurrent_normed(torch.squeeze(out))
+
+        out = self.hidden2out(out)
         return out
 
 

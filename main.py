@@ -86,7 +86,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             training_loss = 0
             for c in range(batch.size()[0]):
                 tens = torch.unsqueeze(batch[c], 0)
-                output = torch.squeeze(model(tens))
+                output = model(tens)
                 if c < batch.size()[0] - 1:
                     targets = to_indices(batch[c+1])
                 else:
@@ -134,8 +134,8 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                             val_targets = to_indices(val_batch[c + 1])
                         else:
                             val_targets = to_indices(val_batch[c])
-                        val_crit_inputs = torch.squeeze(val_output)
-                        validation_loss += float(criterion(val_crit_inputs, val_targets))
+                        # val_crit_inputs = torch.squeeze(val_output)
+                        validation_loss += float(criterion(val_output, val_targets))
 
                     # calculate loss per review
                     batch_loss_avg = (validation_loss / batch.size()[0])
@@ -183,7 +183,7 @@ def generate(model, batch, cfg, computing_device):
     # Loop until only EOS is predicted.
     while not all_finished(letters, computing_device) and len(gen_texts) < cfg['max_len']:
         inp = cat_batch_data(letters, batch)
-        outputs = torch.squeeze(model.forward(torch.unsqueeze(inp, 0)))
+        outputs = model.forward(torch.unsqueeze(inp, 0))
         # sample from softmax distribution.
         letters = get_predicted_letters(outputs)
         gen_texts.append(letters)
