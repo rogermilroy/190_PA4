@@ -49,7 +49,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     model.to(computing_device)
 
     num_epochs = cfg['epochs']
-    save_every = 10
+    save_every = 1000
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
@@ -91,17 +91,15 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                 else:
                     targets = to_indices(get_terminating_batch(batch[c], computing_device))
                 crit_inputs = torch.squeeze(output)
-                loss = criterion(crit_inputs, targets)
-                training_loss += loss
+                training_loss += criterion(crit_inputs, targets)
 
             training_loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1)
             optimizer.step()
 
             # calculate loss
-            minibatch_loss_avg = (training_loss / batch_size).item()
+            minibatch_loss_avg = (training_loss / batch.size()[0]).item()
             training_loss_avg += minibatch_loss_avg
-            print(loss)
-            print(training_loss)
             print(minibatch_loss_avg)
 
             training_loss = 0
@@ -140,7 +138,8 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                         validation_loss += float(criterion(val_crit_inputs, val_targets))
 
                     # calculate loss per review
-                    validation_loss_avg += (validation_loss / float(batch_size))
+                    batch_loss_avg = (validation_loss / batch.size()[0]).item()
+                    validation_loss_avg += batch_loss_avg
 
                     # generate reviews and check bleu scores.
                     generated_val_reviews = generate(model, process_test_data(val_beer,
