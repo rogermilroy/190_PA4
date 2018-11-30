@@ -170,7 +170,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                     # TODO BREAK AFTER VALIDATION LOSS INCREASES
                     break;
 
-    return training_losses, validation_losses, bleu_scores
+    return training_losses, validation_losses, bleu_scores, best_params
 
 
 def generate(model, batch, cfg, computing_device):
@@ -248,8 +248,10 @@ if __name__ == "__main__":
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     extras=extras, subset=True)
 
-    training_losses, validation_losses, bleu_scores = train(model, train_loader, val_loader, cfg, computing_device)
-
+    training_losses, validation_losses, bleu_scores, params = train(model, train_loader,
+                                                                    val_loader,
+                                                             cfg, computing_device)
+    torch.save(params, cfg['params_dir'])
     save_as_csv(training_losses, validation_losses, bleu_scores, cfg)
 
         # outputs = generate(model, X_test, cfg) # Generate the outputs for test data

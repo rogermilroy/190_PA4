@@ -300,7 +300,7 @@ def concat_sequence_metadata(text, metadata):
     :return: List of tensors. The concatenated data.
     """
     seq_len = text.size()[0]
-    meta = torch.stack([metadata for i in range(seq_len)])
+    meta = metadata.repeat(seq_len, 1)
     if text.size()[1] != meta.size()[1]:
         cat = torch.cat((text.permute(1, 0), meta.permute(1, 0)))
         return cat.permute(1, 0)
