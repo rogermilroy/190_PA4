@@ -31,8 +31,12 @@ class baselineLSTM(nn.Module):
                             dropout=self.dropout,
                             bidirectional=self.bidirectional)
 
+        self.recurrent_normed = nn.BatchNorm1d(self.hidden_dim)
+        torch_init.xavier_normal(self.lstm.all_weights)
+
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
+        torch_init.xavier_normal(self.hidden2out.weight)
 
     def reset_hidden(self):
         self.cell_state = None
@@ -50,8 +54,9 @@ class baselineLSTM(nn.Module):
         self.hidden_state = states[0]
         self.cell_state = states[1]
 
-        out = self.hidden2out(out)
+        out = self.hidden2out(self.recurrent_normed(out))
         return out
+
 
 class gru(nn.Module):
     def __init__(self, config):
@@ -76,8 +81,12 @@ class gru(nn.Module):
                             dropout=self.dropout,
                             bidirectional=self.bidirectional)
 
+        self.recurrent_normed = nn.BatchNorm1d(self.hidden_dim)
+        torch_init.xavier_normal(self.gru.all_weights)
+
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
+        torch_init.xavier_normal(self.hidden2out.weight)
 
     def reset_hidden(self):
         self.hidden_state = None
@@ -92,7 +101,7 @@ class gru(nn.Module):
             out, hidden = self.gru(sequence, self.hidden_state)
         self.hidden_state = hidden
 
-        out = self.hidden2out(out)
+        out = self.hidden2out(self.recurrent_normed(out))
         return out
 
 
