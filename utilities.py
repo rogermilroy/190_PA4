@@ -331,18 +331,8 @@ def sequence2batch(sequence_list):
 
 
 def to_indices(targets):
-    indices = []
-    for target in targets:
-        indices.append(to_index(target))
-    return torch.stack(indices)
-
-
-def to_index(target):
-    non_zeros = torch.nonzero(target.view(-1).data).squeeze()
-    if len(non_zeros.size()) > 0:
-        return non_zeros[0]
-    else:
-        return non_zeros
+    t = targets.permute(1,0)[:98]
+    return torch.argmax(t, 0)
 
 
 def get_bleu_scores(outputs, targets):
@@ -380,14 +370,6 @@ def get_predicted_letters(outputs):
     prediction = sampler.sample()
 
     return prediction
-
-
-def get_terminating_batch(batch, computing_device):
-    batch_size = batch.size()[0]
-    term = []
-    for i in range(batch_size):
-        term.append(char2oh('`', computing_device))
-    return torch.stack(term)
 
 
 if __name__ == "__main__":

@@ -86,13 +86,12 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             training_loss = 0
             for c in range(batch.size()[0]):
                 tens = torch.unsqueeze(batch[c], 0)
-                output = model(tens)
-                if c < len(text) - 1:
+                output = torch.squeeze(model(tens))
+                if c < batch.size()[0] - 1:
                     targets = to_indices(batch[c+1])
                 else:
-                    targets = to_indices(get_terminating_batch(batch[c], computing_device))
-                crit_inputs = torch.squeeze(output)
-                training_loss += criterion(crit_inputs, targets)
+                    targets = to_indices(batch[c])
+                training_loss += criterion(output, targets)
 
             training_loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1)
@@ -134,7 +133,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                         if c < len(val_text) - 1:
                             val_targets = to_indices(val_batch[c + 1])
                         else:
-                            val_targets = to_indices(get_terminating_batch(val_batch[c], computing_device))
+                            val_targets = to_indices(val_batch[c])
                         val_crit_inputs = torch.squeeze(val_output)
                         validation_loss += float(criterion(val_crit_inputs, val_targets))
 
