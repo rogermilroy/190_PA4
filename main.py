@@ -164,11 +164,6 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                     best_val = validation_loss_avg
                     best_params = model.state_dict()
 
-                # break if loss goes up too many times consecutively
-                if (False):
-                    # TODO BREAK AFTER VALIDATION LOSS INCREASES
-                    break;
-
     return training_losses, validation_losses, bleu_scores, best_params
 
 
@@ -253,5 +248,5 @@ if __name__ == "__main__":
     torch.save(params, cfg['params_dir'])
     save_as_csv(training_losses, validation_losses, bleu_scores, cfg)
 
-        # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
+    # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file
