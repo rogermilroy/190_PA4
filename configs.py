@@ -18,3 +18,5 @@ cfg['train'] = True # True or False; True denotes that the model is bein deploye
 cfg['training_losses_dir'] = "./outputs/training_losses"
 cfg['validation_losses_dir'] = "./outputs/validation_losses"
 cfg['bleu_scores_dir'] = "./outputs/bleu_scores"
+
+cfg['params_dir'] = "./outputs/parameters.pt"
