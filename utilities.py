@@ -422,9 +422,9 @@ if __name__ == "__main__":
 
 def save_as_csv(training_losses, validation_losses, bleu_scores, cfg):
     # Save directories to use
-    training_losses_dir = cfg['training_losses_dir']
-    validation_losses_dir = cfg['validation_losses_dir']
-    bleu_scores_dir = cfg['bleu_scores_dir']
+    training_losses_dir = cfg['training_losses_dir'] + "_" +cfg['model'] + ".csv"
+    validation_losses_dir = cfg['validation_losses_dir'] + "_" +cfg['model'] + ".csv"
+    bleu_scores_dir = cfg['bleu_scores_dir'] + "_" +cfg['model'] + ".csv"
 
     # Convert the arrays as pandas dataframes
     training_losses_df = pd.DataFrame(training_losses)
