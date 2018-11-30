@@ -11,6 +11,7 @@ from configs import cfg
 from utilities import *
 from beer_dataloader import *
 import time
+import pandas as pd
 
 
 def process_train_data(texts, beers, ratings, computing_device, character_only=False):
@@ -247,7 +248,9 @@ if __name__ == "__main__":
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     extras=extras, subset=True)
 
-    train(model, train_loader, val_loader, cfg, computing_device)
+    training_losses, validation_losses, bleu_scores = train(model, train_loader, val_loader, cfg, computing_device)
 
-    # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
+    save_as_csv(training_losses, validation_losses, bleu_scores, cfg)
+
+        # outputs = generate(model, X_test, cfg) # Generate the outputs for test data
     # save_to_file(outputs, out_fname) # Save the generated outputs to a file

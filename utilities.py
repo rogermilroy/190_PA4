@@ -419,3 +419,19 @@ if __name__ == "__main__":
 
     c = concat_sequence_metadata(a, b)
     print(c)
+
+def save_as_csv(training_losses, validation_losses, bleu_scores, cfg):
+    # Save directories to use
+    training_losses_dir = cfg['training_losses_dir']
+    validation_losses_dir = cfg['validation_losses_dir']
+    bleu_scores_dir = cfg['bleu_scores_dir']
+
+    # Convert the arrays as pandas dataframes
+    training_losses_df = pd.DataFrame(training_losses)
+    validation_losses_df = pd.DataFrame(validation_losses)
+    bleu_scores_df = pd.DataFrame(bleu_scores)
+
+    # Export dataframes to csv
+    training_losses_df.to_csv(training_losses_dir)
+    validation_losses_df.to_csv(validation_losses_dir)
+    bleu_scores_df.to_csv(bleu_scores_dir)
