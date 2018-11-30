@@ -35,7 +35,7 @@ class baselineLSTM(nn.Module):
 
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
-        torch_init.xavier_normal(self.hidden2out.weight)
+        nn.init.xavier_normal_(self.hidden2out.weight)
 
     def reset_hidden(self):
         self.cell_state = None
@@ -84,7 +84,7 @@ class gru(nn.Module):
 
         # initialize output layer
         self.hidden2out = nn.Linear(self.hidden_dim, self.output_dim)
-        torch_init.xavier_normal(self.hidden2out.weight)
+        nn.init.xavier_normal_(self.hidden2out.weight)
 
     def reset_hidden(self):
         self.hidden_state = None
