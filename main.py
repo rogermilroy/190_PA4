@@ -50,7 +50,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     model.to(computing_device)
 
     num_epochs = cfg['epochs']
-    save_every = 1000
+    save_every = 3990
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
@@ -138,7 +138,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                         validation_loss += float(criterion(val_crit_inputs, val_targets))
 
                     # calculate loss per review
-                    batch_loss_avg = (validation_loss / batch.size()[0]).item()
+                    batch_loss_avg = (validation_loss / batch.size()[0])
                     validation_loss_avg += batch_loss_avg
 
                     # generate reviews and check bleu scores.
