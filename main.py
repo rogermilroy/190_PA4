@@ -169,7 +169,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                     # TODO BREAK AFTER VALIDATION LOSS INCREASES
                     break;
 
-    return training_losses, validation_losses, bleu_scores
+    return training_losses, validation_losses, bleu_scores, best_params
 
 
 def generate(model, batch, cfg, computing_device):
