@@ -35,6 +35,9 @@ if __name__ == '__main__':
         extras = False
         print("CUDA NOT supported")
 
+    model.to(computing_device)
+    model.load_state_dict(torch.load('./outputs/parameters_subset_lstm.pt'))
+
     test_loader = create_test_loader(cfg['batch_size'], 42, test_data_fname, extras=extras)
 
     texts = []
