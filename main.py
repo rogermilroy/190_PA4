@@ -50,7 +50,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     model.to(computing_device)
 
     num_epochs = cfg['epochs']
-    save_every = 3990
+    save_every = 399
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
@@ -146,6 +146,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                                                                               computing_device),
                                                      cfg,
                                                      computing_device)
+                    print(generated_val_reviews[3])
                     bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
                     bleu_score_avg += torch.mean(bleu_scores)
 
@@ -239,7 +240,7 @@ if __name__ == "__main__":
         print("CUDA NOT supported")
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
-                                                    extras=extras)
+                                                    extras=extras, subset=True)
 
     training_losses, validation_losses, bleu_scores, params = train(model, train_loader,
                                                                     val_loader,
