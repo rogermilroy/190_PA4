@@ -361,6 +361,21 @@ def all_finished(letters, computing_device):
     return True
 
 
+def softmax_temp(inputs, temp):
+    """
+    Implements softmax with a temperature parameter.
+    :param inputs: 2d tensor.
+    :param temp: float.
+    :return: 2d tensor.
+    """
+    exps = torch.exp(torch.div(inputs, temp))
+    print('Exps ', exps)
+    sum = torch.sum(exps, 1)  # TODO check the axis.
+    print('Sum ', sum)
+    result = torch.div(exps.permute(1, 0), sum)
+    return result.permute(1, 0)
+
+
 def get_predicted_letters(outputs):
     """
     Sample from the distributions from the network.
@@ -401,9 +416,10 @@ if __name__ == "__main__":
     # print(get_predicted_letters(test_out))
 
     a = torch.tensor([[1., 2., 3.], [3., 2., 1.]])
-    b = torch.tensor([[4., 4.], [5., 5.]])
+    b = softmax(a, 1)
 
-    c = concat_sequence_metadata(a, b)
+    c = softmax_temp(a, 0.5)
+    print(b)
     print(c)
 
 def save_as_csv(training_losses, validation_losses, bleu_scores, cfg):
