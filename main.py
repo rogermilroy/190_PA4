@@ -50,7 +50,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     model.to(computing_device)
 
     num_epochs = cfg['epochs']
-    save_every = 5
+    save_every = 390
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
@@ -67,7 +67,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     bleu_scores = []
     training_loss_avg = 0
     validation_loss_avg = 0
-    best_val = 10000000
+    best_val = 1000000.
     best_params = None
 
     for epoch in range(num_epochs):
@@ -163,6 +163,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                         print("Updated params!")
                         best_val = validation_loss_avg
                         best_params = model.state_dict()
+                        torch.save(best_params, './outputs/current_params.pt')
 
     return training_losses, validation_losses, bleu_scores, best_params
 
@@ -240,7 +241,7 @@ if __name__ == "__main__":
         print("CUDA NOT supported")
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
-                                                    extras=extras, subset=True, p_val=0.01)
+                                                    extras=extras, subset=True, p_val=0.1)
 
     training_losses, validation_losses, bleu_scores, params = train(model, train_loader,
                                                                     val_loader,
