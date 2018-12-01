@@ -98,7 +98,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             optimizer.step()
 
             # calculate loss
-            minibatch_loss_avg = (training_loss / batch.size()[0]).item()
+            minibatch_loss_avg = (training_loss / float(batch.size()[0])).item()
             training_loss_avg += minibatch_loss_avg
             print("Minibatch Loss Avg: ", minibatch_loss_avg)
 
@@ -112,11 +112,11 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                 training_loss_avg = training_loss_avg / float(save_every)
                 training_losses.append(training_loss_avg)
                 print("Training Loss Avg: ", training_loss_avg)
-                training_loss_avg = 0
-                bleu_score_avg = 0
-                validation_loss_avg = 0
+                training_loss_avg = 0.
+                bleu_score_avg = 0.
+                validation_loss_avg = 0.
 
-                val_samples = 0
+                val_samples = 0.
                 # Get next minibatch of data for validation
                 torch.cuda.empty_cache()
                 with torch.no_grad():
@@ -138,7 +138,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                             validation_loss += float(criterion(val_output, val_targets))
 
                         # calculate loss per review
-                        batch_loss_avg = (validation_loss / batch.size()[0])
+                        batch_loss_avg = (validation_loss / float(batch.size()[0]))
                         validation_loss_avg += batch_loss_avg
 
                         # generate reviews and check bleu scores.
@@ -149,12 +149,12 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                                                          computing_device)
                         print(generated_val_reviews[3])
                         bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
-                        bleu_score_avg += torch.mean(bleu_scores)
+                        bleu_score_avg += float(torch.mean(bleu_scores))
 
                     # add average loss over validation set to array
                     validation_loss_avg = validation_loss_avg / float(val_samples)
                     validation_losses.append(validation_loss_avg)
-                    bleu_score_avg = (bleu_score_avg / float(val_samples)).item()
+                    bleu_score_avg = (bleu_score_avg / float(val_samples))
                     bleu_scores.append(bleu_score_avg)
                     print("Validation Loss: ", validation_loss_avg)
                     print("BLEU score: ", bleu_score_avg)
