@@ -186,7 +186,7 @@ def generate(model, batch, cfg, computing_device):
         inp = cat_batch_data(letters, batch)
         outputs = model.forward(torch.unsqueeze(inp, 0))
         # sample from softmax distribution.
-        letters = get_predicted_letters(outputs)
+        letters = get_predicted_letters(outputs, cfg['gen_temp'])
         gen_texts.append(letters)
     # convert to strings and return.
     return oh2texts(sequence2batch(torch.stack(gen_texts)))

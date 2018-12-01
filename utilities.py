@@ -369,21 +369,18 @@ def softmax_temp(inputs, temp):
     :return: 2d tensor.
     """
     exps = torch.exp(torch.div(inputs, temp))
-    print('Exps ', exps)
-    sum = torch.sum(exps, 1)  # TODO check the axis.
-    print('Sum ', sum)
+    sum = torch.sum(exps, 1)
     result = torch.div(exps.permute(1, 0), sum)
     return result.permute(1, 0)
 
 
-def get_predicted_letters(outputs):
+def get_predicted_letters(outputs, temp):
     """
     Sample from the distributions from the network.
-    TODO need to add temperature to softmax.
     :param distributions: 2d tensor. Output from network.
     :return: List of tensors. The predicted letters in one hot encoding.
     """
-    distributions = softmax(outputs, 1)
+    distributions = softmax_temp(outputs, temp)
 
     sampler = one_hot_categorical.OneHotCategorical(distributions)
     prediction = sampler.sample()
