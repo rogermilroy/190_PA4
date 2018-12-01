@@ -13,7 +13,7 @@
 # PyTorch imports
 import torch
 from torch.utils.data import Dataset, DataLoader
-from torch.utils.data.sampler import SubsetRandomSampler
+from torch.utils.data.sampler import SubsetRandomSampler, SequentialSampler
 
 # Other libraries for data manipulation and visualization
 import os
@@ -194,6 +194,56 @@ def create_test_loader(batch_size, seed, filename, shuffle=True, extras={}):
 
     # Use the SubsetRandomSampler as the iterator for each subset
     sample = SubsetRandomSampler(all_indices)
+
+    num_workers = 0
+    pin_memory = False
+    # If CUDA is available
+    if extras:
+        num_workers = extras["num_workers"]
+        pin_memory = extras["pin_memory"]
+
+    # Define the training, test, & validation DataLoaders
+    test_loader = DataLoader(dataset, batch_size=batch_size,
+                              sampler=sample, num_workers=num_workers,
+                              pin_memory=pin_memory)
+
+    # Return the test DataLoader objects
+    return test_loader
+
+
+def create_generation_loader(batch_size, filename, extras={}):
+    """ Creates the DataLoader objects for the training, validation, and test sets.
+
+    Params:
+    -------
+    - batch_size: (int) mini-batch size to load at a time
+    - seed: (int) Seed for random generator (use for testing/reproducibility)
+    - filename: (string) path to the dataset.
+    - shuffle: (bool) Indicate whether to shuffle the dataset before splitting
+    - extras: (dict)
+        If CUDA/GPU computing is supported, contains:
+        - num_workers: (int) Number of subprocesses to use while loading the dataset
+        - pin_memory: (bool) For use with CUDA - copy tensors into pinned memory
+                  (set to True if using a GPU)
+        Otherwise, extras is an empty dict.
+
+    Returns:
+    --------
+    - train_loader: (DataLoader) The iterator for the training set
+    - val_loader: (DataLoader) The iterator for the validation set
+    """
+
+    # Get create a BeerTestDataset object
+    dataset = BeerTestDataset(filename)
+
+    # Dimensions and indices of training set
+    dataset_size = len(dataset)
+    all_indices = list(range(dataset_size))
+
+    # Create the validation split from the full dataset
+
+    # Use the SequentialSampler as the iterator.
+    sample = SequentialSampler(all_indices)
 
     num_workers = 0
     pin_memory = False
