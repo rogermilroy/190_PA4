@@ -148,8 +148,8 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                                                          cfg,
                                                          computing_device)
                         print(generated_val_reviews[3])
-                        bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
-                        bleu_score_avg += float(torch.mean(bleu_scores))
+                        b_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
+                        bleu_score_avg += float(torch.mean(b_scores))
 
                     # add average loss over validation set to array
                     validation_loss_avg = validation_loss_avg / float(val_samples)
