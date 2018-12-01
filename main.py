@@ -119,50 +119,51 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                 val_samples = 0
                 # Get next minibatch of data for validation
                 torch.cuda.empty_cache()
-                for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader, 0):
-                    val_batch = process_train_data(val_text, val_beer, val_rating, computing_device)
-                    val_batch.to(computing_device)
-                    val_samples += batch_size
+                with torch.no_grad():
+                    for val_minibatch_count, (val_text, val_beer, val_rating) in enumerate(val_loader, 0):
+                        val_batch = process_train_data(val_text, val_beer, val_rating, computing_device)
+                        val_batch.to(computing_device)
+                        val_samples += batch_size
 
-                    # validation
-                    validation_loss = 0
-                    model.reset_hidden()
-                    for c in range(val_batch.size()[0]):
-                        val_tens = torch.unsqueeze(val_batch[c], 0)
-                        val_output = model(val_tens)
-                        if c < len(val_text) - 1:
-                            val_targets = to_indices(val_batch[c + 1])
-                        else:
-                            val_targets = to_indices(val_batch[c])
-                        validation_loss += float(criterion(val_output, val_targets))
+                        # validation
+                        validation_loss = 0
+                        model.reset_hidden()
+                        for c in range(val_batch.size()[0]):
+                            val_tens = torch.unsqueeze(val_batch[c], 0)
+                            val_output = model(val_tens)
+                            if c < len(val_text) - 1:
+                                val_targets = to_indices(val_batch[c + 1])
+                            else:
+                                val_targets = to_indices(val_batch[c])
+                            validation_loss += float(criterion(val_output, val_targets))
 
-                    # calculate loss per review
-                    batch_loss_avg = (validation_loss / batch.size()[0])
-                    validation_loss_avg += batch_loss_avg
+                        # calculate loss per review
+                        batch_loss_avg = (validation_loss / batch.size()[0])
+                        validation_loss_avg += batch_loss_avg
 
-                    # generate reviews and check bleu scores.
-                    generated_val_reviews = generate(model, process_test_data(val_beer,
-                                                                              val_rating,
-                                                                              computing_device),
-                                                     cfg,
-                                                     computing_device)
-                    print(generated_val_reviews[3])
-                    bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
-                    bleu_score_avg += torch.mean(bleu_scores)
+                        # generate reviews and check bleu scores.
+                        generated_val_reviews = generate(model, process_test_data(val_beer,
+                                                                                  val_rating,
+                                                                                  computing_device),
+                                                         cfg,
+                                                         computing_device)
+                        print(generated_val_reviews[3])
+                        bleu_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
+                        bleu_score_avg += torch.mean(bleu_scores)
 
-                # add average loss over validation set to array
-                validation_loss_avg = validation_loss_avg / float(val_samples)
-                validation_losses.append(validation_loss_avg)
-                bleu_score_avg = (bleu_score_avg / float(val_samples)).item()
-                bleu_scores.append(bleu_score_avg)
-                print("Validation Loss: ", validation_loss_avg)
-                print("BLEU score: ", bleu_score_avg)
+                    # add average loss over validation set to array
+                    validation_loss_avg = validation_loss_avg / float(val_samples)
+                    validation_losses.append(validation_loss_avg)
+                    bleu_score_avg = (bleu_score_avg / float(val_samples)).item()
+                    bleu_scores.append(bleu_score_avg)
+                    print("Validation Loss: ", validation_loss_avg)
+                    print("BLEU score: ", bleu_score_avg)
 
-                # keep best parameters so far and keep track of them.
-                if validation_loss_avg < best_val:
-                    print("Updated params!")
-                    best_val = validation_loss_avg
-                    best_params = model.state_dict()
+                    # keep best parameters so far and keep track of them.
+                    if validation_loss_avg < best_val:
+                        print("Updated params!")
+                        best_val = validation_loss_avg
+                        best_params = model.state_dict()
 
     return training_losses, validation_losses, bleu_scores, best_params
 
