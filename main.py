@@ -163,7 +163,8 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                         print("Updated params!")
                         best_val = validation_loss_avg
                         best_params = model.state_dict()
-                        torch.save(best_params, './outputs/current_params.pt')
+                        torch.save(best_params, './outputs/best_params.pt')
+                    torch.save(model.state_dict(), './outputs/current_params.pt')
                     save_as_csv(training_losses, validation_losses, bleu_scores)
 
     return training_losses, validation_losses, bleu_scores, best_params
