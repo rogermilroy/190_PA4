@@ -1,6 +1,6 @@
 from main import generate, process_test_data, save_to_file
 import configs
-from beer_dataloader import create_test_loader
+from beer_dataloader import create_generation_loader
 import sys
 from models import *
 import torch
@@ -36,18 +36,19 @@ if __name__ == '__main__':
         print("CUDA NOT supported")
 
     model.to(computing_device)
-    model.load_state_dict(torch.load('./outputs/parameters_subset_lstm.pt'))
+    model.load_state_dict(torch.load('./outputs/current_params.pt', map_location=computing_device))
 
-    test_loader = create_test_loader(cfg['batch_size'], 42, test_data_fname, extras=extras)
+    test_loader = create_generation_loader(cfg['batch_size'], test_data_fname, extras=extras)
 
     texts = []
 
-    for minibatch_count, beers, ratings in enumerate(test_loader, 0):
+    for minibatch_count, (beers, ratings) in enumerate(test_loader, 0):
         batch = process_test_data(beers, ratings, computing_device)
         text = generate(model, batch, cfg, computing_device)
+        print(text[0])
         for t in text:
             texts.append(t)
 
-    save_to_file(texts, './outputs/' + modeltype + '-texts.txt')
+    save_to_file(texts, './outputs/reviews_tau_' + cfg['gen_temp'] + '_' + modeltype + '.txt')
 
 
