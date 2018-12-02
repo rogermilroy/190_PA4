@@ -50,7 +50,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
     model.to(computing_device)
 
     num_epochs = cfg['epochs']
-    save_every = 390
+    save_every = 445
     learning_rate = cfg['learning_rate']
     batch_size = cfg['batch_size']
 
