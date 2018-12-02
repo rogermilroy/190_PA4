@@ -62,11 +62,25 @@ def train(model, train_loader, val_loader, cfg, computing_device):
 
     # save important stats
     start_time = time.time()
-    training_losses = []
-    validation_losses = []
-    bleu_scores = []
+    try:
+        trng = pd.read_csv(open(cfg['training_losses_dir'] + '_' + cfg['model'] + '.csv'))
+        vl = pd.read_csv(open(cfg['validation_losses_dir'] + '_' + cfg['model'] + '.csv'))
+        bl = pd.read_csv(open(cfg['bleu_scores_dir'] + '_' + cfg['model'] + '.csv'))
+        trng = trng.drop(columns=['Unnamed: 0'])
+        vl = vl.drop(columns=['Unnamed: 0'])
+        bl = bl.drop(columns=['Unnamed: 0'])
+        training_losses = trng['0'].tolist()
+        validation_losses = vl['0'].tolist()
+        bleu_scores = bl['0'].tolist()
+
+        df = pd.DataFrame(training_losses)
+    except Exception as e:
+        training_losses = []
+        validation_losses = []
+        bleu_scores = []
+        print(e)
+
     training_loss_avg = 0
-    validation_loss_avg = 0
     best_val = 1000000.
     best_params = None
 
@@ -83,7 +97,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             # training
             model.zero_grad()
             model.reset_hidden()
-            training_loss = 0
+            training_loss = 0.
             for c in range(batch.size()[0]):
                 tens = torch.unsqueeze(batch[c], 0)
                 output = model(tens)
@@ -101,8 +115,6 @@ def train(model, train_loader, val_loader, cfg, computing_device):
             minibatch_loss_avg = (training_loss / float(batch.size()[0])).item()
             training_loss_avg += minibatch_loss_avg
             print("Minibatch Loss Avg: ", minibatch_loss_avg)
-
-            training_loss = 0
 
             # Calculate validation of every plot_every minibatches
             if minibatch_count % save_every == 0 and minibatch_count != 0:
