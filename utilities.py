@@ -368,9 +368,12 @@ def softmax_temp(inputs, temp):
     :param temp: float.
     :return: 2d tensor.
     """
+    eps = 0.00000000000000000001
     exps = torch.exp(torch.div(inputs, temp))
     sum = torch.sum(exps, 1)
     result = torch.div(exps.permute(1, 0), sum)
+    result[result != result] = 0.
+    result += eps
     return result.permute(1, 0)
 
 
@@ -381,7 +384,6 @@ def get_predicted_letters(outputs, temp):
     :return: List of tensors. The predicted letters in one hot encoding.
     """
     distributions = softmax_temp(outputs, temp)
-
     sampler = one_hot_categorical.OneHotCategorical(distributions)
     prediction = sampler.sample()
 
@@ -412,7 +414,7 @@ if __name__ == "__main__":
     # test_out = torch.tensor([[25., 32., -10., 17.]])
     # print(get_predicted_letters(test_out))
 
-    a = torch.tensor([[1., 2., 3.], [3., 2., 1.]])
+    a = torch.tensor([[-1., 2., 3.], [3., 2., 1.]])
     b = softmax(a, 1)
 
     c = softmax_temp(a, 0.5)
