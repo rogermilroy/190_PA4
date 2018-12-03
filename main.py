@@ -175,8 +175,8 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                         print("Updated params!")
                         best_val = validation_loss_avg
                         best_params = model.state_dict()
-                        torch.save(best_params, './outputs/best_params.pt')
-                    torch.save(model.state_dict(), './outputs/current_params.pt')
+                        torch.save(best_params, './outputs/best_params_'+cfg['model']+'.pt')
+                    torch.save(model.state_dict(), './outputs/current_params_'+cfg['model']+'.pt')
                     save_as_csv(training_losses, validation_losses, bleu_scores, cfg)
 
     return training_losses, validation_losses, bleu_scores, best_params
@@ -254,7 +254,7 @@ if __name__ == "__main__":
         extras = False
         print("CUDA NOT supported")
 
-    model.load_state_dict(torch.load('./outputs/current_params.pt'))
+    model.load_state_dict(torch.load('./outputs/current_params_'+cfg['model']+'.pt'))
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     extras=extras, subset=True, p_val=0.1)
