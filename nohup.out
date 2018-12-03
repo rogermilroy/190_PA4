@@ -1,0 +1,1805 @@
+Using GRU Model
+CUDA is supported
+[Errno 2] No such file or directory: './outputs/training_losses_gru.csv'
+Epoch: 0
+On minibatch:  0
+Minibatch Loss Avg:  4.734898090362549
+On minibatch:  1
+Minibatch Loss Avg:  3.6835482120513916
+On minibatch:  2
+Minibatch Loss Avg:  4.052675247192383
+On minibatch:  3
+Minibatch Loss Avg:  3.324191093444824
+On minibatch:  4
+Minibatch Loss Avg:  3.9076626300811768
+On minibatch:  5
+Minibatch Loss Avg:  1.0593267679214478
+On minibatch:  6
+Minibatch Loss Avg:  1.7121446132659912
+On minibatch:  7
+Minibatch Loss Avg:  1.3961713314056396
+On minibatch:  8
+Minibatch Loss Avg:  2.184080123901367
+On minibatch:  9
+Minibatch Loss Avg:  1.4894788265228271
+On minibatch:  10
+Minibatch Loss Avg:  1.5202956199645996
+On minibatch:  11
+Minibatch Loss Avg:  1.6220074892044067
+On minibatch:  12
+Minibatch Loss Avg:  1.2176469564437866
+On minibatch:  13
+Minibatch Loss Avg:  1.5175127983093262
+On minibatch:  14
+Minibatch Loss Avg:  1.507820725440979
+On minibatch:  15
+Minibatch Loss Avg:  1.5106467008590698
+On minibatch:  16
+Minibatch Loss Avg:  1.6616430282592773
+On minibatch:  17
+Minibatch Loss Avg:  1.3087632656097412
+On minibatch:  18
+Minibatch Loss Avg:  1.5274184942245483
+On minibatch:  19
+Minibatch Loss Avg:  1.4817272424697876
+On minibatch:  20
+Minibatch Loss Avg:  1.2846267223358154
+On minibatch:  21
+Minibatch Loss Avg:  1.4535393714904785
+On minibatch:  22
+Minibatch Loss Avg:  1.312135100364685
+On minibatch:  23
+Minibatch Loss Avg:  0.8280972838401794
+On minibatch:  24
+Minibatch Loss Avg:  1.0643577575683594
+On minibatch:  25
+Minibatch Loss Avg:  1.086690068244934
+On minibatch:  26
+Minibatch Loss Avg:  0.6670644879341125
+On minibatch:  27
+Minibatch Loss Avg:  1.138217806816101
+On minibatch:  28
+Minibatch Loss Avg:  1.0088399648666382
+On minibatch:  29
+Minibatch Loss Avg:  1.3772149085998535
+On minibatch:  30
+Minibatch Loss Avg:  1.2684286832809448
+On minibatch:  31
+Minibatch Loss Avg:  1.0922490358352661
+On minibatch:  32
+Minibatch Loss Avg:  0.9111878871917725
+On minibatch:  33
+Minibatch Loss Avg:  0.9288203120231628
+On minibatch:  34
+Minibatch Loss Avg:  1.1531816720962524
+On minibatch:  35
+Minibatch Loss Avg:  1.1166517734527588
+On minibatch:  36
+Minibatch Loss Avg:  1.2060816287994385
+On minibatch:  37
+Minibatch Loss Avg:  0.7086185216903687
+On minibatch:  38
+Minibatch Loss Avg:  1.3826017379760742
+On minibatch:  39
+Minibatch Loss Avg:  0.7480115294456482
+On minibatch:  40
+Minibatch Loss Avg:  0.9070881605148315
+On minibatch:  41
+Minibatch Loss Avg:  0.9707658290863037
+On minibatch:  42
+Minibatch Loss Avg:  0.982177197933197
+On minibatch:  43
+Minibatch Loss Avg:  0.9476303458213806
+On minibatch:  44
+Minibatch Loss Avg:  0.8313156366348267
+On minibatch:  45
+Minibatch Loss Avg:  0.9406062960624695
+On minibatch:  46
+Minibatch Loss Avg:  0.7193509936332703
+On minibatch:  47
+Minibatch Loss Avg:  0.5836330652236938
+On minibatch:  48
+Minibatch Loss Avg:  0.7687050700187683
+On minibatch:  49
+Minibatch Loss Avg:  0.8829576373100281
+On minibatch:  50
+Minibatch Loss Avg:  0.9526748061180115
+On minibatch:  51
+Minibatch Loss Avg:  0.5682190656661987
+On minibatch:  52
+Minibatch Loss Avg:  0.5875183939933777
+On minibatch:  53
+Minibatch Loss Avg:  0.8605737686157227
+On minibatch:  54
+Minibatch Loss Avg:  0.9345994591712952
+On minibatch:  55
+Minibatch Loss Avg:  1.1157130002975464
+On minibatch:  56
+Minibatch Loss Avg:  1.1315871477127075
+On minibatch:  57
+Minibatch Loss Avg:  0.5868369936943054
+On minibatch:  58
+Minibatch Loss Avg:  1.2103660106658936
+On minibatch:  59
+Minibatch Loss Avg:  0.944068968296051
+On minibatch:  60
+Minibatch Loss Avg:  1.1444425582885742
+On minibatch:  61
+Minibatch Loss Avg:  0.7405837774276733
+On minibatch:  62
+Minibatch Loss Avg:  0.9211059212684631
+On minibatch:  63
+Minibatch Loss Avg:  0.8332576751708984
+On minibatch:  64
+Minibatch Loss Avg:  1.010345697402954
+On minibatch:  65
+Minibatch Loss Avg:  0.9643251299858093
+On minibatch:  66
+Minibatch Loss Avg:  0.8176466226577759
+On minibatch:  67
+Minibatch Loss Avg:  0.9463967680931091
+On minibatch:  68
+Minibatch Loss Avg:  1.1743990182876587
+On minibatch:  69
+Minibatch Loss Avg:  0.702674388885498
+On minibatch:  70
+Minibatch Loss Avg:  0.5716244578361511
+On minibatch:  71
+Minibatch Loss Avg:  0.9775015115737915
+On minibatch:  72
+Minibatch Loss Avg:  0.5750811696052551
+On minibatch:  73
+Minibatch Loss Avg:  1.0430474281311035
+On minibatch:  74
+Minibatch Loss Avg:  1.0717774629592896
+On minibatch:  75
+Minibatch Loss Avg:  0.9474698305130005
+On minibatch:  76
+Minibatch Loss Avg:  1.0137494802474976
+On minibatch:  77
+Minibatch Loss Avg:  0.7407528162002563
+On minibatch:  78
+Minibatch Loss Avg:  0.7349357008934021
+On minibatch:  79
+Minibatch Loss Avg:  0.6795490384101868
+On minibatch:  80
+Minibatch Loss Avg:  0.5411772727966309
+On minibatch:  81
+Minibatch Loss Avg:  0.8358880281448364
+On minibatch:  82
+Minibatch Loss Avg:  0.8068068027496338
+On minibatch:  83
+Minibatch Loss Avg:  0.8224449753761292
+On minibatch:  84
+Minibatch Loss Avg:  0.8548734188079834
+On minibatch:  85
+Minibatch Loss Avg:  0.6962075233459473
+On minibatch:  86
+Minibatch Loss Avg:  0.573301374912262
+On minibatch:  87
+Minibatch Loss Avg:  0.5773732662200928
+On minibatch:  88
+Minibatch Loss Avg:  1.1806262731552124
+On minibatch:  89
+Minibatch Loss Avg:  0.8300352096557617
+On minibatch:  90
+Minibatch Loss Avg:  0.7320690155029297
+On minibatch:  91
+Minibatch Loss Avg:  0.9568317532539368
+On minibatch:  92
+Minibatch Loss Avg:  0.9883146286010742
+On minibatch:  93
+Minibatch Loss Avg:  0.6378465294837952
+On minibatch:  94
+Minibatch Loss Avg:  0.7068914175033569
+On minibatch:  95
+Minibatch Loss Avg:  0.8551149964332581
+On minibatch:  96
+Minibatch Loss Avg:  1.0002799034118652
+On minibatch:  97
+Minibatch Loss Avg:  1.231237530708313
+On minibatch:  98
+Minibatch Loss Avg:  1.0246213674545288
+On minibatch:  99
+Minibatch Loss Avg:  1.137041687965393
+On minibatch:  100
+Minibatch Loss Avg:  0.7325730323791504
+On minibatch:  101
+Minibatch Loss Avg:  0.8454350829124451
+On minibatch:  102
+Minibatch Loss Avg:  0.7586438059806824
+On minibatch:  103
+Minibatch Loss Avg:  0.9188430309295654
+On minibatch:  104
+Minibatch Loss Avg:  0.9514970183372498
+On minibatch:  105
+Minibatch Loss Avg:  1.0860453844070435
+On minibatch:  106
+Minibatch Loss Avg:  0.7320867776870728
+On minibatch:  107
+Minibatch Loss Avg:  0.721470296382904
+On minibatch:  108
+Minibatch Loss Avg:  0.4956963360309601
+On minibatch:  109
+Minibatch Loss Avg:  0.9352895617485046
+On minibatch:  110
+Minibatch Loss Avg:  0.7664872407913208
+On minibatch:  111
+Minibatch Loss Avg:  1.0472662448883057
+On minibatch:  112
+Minibatch Loss Avg:  1.0001671314239502
+On minibatch:  113
+Minibatch Loss Avg:  1.1453990936279297
+On minibatch:  114
+Minibatch Loss Avg:  0.7842661142349243
+On minibatch:  115
+Minibatch Loss Avg:  0.9094610810279846
+On minibatch:  116
+Minibatch Loss Avg:  0.7082017064094543
+On minibatch:  117
+Minibatch Loss Avg:  0.8689212799072266
+On minibatch:  118
+Minibatch Loss Avg:  0.7019802331924438
+On minibatch:  119
+Minibatch Loss Avg:  0.9917283058166504
+On minibatch:  120
+Minibatch Loss Avg:  0.7863315939903259
+On minibatch:  121
+Minibatch Loss Avg:  0.9021570682525635
+On minibatch:  122
+Minibatch Loss Avg:  0.8165715932846069
+On minibatch:  123
+Minibatch Loss Avg:  0.9362170100212097
+On minibatch:  124
+Minibatch Loss Avg:  0.6123957633972168
+On minibatch:  125
+Minibatch Loss Avg:  0.6933718323707581
+On minibatch:  126
+Minibatch Loss Avg:  1.0080562829971313
+On minibatch:  127
+Minibatch Loss Avg:  0.713068962097168
+On minibatch:  128
+Minibatch Loss Avg:  0.7669420838356018
+On minibatch:  129
+Minibatch Loss Avg:  0.8227245807647705
+On minibatch:  130
+Minibatch Loss Avg:  0.9279447197914124
+On minibatch:  131
+Minibatch Loss Avg:  1.0110113620758057
+On minibatch:  132
+Minibatch Loss Avg:  0.849833607673645
+On minibatch:  133
+Minibatch Loss Avg:  0.7348131537437439
+On minibatch:  134
+Minibatch Loss Avg:  0.9470562934875488
+On minibatch:  135
+Minibatch Loss Avg:  0.7200507521629333
+On minibatch:  136
+Minibatch Loss Avg:  0.8518053889274597
+On minibatch:  137
+Minibatch Loss Avg:  0.8704692721366882
+On minibatch:  138
+Minibatch Loss Avg:  0.9221697449684143
+On minibatch:  139
+Minibatch Loss Avg:  0.8130918741226196
+On minibatch:  140
+Minibatch Loss Avg:  0.8884103298187256
+On minibatch:  141
+Minibatch Loss Avg:  0.6495007276535034
+On minibatch:  142
+Minibatch Loss Avg:  0.7369446158409119
+On minibatch:  143
+Minibatch Loss Avg:  0.7722834944725037
+On minibatch:  144
+Minibatch Loss Avg:  0.8400881290435791
+On minibatch:  145
+Minibatch Loss Avg:  0.7834881544113159
+On minibatch:  146
+Minibatch Loss Avg:  0.7907145023345947
+On minibatch:  147
+Minibatch Loss Avg:  0.9450425505638123
+On minibatch:  148
+Minibatch Loss Avg:  0.8955495357513428
+On minibatch:  149
+Minibatch Loss Avg:  0.8130313158035278
+On minibatch:  150
+Minibatch Loss Avg:  0.5121325850486755
+On minibatch:  151
+Minibatch Loss Avg:  0.4894863963127136
+On minibatch:  152
+Minibatch Loss Avg:  0.8972899317741394
+On minibatch:  153
+Minibatch Loss Avg:  1.022773027420044
+On minibatch:  154
+Minibatch Loss Avg:  0.7428083419799805
+On minibatch:  155
+Minibatch Loss Avg:  0.8121315240859985
+On minibatch:  156
+Minibatch Loss Avg:  0.886883020401001
+On minibatch:  157
+Minibatch Loss Avg:  0.7566807866096497
+On minibatch:  158
+Minibatch Loss Avg:  0.6873974800109863
+On minibatch:  159
+Minibatch Loss Avg:  0.6740043759346008
+On minibatch:  160
+Minibatch Loss Avg:  0.6557227373123169
+On minibatch:  161
+Minibatch Loss Avg:  0.6494085192680359
+On minibatch:  162
+Minibatch Loss Avg:  0.9960173964500427
+On minibatch:  163
+Minibatch Loss Avg:  0.6026204228401184
+On minibatch:  164
+Minibatch Loss Avg:  0.9453771710395813
+On minibatch:  165
+Minibatch Loss Avg:  1.1225910186767578
+On minibatch:  166
+Minibatch Loss Avg:  0.9593176245689392
+On minibatch:  167
+Minibatch Loss Avg:  0.478457510471344
+On minibatch:  168
+Minibatch Loss Avg:  0.5545122027397156
+On minibatch:  169
+Minibatch Loss Avg:  0.932574987411499
+On minibatch:  170
+Minibatch Loss Avg:  0.7163448333740234
+On minibatch:  171
+Minibatch Loss Avg:  0.7922220230102539
+On minibatch:  172
+Minibatch Loss Avg:  0.7187492251396179
+On minibatch:  173
+Minibatch Loss Avg:  0.7875305414199829
+On minibatch:  174
+Minibatch Loss Avg:  0.8056865930557251
+On minibatch:  175
+Minibatch Loss Avg:  0.9643281102180481
+On minibatch:  176
+Minibatch Loss Avg:  0.4178658127784729
+On minibatch:  177
+Minibatch Loss Avg:  0.8526220321655273
+On minibatch:  178
+Minibatch Loss Avg:  0.8489635586738586
+On minibatch:  179
+Minibatch Loss Avg:  0.7445833683013916
+On minibatch:  180
+Minibatch Loss Avg:  0.7750275135040283
+On minibatch:  181
+Minibatch Loss Avg:  0.6382467746734619
+On minibatch:  182
+Minibatch Loss Avg:  0.7373219728469849
+On minibatch:  183
+Minibatch Loss Avg:  0.7639990448951721
+On minibatch:  184
+Minibatch Loss Avg:  1.0446195602416992
+On minibatch:  185
+Minibatch Loss Avg:  0.6727360486984253
+On minibatch:  186
+Minibatch Loss Avg:  0.6659734845161438
+On minibatch:  187
+Minibatch Loss Avg:  0.5759841203689575
+On minibatch:  188
+Minibatch Loss Avg:  1.0095415115356445
+On minibatch:  189
+Minibatch Loss Avg:  0.7554959654808044
+On minibatch:  190
+Minibatch Loss Avg:  0.9325079917907715
+On minibatch:  191
+Minibatch Loss Avg:  0.4740299582481384
+On minibatch:  192
+Minibatch Loss Avg:  0.7972709536552429
+On minibatch:  193
+Minibatch Loss Avg:  0.550948441028595
+On minibatch:  194
+Minibatch Loss Avg:  0.7731603384017944
+On minibatch:  195
+Minibatch Loss Avg:  0.7632821202278137
+On minibatch:  196
+Minibatch Loss Avg:  0.6336257457733154
+On minibatch:  197
+Minibatch Loss Avg:  0.4801643192768097
+On minibatch:  198
+Minibatch Loss Avg:  0.8888682723045349
+On minibatch:  199
+Minibatch Loss Avg:  0.6337314248085022
+On minibatch:  200
+Minibatch Loss Avg:  0.9319906830787659
+On minibatch:  201
+Minibatch Loss Avg:  0.8839114904403687
+On minibatch:  202
+Minibatch Loss Avg:  0.9643980860710144
+On minibatch:  203
+Minibatch Loss Avg:  0.5892353057861328
+On minibatch:  204
+Minibatch Loss Avg:  0.788983166217804
+On minibatch:  205
+Minibatch Loss Avg:  0.6309493780136108
+On minibatch:  206
+Minibatch Loss Avg:  0.7365070581436157
+On minibatch:  207
+Minibatch Loss Avg:  0.6560810208320618
+On minibatch:  208
+Minibatch Loss Avg:  0.8921983242034912
+On minibatch:  209
+Minibatch Loss Avg:  0.852182924747467
+On minibatch:  210
+Minibatch Loss Avg:  0.6656323671340942
+On minibatch:  211
+Minibatch Loss Avg:  1.029803991317749
+On minibatch:  212
+Minibatch Loss Avg:  0.9200803637504578
+On minibatch:  213
+Minibatch Loss Avg:  0.6935299038887024
+On minibatch:  214
+Minibatch Loss Avg:  0.8186535239219666
+On minibatch:  215
+Minibatch Loss Avg:  1.077152967453003
+On minibatch:  216
+Minibatch Loss Avg:  0.835578203201294
+On minibatch:  217
+Minibatch Loss Avg:  0.6639443635940552
+On minibatch:  218
+Minibatch Loss Avg:  0.8144374489784241
+On minibatch:  219
+Minibatch Loss Avg:  0.6744896173477173
+On minibatch:  220
+Minibatch Loss Avg:  0.8138997554779053
+On minibatch:  221
+Minibatch Loss Avg:  0.631832480430603
+On minibatch:  222
+Minibatch Loss Avg:  0.7746326923370361
+On minibatch:  223
+Minibatch Loss Avg:  0.9017382264137268
+On minibatch:  224
+Minibatch Loss Avg:  0.8624666929244995
+On minibatch:  225
+Minibatch Loss Avg:  0.7750034928321838
+On minibatch:  226
+Minibatch Loss Avg:  0.6965756416320801
+On minibatch:  227
+Minibatch Loss Avg:  0.7803753018379211
+On minibatch:  228
+Minibatch Loss Avg:  0.4414609670639038
+On minibatch:  229
+Minibatch Loss Avg:  0.7755127549171448
+On minibatch:  230
+Minibatch Loss Avg:  0.8353708982467651
+On minibatch:  231
+Minibatch Loss Avg:  0.7986898422241211
+On minibatch:  232
+Minibatch Loss Avg:  0.8294978737831116
+On minibatch:  233
+Minibatch Loss Avg:  1.058234691619873
+On minibatch:  234
+Minibatch Loss Avg:  0.692602813243866
+On minibatch:  235
+Minibatch Loss Avg:  0.8352314829826355
+On minibatch:  236
+Minibatch Loss Avg:  0.7701583504676819
+On minibatch:  237
+Minibatch Loss Avg:  0.7267484068870544
+On minibatch:  238
+Minibatch Loss Avg:  0.8308116793632507
+On minibatch:  239
+Minibatch Loss Avg:  0.7807728052139282
+On minibatch:  240
+Minibatch Loss Avg:  0.5846803784370422
+On minibatch:  241
+Minibatch Loss Avg:  0.9154717326164246
+On minibatch:  242
+Minibatch Loss Avg:  0.7418926954269409
+On minibatch:  243
+Minibatch Loss Avg:  0.8152890801429749
+On minibatch:  244
+Minibatch Loss Avg:  1.056593894958496
+On minibatch:  245
+Minibatch Loss Avg:  0.7378962635993958
+On minibatch:  246
+Minibatch Loss Avg:  0.7486804723739624
+On minibatch:  247
+Minibatch Loss Avg:  0.8589956164360046
+On minibatch:  248
+Minibatch Loss Avg:  0.8123145699501038
+On minibatch:  249
+Minibatch Loss Avg:  0.8252975344657898
+On minibatch:  250
+Minibatch Loss Avg:  0.762311577796936
+On minibatch:  251
+Minibatch Loss Avg:  0.682350754737854
+On minibatch:  252
+Minibatch Loss Avg:  0.7271446585655212
+On minibatch:  253
+Minibatch Loss Avg:  1.0592800378799438
+On minibatch:  254
+Minibatch Loss Avg:  0.5270295739173889
+On minibatch:  255
+Minibatch Loss Avg:  0.7790740728378296
+On minibatch:  256
+Minibatch Loss Avg:  0.6572465300559998
+On minibatch:  257
+Minibatch Loss Avg:  0.766538679599762
+On minibatch:  258
+Minibatch Loss Avg:  0.8782998919487
+On minibatch:  259
+Minibatch Loss Avg:  0.9891696572303772
+On minibatch:  260
+Minibatch Loss Avg:  0.8299601078033447
+On minibatch:  261
+Minibatch Loss Avg:  0.535905122756958
+On minibatch:  262
+Minibatch Loss Avg:  1.0369534492492676
+On minibatch:  263
+Minibatch Loss Avg:  0.7471140623092651
+On minibatch:  264
+Minibatch Loss Avg:  0.8902900815010071
+On minibatch:  265
+Minibatch Loss Avg:  0.4081539213657379
+On minibatch:  266
+Minibatch Loss Avg:  0.6488792300224304
+On minibatch:  267
+Minibatch Loss Avg:  0.8421362638473511
+On minibatch:  268
+Minibatch Loss Avg:  0.9127000570297241
+On minibatch:  269
+Minibatch Loss Avg:  0.7793099284172058
+On minibatch:  270
+Minibatch Loss Avg:  0.8197357654571533
+On minibatch:  271
+Minibatch Loss Avg:  0.8621630668640137
+On minibatch:  272
+Minibatch Loss Avg:  0.9812943935394287
+On minibatch:  273
+Minibatch Loss Avg:  0.872093915939331
+On minibatch:  274
+Minibatch Loss Avg:  0.7803527116775513
+On minibatch:  275
+Minibatch Loss Avg:  1.01650869846344
+On minibatch:  276
+Minibatch Loss Avg:  0.6751744747161865
+On minibatch:  277
+Minibatch Loss Avg:  0.6849702596664429
+On minibatch:  278
+Minibatch Loss Avg:  0.8989410400390625
+On minibatch:  279
+Minibatch Loss Avg:  0.9541926383972168
+On minibatch:  280
+Minibatch Loss Avg:  0.7275905013084412
+On minibatch:  281
+Minibatch Loss Avg:  0.7947738766670227
+On minibatch:  282
+Minibatch Loss Avg:  0.6774823069572449
+On minibatch:  283
+Minibatch Loss Avg:  0.7288792729377747
+On minibatch:  284
+Minibatch Loss Avg:  0.8929586410522461
+On minibatch:  285
+Minibatch Loss Avg:  0.6810518503189087
+On minibatch:  286
+Minibatch Loss Avg:  0.6854430437088013
+On minibatch:  287
+Minibatch Loss Avg:  0.8622980117797852
+On minibatch:  288
+Minibatch Loss Avg:  0.556743323802948
+On minibatch:  289
+Minibatch Loss Avg:  0.558735191822052
+On minibatch:  290
+Minibatch Loss Avg:  0.7400685548782349
+On minibatch:  291
+Minibatch Loss Avg:  0.7124359607696533
+On minibatch:  292
+Minibatch Loss Avg:  0.5801339149475098
+On minibatch:  293
+Minibatch Loss Avg:  0.7551782131195068
+On minibatch:  294
+Minibatch Loss Avg:  0.9692532420158386
+On minibatch:  295
+Minibatch Loss Avg:  0.6892232298851013
+On minibatch:  296
+Minibatch Loss Avg:  0.6641942858695984
+On minibatch:  297
+Minibatch Loss Avg:  0.825061023235321
+On minibatch:  298
+Minibatch Loss Avg:  0.7136096358299255
+On minibatch:  299
+Minibatch Loss Avg:  0.6474839448928833
+On minibatch:  300
+Minibatch Loss Avg:  0.8475795388221741
+On minibatch:  301
+Minibatch Loss Avg:  0.6155540943145752
+On minibatch:  302
+Minibatch Loss Avg:  0.6225579977035522
+On minibatch:  303
+Minibatch Loss Avg:  0.8880189657211304
+On minibatch:  304
+Minibatch Loss Avg:  0.46873077750205994
+On minibatch:  305
+Minibatch Loss Avg:  0.9448210597038269
+On minibatch:  306
+Minibatch Loss Avg:  0.7390186190605164
+On minibatch:  307
+Minibatch Loss Avg:  0.8142024874687195
+On minibatch:  308
+Minibatch Loss Avg:  0.7763481140136719
+On minibatch:  309
+Minibatch Loss Avg:  0.7727124691009521
+On minibatch:  310
+Minibatch Loss Avg:  0.8778558373451233
+On minibatch:  311
+Minibatch Loss Avg:  0.9982098340988159
+On minibatch:  312
+Minibatch Loss Avg:  0.6192718148231506
+On minibatch:  313
+Minibatch Loss Avg:  0.7261936664581299
+On minibatch:  314
+Minibatch Loss Avg:  0.9049921631813049
+On minibatch:  315
+Minibatch Loss Avg:  0.7414082884788513
+On minibatch:  316
+Minibatch Loss Avg:  0.7393233180046082
+On minibatch:  317
+Minibatch Loss Avg:  0.5993258953094482
+On minibatch:  318
+Minibatch Loss Avg:  0.8363152146339417
+On minibatch:  319
+Minibatch Loss Avg:  0.8446149826049805
+On minibatch:  320
+Minibatch Loss Avg:  0.6705975532531738
+On minibatch:  321
+Minibatch Loss Avg:  0.8453550934791565
+On minibatch:  322
+Minibatch Loss Avg:  1.0630437135696411
+On minibatch:  323
+Minibatch Loss Avg:  0.6905584335327148
+On minibatch:  324
+Minibatch Loss Avg:  0.9637601375579834
+On minibatch:  325
+Minibatch Loss Avg:  0.767754852771759
+On minibatch:  326
+Minibatch Loss Avg:  0.6928203701972961
+On minibatch:  327
+Minibatch Loss Avg:  0.9800686836242676
+On minibatch:  328
+Minibatch Loss Avg:  0.509800136089325
+On minibatch:  329
+Minibatch Loss Avg:  0.6901502013206482
+On minibatch:  330
+Minibatch Loss Avg:  0.8629553318023682
+On minibatch:  331
+Minibatch Loss Avg:  1.0430335998535156
+On minibatch:  332
+Minibatch Loss Avg:  0.6282016038894653
+On minibatch:  333
+Minibatch Loss Avg:  0.7821906805038452
+On minibatch:  334
+Minibatch Loss Avg:  0.6690180897712708
+On minibatch:  335
+Minibatch Loss Avg:  0.8005719184875488
+On minibatch:  336
+Minibatch Loss Avg:  0.7432431578636169
+On minibatch:  337
+Minibatch Loss Avg:  1.1474335193634033
+On minibatch:  338
+Minibatch Loss Avg:  0.5184761881828308
+On minibatch:  339
+Minibatch Loss Avg:  0.8718202710151672
+On minibatch:  340
+Minibatch Loss Avg:  0.8164976239204407
+On minibatch:  341
+Minibatch Loss Avg:  0.5668233036994934
+On minibatch:  342
+Minibatch Loss Avg:  0.5766302943229675
+On minibatch:  343
+Minibatch Loss Avg:  0.8281669616699219
+On minibatch:  344
+Minibatch Loss Avg:  0.7445850372314453
+On minibatch:  345
+Minibatch Loss Avg:  0.6889576315879822
+On minibatch:  346
+Minibatch Loss Avg:  0.6650313138961792
+On minibatch:  347
+Minibatch Loss Avg:  0.6782314777374268
+On minibatch:  348
+Minibatch Loss Avg:  0.8426916599273682
+On minibatch:  349
+Minibatch Loss Avg:  0.8859984874725342
+On minibatch:  350
+Minibatch Loss Avg:  0.7504354119300842
+On minibatch:  351
+Minibatch Loss Avg:  0.9015223979949951
+On minibatch:  352
+Minibatch Loss Avg:  0.5025765299797058
+On minibatch:  353
+Minibatch Loss Avg:  0.7851645946502686
+On minibatch:  354
+Minibatch Loss Avg:  0.6462462544441223
+On minibatch:  355
+Minibatch Loss Avg:  0.4529031813144684
+On minibatch:  356
+Minibatch Loss Avg:  0.6937494277954102
+On minibatch:  357
+Minibatch Loss Avg:  1.0519098043441772
+On minibatch:  358
+Minibatch Loss Avg:  0.9602001309394836
+On minibatch:  359
+Minibatch Loss Avg:  0.39583978056907654
+On minibatch:  360
+Minibatch Loss Avg:  0.9430974721908569
+On minibatch:  361
+Minibatch Loss Avg:  0.5927178263664246
+On minibatch:  362
+Minibatch Loss Avg:  0.5985386371612549
+On minibatch:  363
+Minibatch Loss Avg:  0.6238592863082886
+On minibatch:  364
+Minibatch Loss Avg:  0.7763037085533142
+On minibatch:  365
+Minibatch Loss Avg:  0.6084623336791992
+On minibatch:  366
+Minibatch Loss Avg:  1.1529016494750977
+On minibatch:  367
+Minibatch Loss Avg:  0.4454207122325897
+On minibatch:  368
+Minibatch Loss Avg:  0.8685188293457031
+On minibatch:  369
+Minibatch Loss Avg:  0.8457730412483215
+On minibatch:  370
+Minibatch Loss Avg:  0.776544451713562
+On minibatch:  371
+Minibatch Loss Avg:  0.49716946482658386
+On minibatch:  372
+Minibatch Loss Avg:  0.9518495798110962
+On minibatch:  373
+Minibatch Loss Avg:  0.7701747417449951
+On minibatch:  374
+Minibatch Loss Avg:  1.086469054222107
+On minibatch:  375
+Minibatch Loss Avg:  0.7093843221664429
+On minibatch:  376
+Minibatch Loss Avg:  0.7590201497077942
+On minibatch:  377
+Minibatch Loss Avg:  0.44833171367645264
+On minibatch:  378
+Minibatch Loss Avg:  0.6919028162956238
+On minibatch:  379
+Minibatch Loss Avg:  0.742190957069397
+On minibatch:  380
+Minibatch Loss Avg:  0.6758167147636414
+On minibatch:  381
+Minibatch Loss Avg:  0.7593689560890198
+On minibatch:  382
+Minibatch Loss Avg:  0.719318151473999
+On minibatch:  383
+Minibatch Loss Avg:  0.8313071727752686
+On minibatch:  384
+Minibatch Loss Avg:  0.8274393677711487
+On minibatch:  385
+Minibatch Loss Avg:  0.9046352505683899
+On minibatch:  386
+Minibatch Loss Avg:  0.49564027786254883
+On minibatch:  387
+Minibatch Loss Avg:  0.6914933323860168
+On minibatch:  388
+Minibatch Loss Avg:  0.7965846657752991
+On minibatch:  389
+Minibatch Loss Avg:  0.9025741219520569
+On minibatch:  390
+Minibatch Loss Avg:  0.9589855074882507
+On minibatch:  391
+Minibatch Loss Avg:  0.6367605328559875
+On minibatch:  392
+Minibatch Loss Avg:  0.7217205762863159
+On minibatch:  393
+Minibatch Loss Avg:  0.9017919301986694
+On minibatch:  394
+Minibatch Loss Avg:  0.7836322784423828
+On minibatch:  395
+Minibatch Loss Avg:  0.7596042156219482
+On minibatch:  396
+Minibatch Loss Avg:  0.4291463792324066
+On minibatch:  397
+Minibatch Loss Avg:  0.5510790348052979
+On minibatch:  398
+Minibatch Loss Avg:  0.850538432598114
+On minibatch:  399
+Minibatch Loss Avg:  0.7306913733482361
+On minibatch:  400
+Minibatch Loss Avg:  0.8859214782714844
+On minibatch:  401
+Minibatch Loss Avg:  0.9799286723136902
+On minibatch:  402
+Minibatch Loss Avg:  0.9346300363540649
+On minibatch:  403
+Minibatch Loss Avg:  0.7659221887588501
+On minibatch:  404
+Minibatch Loss Avg:  0.7372334599494934
+On minibatch:  405
+Minibatch Loss Avg:  0.9907351136207581
+On minibatch:  406
+Minibatch Loss Avg:  0.8090048432350159
+On minibatch:  407
+Minibatch Loss Avg:  0.7265902161598206
+On minibatch:  408
+Minibatch Loss Avg:  0.818385899066925
+On minibatch:  409
+Minibatch Loss Avg:  0.5309853553771973
+On minibatch:  410
+Minibatch Loss Avg:  0.8598634600639343
+On minibatch:  411
+Minibatch Loss Avg:  0.5235052704811096
+On minibatch:  412
+Minibatch Loss Avg:  0.8090499639511108
+On minibatch:  413
+Minibatch Loss Avg:  0.752711832523346
+On minibatch:  414
+Minibatch Loss Avg:  0.8183850049972534
+On minibatch:  415
+Minibatch Loss Avg:  0.8180504441261292
+On minibatch:  416
+Minibatch Loss Avg:  0.8461804389953613
+On minibatch:  417
+Minibatch Loss Avg:  0.6542971730232239
+On minibatch:  418
+Minibatch Loss Avg:  0.8272523283958435
+On minibatch:  419
+Minibatch Loss Avg:  0.8093982338905334
+On minibatch:  420
+Minibatch Loss Avg:  0.8088014125823975
+On minibatch:  421
+Minibatch Loss Avg:  0.8892512917518616
+On minibatch:  422
+Minibatch Loss Avg:  0.6581172943115234
+On minibatch:  423
+Minibatch Loss Avg:  0.657369077205658
+On minibatch:  424
+Minibatch Loss Avg:  0.7878308892250061
+On minibatch:  425
+Minibatch Loss Avg:  0.5767306089401245
+On minibatch:  426
+Minibatch Loss Avg:  0.6402347087860107
+On minibatch:  427
+Minibatch Loss Avg:  0.9261651039123535
+On minibatch:  428
+Minibatch Loss Avg:  0.8635625243186951
+On minibatch:  429
+Minibatch Loss Avg:  1.0599136352539062
+On minibatch:  430
+Minibatch Loss Avg:  0.7476813793182373
+On minibatch:  431
+Minibatch Loss Avg:  0.8247723579406738
+On minibatch:  432
+Minibatch Loss Avg:  0.7169731259346008
+On minibatch:  433
+Minibatch Loss Avg:  0.9276907444000244
+On minibatch:  434
+Minibatch Loss Avg:  0.619918167591095
+On minibatch:  435
+Minibatch Loss Avg:  0.8450186848640442
+On minibatch:  436
+Minibatch Loss Avg:  0.6965813040733337
+On minibatch:  437
+Minibatch Loss Avg:  0.6675896048545837
+On minibatch:  438
+Minibatch Loss Avg:  0.4150996804237366
+On minibatch:  439
+Minibatch Loss Avg:  0.8552793264389038
+On minibatch:  440
+Minibatch Loss Avg:  0.8329784274101257
+On minibatch:  441
+Minibatch Loss Avg:  0.4976573884487152
+On minibatch:  442
+Minibatch Loss Avg:  0.9707299470901489
+On minibatch:  443
+Minibatch Loss Avg:  0.5466443300247192
+On minibatch:  444
+Minibatch Loss Avg:  0.7723690271377563
+On minibatch:  445
+Minibatch Loss Avg:  0.8376189470291138
+Validation:  1.0
+Training Loss Avg:  0.8654029390785132
+Validation Loss:  0.015484041144616252
+BLEU score:  0.0021822628134395925
+Updated params!
+On minibatch:  446
+Minibatch Loss Avg:  0.8129594922065735
+On minibatch:  447
+Minibatch Loss Avg:  0.7786422967910767
+On minibatch:  448
+Minibatch Loss Avg:  0.6789477467536926
+On minibatch:  449
+Minibatch Loss Avg:  0.801018238067627
+On minibatch:  450
+Minibatch Loss Avg:  0.4665830731391907
+On minibatch:  451
+Minibatch Loss Avg:  0.7623186707496643
+On minibatch:  452
+Minibatch Loss Avg:  1.012487769126892
+On minibatch:  453
+Minibatch Loss Avg:  0.6934491991996765
+On minibatch:  454
+Minibatch Loss Avg:  0.7934738993644714
+On minibatch:  455
+Minibatch Loss Avg:  0.852605938911438
+On minibatch:  456
+Minibatch Loss Avg:  0.9749671816825867
+On minibatch:  457
+Minibatch Loss Avg:  0.798572838306427
+On minibatch:  458
+Minibatch Loss Avg:  0.7152590751647949
+On minibatch:  459
+Minibatch Loss Avg:  0.7967765927314758
+On minibatch:  460
+Minibatch Loss Avg:  0.6316726803779602
+On minibatch:  461
+Minibatch Loss Avg:  0.49214377999305725
+On minibatch:  462
+Minibatch Loss Avg:  0.8758732080459595
+On minibatch:  463
+Minibatch Loss Avg:  0.9570614099502563
+On minibatch:  464
+Minibatch Loss Avg:  0.3877193033695221
+On minibatch:  465
+Minibatch Loss Avg:  0.7827345132827759
+On minibatch:  466
+Minibatch Loss Avg:  0.6721076369285583
+On minibatch:  467
+Minibatch Loss Avg:  0.5745038986206055
+On minibatch:  468
+Minibatch Loss Avg:  0.7791925668716431
+On minibatch:  469
+Minibatch Loss Avg:  0.5499042272567749
+On minibatch:  470
+Minibatch Loss Avg:  0.7000772356987
+On minibatch:  471
+Minibatch Loss Avg:  0.790779173374176
+On minibatch:  472
+Minibatch Loss Avg:  0.8697913289070129
+On minibatch:  473
+Minibatch Loss Avg:  0.5679675936698914
+On minibatch:  474
+Minibatch Loss Avg:  0.6485787034034729
+On minibatch:  475
+Minibatch Loss Avg:  0.7748296856880188
+On minibatch:  476
+Minibatch Loss Avg:  0.9596555233001709
+On minibatch:  477
+Minibatch Loss Avg:  0.8311775922775269
+On minibatch:  478
+Minibatch Loss Avg:  0.4610636830329895
+On minibatch:  479
+Minibatch Loss Avg:  1.0116493701934814
+On minibatch:  480
+Minibatch Loss Avg:  0.7209715247154236
+On minibatch:  481
+Minibatch Loss Avg:  0.7150847315788269
+On minibatch:  482
+Minibatch Loss Avg:  0.876166582107544
+On minibatch:  483
+Minibatch Loss Avg:  0.6907296180725098
+On minibatch:  484
+Minibatch Loss Avg:  0.4905351400375366
+On minibatch:  485
+Minibatch Loss Avg:  0.7036221623420715
+On minibatch:  486
+Minibatch Loss Avg:  0.6346231698989868
+On minibatch:  487
+Minibatch Loss Avg:  0.8314395546913147
+On minibatch:  488
+Minibatch Loss Avg:  0.8861035704612732
+On minibatch:  489
+Minibatch Loss Avg:  0.7799496650695801
+On minibatch:  490
+Minibatch Loss Avg:  0.9372565150260925
+On minibatch:  491
+Minibatch Loss Avg:  0.8475179672241211
+On minibatch:  492
+Minibatch Loss Avg:  0.958391547203064
+On minibatch:  493
+Minibatch Loss Avg:  0.9136233329772949
+On minibatch:  494
+Minibatch Loss Avg:  0.594647228717804
+On minibatch:  495
+Minibatch Loss Avg:  0.6771371960639954
+On minibatch:  496
+Minibatch Loss Avg:  0.7801265120506287
+On minibatch:  497
+Minibatch Loss Avg:  1.002953052520752
+On minibatch:  498
+Minibatch Loss Avg:  0.9966121912002563
+On minibatch:  499
+Minibatch Loss Avg:  0.7616860270500183
+On minibatch:  500
+Minibatch Loss Avg:  0.8205412030220032
+On minibatch:  501
+Minibatch Loss Avg:  0.6834386587142944
+On minibatch:  502
+Minibatch Loss Avg:  0.8169198632240295
+On minibatch:  503
+Minibatch Loss Avg:  0.9653157591819763
+On minibatch:  504
+Minibatch Loss Avg:  0.8628526329994202
+On minibatch:  505
+Minibatch Loss Avg:  0.6211303472518921
+On minibatch:  506
+Minibatch Loss Avg:  0.6393694281578064
+On minibatch:  507
+Minibatch Loss Avg:  0.9284863471984863
+On minibatch:  508
+Minibatch Loss Avg:  0.8763023018836975
+On minibatch:  509
+Minibatch Loss Avg:  0.7053179740905762
+On minibatch:  510
+Minibatch Loss Avg:  0.6264516711235046
+On minibatch:  511
+Minibatch Loss Avg:  0.7907922863960266
+On minibatch:  512
+Minibatch Loss Avg:  0.8210166692733765
+On minibatch:  513
+Minibatch Loss Avg:  0.5831484794616699
+On minibatch:  514
+Minibatch Loss Avg:  0.7392046451568604
+On minibatch:  515
+Minibatch Loss Avg:  0.7480107545852661
+On minibatch:  516
+Minibatch Loss Avg:  0.7724950909614563
+On minibatch:  517
+Minibatch Loss Avg:  0.8373055458068848
+On minibatch:  518
+Minibatch Loss Avg:  0.7350067496299744
+On minibatch:  519
+Minibatch Loss Avg:  0.5907661318778992
+On minibatch:  520
+Minibatch Loss Avg:  0.8096327185630798
+On minibatch:  521
+Minibatch Loss Avg:  0.843360185623169
+On minibatch:  522
+Minibatch Loss Avg:  0.4849478602409363
+On minibatch:  523
+Minibatch Loss Avg:  0.6757626533508301
+On minibatch:  524
+Minibatch Loss Avg:  0.6920658349990845
+On minibatch:  525
+Minibatch Loss Avg:  0.5490292906761169
+On minibatch:  526
+Minibatch Loss Avg:  1.0814727544784546
+On minibatch:  527
+Minibatch Loss Avg:  0.6841511726379395
+On minibatch:  528
+Minibatch Loss Avg:  0.6797297596931458
+On minibatch:  529
+Minibatch Loss Avg:  0.5723824501037598
+On minibatch:  530
+Minibatch Loss Avg:  0.7624858617782593
+On minibatch:  531
+Minibatch Loss Avg:  0.6368215680122375
+On minibatch:  532
+Minibatch Loss Avg:  0.7477010488510132
+On minibatch:  533
+Minibatch Loss Avg:  0.7678287029266357
+On minibatch:  534
+Minibatch Loss Avg:  0.7925540804862976
+On minibatch:  535
+Minibatch Loss Avg:  0.7472245097160339
+On minibatch:  536
+Minibatch Loss Avg:  0.46802598237991333
+On minibatch:  537
+Minibatch Loss Avg:  0.7063289880752563
+On minibatch:  538
+Minibatch Loss Avg:  0.672964334487915
+On minibatch:  539
+Minibatch Loss Avg:  0.4625982642173767
+On minibatch:  540
+Minibatch Loss Avg:  0.7450767755508423
+On minibatch:  541
+Minibatch Loss Avg:  0.9424532651901245
+On minibatch:  542
+Minibatch Loss Avg:  0.6341811418533325
+On minibatch:  543
+Minibatch Loss Avg:  0.8818737268447876
+On minibatch:  544
+Minibatch Loss Avg:  0.6053638458251953
+On minibatch:  545
+Minibatch Loss Avg:  0.6186373233795166
+On minibatch:  546
+Minibatch Loss Avg:  0.5842015147209167
+On minibatch:  547
+Minibatch Loss Avg:  0.8835276365280151
+On minibatch:  548
+Minibatch Loss Avg:  0.7450603246688843
+On minibatch:  549
+Minibatch Loss Avg:  0.8508945107460022
+On minibatch:  550
+Minibatch Loss Avg:  0.7312524914741516
+On minibatch:  551
+Minibatch Loss Avg:  0.7517803311347961
+On minibatch:  552
+Minibatch Loss Avg:  0.5851202607154846
+On minibatch:  553
+Minibatch Loss Avg:  0.7016579508781433
+On minibatch:  554
+Minibatch Loss Avg:  0.40486472845077515
+On minibatch:  555
+Minibatch Loss Avg:  0.8359561562538147
+On minibatch:  556
+Minibatch Loss Avg:  0.9774170517921448
+On minibatch:  557
+Minibatch Loss Avg:  0.863152265548706
+On minibatch:  558
+Minibatch Loss Avg:  0.8555968403816223
+On minibatch:  559
+Minibatch Loss Avg:  0.7889584898948669
+On minibatch:  560
+Minibatch Loss Avg:  0.7158886790275574
+On minibatch:  561
+Minibatch Loss Avg:  0.8489388227462769
+On minibatch:  562
+Minibatch Loss Avg:  0.45090627670288086
+On minibatch:  563
+Minibatch Loss Avg:  0.8574826121330261
+On minibatch:  564
+Minibatch Loss Avg:  0.7171730399131775
+On minibatch:  565
+Minibatch Loss Avg:  0.7305912375450134
+On minibatch:  566
+Minibatch Loss Avg:  0.4459514021873474
+On minibatch:  567
+Minibatch Loss Avg:  0.9424692392349243
+On minibatch:  568
+Minibatch Loss Avg:  0.45368263125419617
+On minibatch:  569
+Minibatch Loss Avg:  0.8999028205871582
+On minibatch:  570
+Minibatch Loss Avg:  0.5774450898170471
+On minibatch:  571
+Minibatch Loss Avg:  0.756879448890686
+On minibatch:  572
+Minibatch Loss Avg:  0.4912135899066925
+On minibatch:  573
+Minibatch Loss Avg:  0.7866901755332947
+On minibatch:  574
+Minibatch Loss Avg:  0.6765173077583313
+On minibatch:  575
+Minibatch Loss Avg:  0.3899120092391968
+On minibatch:  576
+Minibatch Loss Avg:  1.0086255073547363
+On minibatch:  577
+Minibatch Loss Avg:  0.5934863686561584
+On minibatch:  578
+Minibatch Loss Avg:  0.7864229083061218
+On minibatch:  579
+Minibatch Loss Avg:  0.8038874268531799
+On minibatch:  580
+Minibatch Loss Avg:  0.657212495803833
+On minibatch:  581
+Minibatch Loss Avg:  0.6207576394081116
+On minibatch:  582
+Minibatch Loss Avg:  0.9812539219856262
+On minibatch:  583
+Minibatch Loss Avg:  0.5798078179359436
+On minibatch:  584
+Minibatch Loss Avg:  0.7007448077201843
+On minibatch:  585
+Minibatch Loss Avg:  0.527649462223053
+On minibatch:  586
+Minibatch Loss Avg:  0.9420971274375916
+On minibatch:  587
+Minibatch Loss Avg:  0.8499986529350281
+On minibatch:  588
+Minibatch Loss Avg:  0.7944048047065735
+On minibatch:  589
+Minibatch Loss Avg:  0.6545987129211426
+On minibatch:  590
+Minibatch Loss Avg:  0.8237289190292358
+On minibatch:  591
+Minibatch Loss Avg:  0.6692763566970825
+On minibatch:  592
+Minibatch Loss Avg:  0.7988405227661133
+On minibatch:  593
+Minibatch Loss Avg:  0.8437896966934204
+On minibatch:  594
+Minibatch Loss Avg:  0.5139880180358887
+On minibatch:  595
+Minibatch Loss Avg:  0.5657280087471008
+On minibatch:  596
+Minibatch Loss Avg:  0.9903573393821716
+On minibatch:  597
+Minibatch Loss Avg:  0.8907687664031982
+On minibatch:  598
+Minibatch Loss Avg:  0.941292405128479
+On minibatch:  599
+Minibatch Loss Avg:  0.9643964767456055
+On minibatch:  600
+Minibatch Loss Avg:  0.6307169198989868
+On minibatch:  601
+Minibatch Loss Avg:  0.8676358461380005
+On minibatch:  602
+Minibatch Loss Avg:  0.7212309241294861
+On minibatch:  603
+Minibatch Loss Avg:  0.9101419448852539
+On minibatch:  604
+Minibatch Loss Avg:  0.6715492606163025
+On minibatch:  605
+Minibatch Loss Avg:  0.733498215675354
+On minibatch:  606
+Minibatch Loss Avg:  0.929141640663147
+On minibatch:  607
+Minibatch Loss Avg:  0.9504644870758057
+On minibatch:  608
+Minibatch Loss Avg:  0.7713294625282288
+On minibatch:  609
+Minibatch Loss Avg:  0.5878634452819824
+On minibatch:  610
+Minibatch Loss Avg:  0.8742825388908386
+On minibatch:  611
+Minibatch Loss Avg:  0.6692755818367004
+On minibatch:  612
+Minibatch Loss Avg:  0.8405048847198486
+On minibatch:  613
+Minibatch Loss Avg:  0.8164400458335876
+On minibatch:  614
+Minibatch Loss Avg:  0.6965065598487854
+On minibatch:  615
+Minibatch Loss Avg:  0.8001458644866943
+On minibatch:  616
+Minibatch Loss Avg:  0.7821971774101257
+On minibatch:  617
+Minibatch Loss Avg:  0.7616324424743652
+On minibatch:  618
+Minibatch Loss Avg:  0.7490805983543396
+On minibatch:  619
+Minibatch Loss Avg:  0.578469455242157
+On minibatch:  620
+Minibatch Loss Avg:  1.058499813079834
+On minibatch:  621
+Minibatch Loss Avg:  0.6575366854667664
+On minibatch:  622
+Minibatch Loss Avg:  0.5186310410499573
+On minibatch:  623
+Minibatch Loss Avg:  0.6268361806869507
+On minibatch:  624
+Minibatch Loss Avg:  0.9729790687561035
+On minibatch:  625
+Minibatch Loss Avg:  0.6632274985313416
+On minibatch:  626
+Minibatch Loss Avg:  0.7085674405097961
+On minibatch:  627
+Minibatch Loss Avg:  0.5924805998802185
+On minibatch:  628
+Minibatch Loss Avg:  0.5566290020942688
+On minibatch:  629
+Minibatch Loss Avg:  0.7984820604324341
+On minibatch:  630
+Minibatch Loss Avg:  0.6241873502731323
+On minibatch:  631
+Minibatch Loss Avg:  0.8688473105430603
+On minibatch:  632
+Minibatch Loss Avg:  0.6982145309448242
+On minibatch:  633
+Minibatch Loss Avg:  0.7043299078941345
+On minibatch:  634
+Minibatch Loss Avg:  0.7937949299812317
+On minibatch:  635
+Minibatch Loss Avg:  0.8845266699790955
+On minibatch:  636
+Minibatch Loss Avg:  0.78619384765625
+On minibatch:  637
+Minibatch Loss Avg:  0.5140188932418823
+On minibatch:  638
+Minibatch Loss Avg:  0.7497198581695557
+On minibatch:  639
+Minibatch Loss Avg:  0.7222627401351929
+On minibatch:  640
+Minibatch Loss Avg:  0.749303936958313
+On minibatch:  641
+Minibatch Loss Avg:  0.8528150916099548
+On minibatch:  642
+Minibatch Loss Avg:  0.8778648972511292
+On minibatch:  643
+Minibatch Loss Avg:  0.5787687301635742
+On minibatch:  644
+Minibatch Loss Avg:  0.6650600433349609
+On minibatch:  645
+Minibatch Loss Avg:  0.7627458572387695
+On minibatch:  646
+Minibatch Loss Avg:  0.9177263975143433
+On minibatch:  647
+Minibatch Loss Avg:  0.9740053415298462
+On minibatch:  648
+Minibatch Loss Avg:  0.7512655854225159
+On minibatch:  649
+Minibatch Loss Avg:  0.5972685813903809
+On minibatch:  650
+Minibatch Loss Avg:  0.7414594292640686
+On minibatch:  651
+Minibatch Loss Avg:  0.9661749601364136
+On minibatch:  652
+Minibatch Loss Avg:  0.690660297870636
+On minibatch:  653
+Minibatch Loss Avg:  0.9000940322875977
+On minibatch:  654
+Minibatch Loss Avg:  0.5371199250221252
+On minibatch:  655
+Minibatch Loss Avg:  0.7185395956039429
+On minibatch:  656
+Minibatch Loss Avg:  0.8412787914276123
+On minibatch:  657
+Minibatch Loss Avg:  0.6755167841911316
+On minibatch:  658
+Minibatch Loss Avg:  0.6954708099365234
+On minibatch:  659
+Minibatch Loss Avg:  0.57878178358078
+On minibatch:  660
+Minibatch Loss Avg:  0.8786353468894958
+On minibatch:  661
+Minibatch Loss Avg:  0.9527052640914917
+On minibatch:  662
+Minibatch Loss Avg:  0.8940605521202087
+On minibatch:  663
+Minibatch Loss Avg:  0.8042201995849609
+On minibatch:  664
+Minibatch Loss Avg:  1.0029683113098145
+On minibatch:  665
+Minibatch Loss Avg:  0.7923210859298706
+On minibatch:  666
+Minibatch Loss Avg:  0.7161173224449158
+On minibatch:  667
+Minibatch Loss Avg:  0.7523396015167236
+On minibatch:  668
+Minibatch Loss Avg:  0.9784965515136719
+On minibatch:  669
+Minibatch Loss Avg:  0.5830730199813843
+On minibatch:  670
+Minibatch Loss Avg:  0.6104326844215393
+On minibatch:  671
+Minibatch Loss Avg:  0.5054659843444824
+On minibatch:  672
+Minibatch Loss Avg:  0.7420153021812439
+On minibatch:  673
+Minibatch Loss Avg:  0.6021764278411865
+On minibatch:  674
+Minibatch Loss Avg:  0.5960552096366882
+On minibatch:  675
+Minibatch Loss Avg:  0.7441108822822571
+On minibatch:  676
+Minibatch Loss Avg:  0.6085041165351868
+On minibatch:  677
+Minibatch Loss Avg:  0.8722231984138489
+On minibatch:  678
+Minibatch Loss Avg:  0.49861782789230347
+On minibatch:  679
+Minibatch Loss Avg:  0.7408742904663086
+On minibatch:  680
+Minibatch Loss Avg:  0.6664068698883057
+On minibatch:  681
+Minibatch Loss Avg:  0.4975985586643219
+On minibatch:  682
+Minibatch Loss Avg:  0.6247863173484802
+On minibatch:  683
+Minibatch Loss Avg:  0.8053310513496399
+On minibatch:  684
+Minibatch Loss Avg:  0.9073668122291565
+On minibatch:  685
+Minibatch Loss Avg:  0.8671202063560486
+On minibatch:  686
+Minibatch Loss Avg:  0.6253916621208191
+On minibatch:  687
+Minibatch Loss Avg:  0.8155572414398193
+On minibatch:  688
+Minibatch Loss Avg:  0.616487979888916
+On minibatch:  689
+Minibatch Loss Avg:  0.7900312542915344
+On minibatch:  690
+Minibatch Loss Avg:  0.606492280960083
+On minibatch:  691
+Minibatch Loss Avg:  0.4692156910896301
+On minibatch:  692
+Minibatch Loss Avg:  0.5804031491279602
+On minibatch:  693
+Minibatch Loss Avg:  0.7024875283241272
+On minibatch:  694
+Minibatch Loss Avg:  0.8368005752563477
+On minibatch:  695
+Minibatch Loss Avg:  0.8412095904350281
+On minibatch:  696
+Minibatch Loss Avg:  0.6732615232467651
+On minibatch:  697
+Minibatch Loss Avg:  0.9164038896560669
+On minibatch:  698
+Minibatch Loss Avg:  0.9196743369102478
+On minibatch:  699
+Minibatch Loss Avg:  0.368992418050766
+On minibatch:  700
+Minibatch Loss Avg:  0.7065095901489258
+On minibatch:  701
+Minibatch Loss Avg:  0.6864326000213623
+On minibatch:  702
+Minibatch Loss Avg:  0.7372257709503174
+On minibatch:  703
+Minibatch Loss Avg:  0.47881779074668884
+On minibatch:  704
+Minibatch Loss Avg:  0.4349339008331299
+On minibatch:  705
+Minibatch Loss Avg:  0.7926052808761597
+On minibatch:  706
+Minibatch Loss Avg:  0.7459306716918945
+On minibatch:  707
+Minibatch Loss Avg:  0.8503438234329224
+On minibatch:  708
+Minibatch Loss Avg:  0.811204731464386
+On minibatch:  709
+Minibatch Loss Avg:  0.9325453042984009
+On minibatch:  710
+Minibatch Loss Avg:  0.8858646154403687
+On minibatch:  711
+Minibatch Loss Avg:  0.7970834374427795
+On minibatch:  712
+Minibatch Loss Avg:  0.6111648082733154
+On minibatch:  713
+Minibatch Loss Avg:  0.6666289567947388
+On minibatch:  714
+Minibatch Loss Avg:  0.48707160353660583
+On minibatch:  715
+Minibatch Loss Avg:  0.7653295993804932
+On minibatch:  716
+Minibatch Loss Avg:  0.5541542172431946
+On minibatch:  717
+Minibatch Loss Avg:  0.9303181767463684
+On minibatch:  718
+Minibatch Loss Avg:  0.8052863478660583
+On minibatch:  719
+Minibatch Loss Avg:  0.6488296985626221
+On minibatch:  720
+Minibatch Loss Avg:  0.6104569435119629
+On minibatch:  721
+Minibatch Loss Avg:  0.6225274801254272
+On minibatch:  722
+Minibatch Loss Avg:  0.47271761298179626
+On minibatch:  723
+Minibatch Loss Avg:  0.7442371249198914
+On minibatch:  724
+Minibatch Loss Avg:  0.8338831663131714
+On minibatch:  725
+Minibatch Loss Avg:  0.8257045149803162
+On minibatch:  726
+Minibatch Loss Avg:  0.9169813990592957
+On minibatch:  727
+Minibatch Loss Avg:  0.9537954926490784
+On minibatch:  728
+Minibatch Loss Avg:  0.5798093676567078
+On minibatch:  729
+Minibatch Loss Avg:  0.7296158671379089
+On minibatch:  730
+Minibatch Loss Avg:  0.5190878510475159
+On minibatch:  731
+Minibatch Loss Avg:  0.4637969136238098
+On minibatch:  732
+Minibatch Loss Avg:  0.8708706498146057
+On minibatch:  733
+Minibatch Loss Avg:  0.8700391054153442
+On minibatch:  734
+Minibatch Loss Avg:  0.5723078846931458
+On minibatch:  735
+Minibatch Loss Avg:  0.9138904809951782
+On minibatch:  736
+Minibatch Loss Avg:  0.7635952830314636
+On minibatch:  737
+Minibatch Loss Avg:  0.7952163219451904
+On minibatch:  738
+Minibatch Loss Avg:  0.8192886114120483
+On minibatch:  739
+Minibatch Loss Avg:  0.7648295760154724
+On minibatch:  740
+Minibatch Loss Avg:  0.399225652217865
+On minibatch:  741
+Minibatch Loss Avg:  0.9263894557952881
+On minibatch:  742
+Minibatch Loss Avg:  0.7213214635848999
+On minibatch:  743
+Minibatch Loss Avg:  0.8206974864006042
+On minibatch:  744
+Minibatch Loss Avg:  0.39318084716796875
+On minibatch:  745
+Minibatch Loss Avg:  0.7639198899269104
+On minibatch:  746
+Minibatch Loss Avg:  0.8041245937347412
+On minibatch:  747
+Minibatch Loss Avg:  0.45719921588897705
+On minibatch:  748
+Minibatch Loss Avg:  0.839215099811554
+On minibatch:  749
+Minibatch Loss Avg:  0.7325841784477234
+On minibatch:  750
+Minibatch Loss Avg:  0.8001090288162231
+On minibatch:  751
+Minibatch Loss Avg:  0.39567434787750244
+On minibatch:  752
+Minibatch Loss Avg:  0.7901544570922852
+On minibatch:  753
+Minibatch Loss Avg:  0.6826492547988892
+On minibatch:  754
+Minibatch Loss Avg:  1.0418142080307007
+On minibatch:  755
+Minibatch Loss Avg:  0.8515631556510925
+On minibatch:  756
+Minibatch Loss Avg:  0.7824106216430664
+On minibatch:  757
+Minibatch Loss Avg:  0.7377351522445679
+On minibatch:  758
+Minibatch Loss Avg:  0.8414995670318604
+On minibatch:  759
+Minibatch Loss Avg:  0.8902727961540222
+On minibatch:  760
+Minibatch Loss Avg:  0.9495573043823242
+On minibatch:  761
+Minibatch Loss Avg:  0.6454671025276184
+On minibatch:  762
+Minibatch Loss Avg:  0.8236960768699646
+On minibatch:  763
+Minibatch Loss Avg:  0.5192845463752747
+On minibatch:  764
+Minibatch Loss Avg:  0.5779340863227844
+On minibatch:  765
+Minibatch Loss Avg:  0.75865638256073
+On minibatch:  766
+Minibatch Loss Avg:  0.9712598323822021
+On minibatch:  767
+Minibatch Loss Avg:  0.7078027129173279
+On minibatch:  768
+Minibatch Loss Avg:  0.9134395122528076
+On minibatch:  769
+Minibatch Loss Avg:  0.8117343783378601
+On minibatch:  770
+Minibatch Loss Avg:  0.837593138217926
+On minibatch:  771
+Minibatch Loss Avg:  0.7386733889579773
+On minibatch:  772
+Minibatch Loss Avg:  0.7451338171958923
+On minibatch:  773
+Minibatch Loss Avg:  0.6784523129463196
+On minibatch:  774
+Minibatch Loss Avg:  0.8356373906135559
+On minibatch:  775
+Minibatch Loss Avg:  0.9753252267837524
+On minibatch:  776
+Minibatch Loss Avg:  0.7033203840255737
+On minibatch:  777
+Minibatch Loss Avg:  0.8479743003845215
+On minibatch:  778
+Minibatch Loss Avg:  0.9437283873558044
+On minibatch:  779
+Minibatch Loss Avg:  0.8153693675994873
+On minibatch:  780
+Minibatch Loss Avg:  0.6069326996803284
+On minibatch:  781
+Minibatch Loss Avg:  0.6357205510139465
+On minibatch:  782
+Minibatch Loss Avg:  0.8372436165809631
+On minibatch:  783
+Minibatch Loss Avg:  0.7107051014900208
+On minibatch:  784
+Minibatch Loss Avg:  0.525143563747406
+On minibatch:  785
+Minibatch Loss Avg:  0.7778345942497253
+On minibatch:  786
+Minibatch Loss Avg:  0.8335620164871216
+On minibatch:  787
+Minibatch Loss Avg:  0.5832849144935608
+On minibatch:  788
+Minibatch Loss Avg:  0.6546913981437683
+On minibatch:  789
+Minibatch Loss Avg:  0.6807018518447876
+On minibatch:  790
+Minibatch Loss Avg:  0.7443577647209167
+On minibatch:  791
+Minibatch Loss Avg:  0.7226976752281189
+On minibatch:  792
+Minibatch Loss Avg:  0.6586940884590149
+On minibatch:  793
+Minibatch Loss Avg:  0.6052423715591431
+On minibatch:  794
+Minibatch Loss Avg:  0.537100076675415
+On minibatch:  795
+Minibatch Loss Avg:  0.9876560568809509
+On minibatch:  796
+Minibatch Loss Avg:  0.5840911865234375
+On minibatch:  797
+Minibatch Loss Avg:  0.7552464008331299
+On minibatch:  798
+Minibatch Loss Avg:  0.8148239254951477
+On minibatch:  799
+Minibatch Loss Avg:  0.6294782757759094
+On minibatch:  800
+Minibatch Loss Avg:  0.776882529258728
+On minibatch:  801
+Minibatch Loss Avg:  0.8109530210494995
+On minibatch:  802
+Minibatch Loss Avg:  0.8275191187858582
+On minibatch:  803
+Minibatch Loss Avg:  0.7056102156639099
+On minibatch:  804
+Minibatch Loss Avg:  0.7467988729476929
+On minibatch:  805
+Minibatch Loss Avg:  0.43507319688796997
+On minibatch:  806
+Minibatch Loss Avg:  0.8194715976715088
+On minibatch:  807
+Minibatch Loss Avg:  0.8771413564682007
+On minibatch:  808
+Minibatch Loss Avg:  0.6037260890007019
+On minibatch:  809
+Minibatch Loss Avg:  0.6777200698852539
+On minibatch:  810
+Minibatch Loss Avg:  0.8495064377784729
+On minibatch:  811
+Minibatch Loss Avg:  0.8296704888343811
+On minibatch:  812
+Minibatch Loss Avg:  0.829459547996521
+On minibatch:  813
+Minibatch Loss Avg:  0.6703137159347534
+On minibatch:  814
+Minibatch Loss Avg:  0.7029991745948792
+On minibatch:  815
+Minibatch Loss Avg:  0.7129654288291931
+On minibatch:  816
+Minibatch Loss Avg:  0.6222000122070312
+On minibatch:  817
+Minibatch Loss Avg:  0.7214625477790833
+On minibatch:  818
+Minibatch Loss Avg:  0.7446222305297852
+On minibatch:  819
+Minibatch Loss Avg:  0.8826828598976135
+On minibatch:  820
+Minibatch Loss Avg:  0.4461882412433624
+On minibatch:  821
+Minibatch Loss Avg:  0.5331340432167053
+On minibatch:  822
+Minibatch Loss Avg:  0.7713413834571838
+On minibatch:  823
+Minibatch Loss Avg:  0.7749707698822021
+On minibatch:  824
+Minibatch Loss Avg:  0.891962468624115
+On minibatch:  825
+Minibatch Loss Avg:  0.6873924136161804
+On minibatch:  826
+Minibatch Loss Avg:  0.7923401594161987
+On minibatch:  827
+Minibatch Loss Avg:  0.6797553300857544
+On minibatch:  828
+Minibatch Loss Avg:  0.8549803495407104
+On minibatch:  829
+Minibatch Loss Avg:  0.8056886792182922
+On minibatch:  830
+Minibatch Loss Avg:  0.892666220664978
+On minibatch:  831
+Minibatch Loss Avg:  0.7029955387115479
+On minibatch:  832
+Minibatch Loss Avg:  0.8383491635322571
+On minibatch:  833
+Minibatch Loss Avg:  0.6704160571098328
+On minibatch:  834
+Minibatch Loss Avg:  0.8901528716087341
+On minibatch:  835
+Minibatch Loss Avg:  0.6090008616447449
+On minibatch:  836
+Minibatch Loss Avg:  0.6232835650444031
+On minibatch:  837
+Minibatch Loss Avg:  0.8228225708007812
+On minibatch:  838
+Minibatch Loss Avg:  0.7412867546081543
+On minibatch:  839
+Minibatch Loss Avg:  0.8118675351142883
+On minibatch:  840
+Minibatch Loss Avg:  0.603691577911377
+On minibatch:  841
+Minibatch Loss Avg:  0.8391032814979553
+On minibatch:  842
+Minibatch Loss Avg:  0.9098930954933167
+On minibatch:  843
+Minibatch Loss Avg:  0.7279956936836243
+On minibatch:  844
+Minibatch Loss Avg:  1.0202406644821167
+On minibatch:  845
+Minibatch Loss Avg:  0.8997775316238403
+On minibatch:  846
+Minibatch Loss Avg:  0.9428033232688904
+On minibatch:  847
+Minibatch Loss Avg:  0.8460189700126648
+On minibatch:  848
+Minibatch Loss Avg:  0.8253740668296814
+On minibatch:  849
+Minibatch Loss Avg:  0.7629550099372864
+On minibatch:  850
+Minibatch Loss Avg:  0.5323156118392944
+On minibatch:  851
+Minibatch Loss Avg:  0.840891420841217
+On minibatch:  852
+Minibatch Loss Avg:  0.7019167542457581
+On minibatch:  853
+Minibatch Loss Avg:  0.6718260645866394
+On minibatch:  854
+Minibatch Loss Avg:  0.7259173393249512
+On minibatch:  855
+Minibatch Loss Avg:  1.0078637599945068
+On minibatch:  856
+Minibatch Loss Avg:  0.49236762523651123
+On minibatch:  857
+Minibatch Loss Avg:  0.9578331112861633
+On minibatch:  858
+Minibatch Loss Avg:  0.5969114303588867
+On minibatch:  859
+Minibatch Loss Avg:  0.7511928677558899
+On minibatch:  860
+Minibatch Loss Avg:  1.0900306701660156
+On minibatch:  861
+Minibatch Loss Avg:  0.6146871447563171
+On minibatch:  862
+Minibatch Loss Avg:  0.5989786982536316
+On minibatch:  863
+Minibatch Loss Avg:  0.6834757924079895
+On minibatch:  864
+Minibatch Loss Avg:  0.8777245283126831
+On minibatch:  865
+Minibatch Loss Avg:  1.0289734601974487
+On minibatch:  866
+Minibatch Loss Avg:  0.6462596654891968
+On minibatch:  867
+Minibatch Loss Avg:  0.9104479551315308
+On minibatch:  868
+Minibatch Loss Avg:  0.8042788505554199
+On minibatch:  869
+Minibatch Loss Avg:  0.7012404203414917
+On minibatch:  870
+Minibatch Loss Avg:  0.978181779384613
+On minibatch:  871
+Minibatch Loss Avg:  0.5928135514259338
+On minibatch:  872
+Minibatch Loss Avg:  0.6218545436859131
+On minibatch:  873
+Minibatch Loss Avg:  0.8862938284873962
+On minibatch:  874
+Minibatch Loss Avg:  0.7569507956504822
+On minibatch:  875
+Minibatch Loss Avg:  0.619292676448822
+On minibatch:  876
+Minibatch Loss Avg:  0.7378443479537964
+On minibatch:  877
+Minibatch Loss Avg:  0.8245144486427307
+On minibatch:  878
+Minibatch Loss Avg:  0.8545956015586853
+On minibatch:  879
+Minibatch Loss Avg:  1.012643814086914
+On minibatch:  880
+Minibatch Loss Avg:  0.7463847994804382
+On minibatch:  881
+Minibatch Loss Avg:  0.7180545926094055
+On minibatch:  882
+Minibatch Loss Avg:  0.8643758893013
+On minibatch:  883
+Minibatch Loss Avg:  0.7825904488563538
+On minibatch:  884
+Minibatch Loss Avg:  0.6983559131622314
+On minibatch:  885
+Minibatch Loss Avg:  0.8754608035087585
+On minibatch:  886
+Minibatch Loss Avg:  0.6593216061592102
+On minibatch:  887
+Minibatch Loss Avg:  0.8808609247207642
+On minibatch:  888
+Minibatch Loss Avg:  0.5842668414115906
+On minibatch:  889
+Minibatch Loss Avg:  0.7738898396492004
+On minibatch:  890
+Minibatch Loss Avg:  0.6905015707015991
+Validation:  2.0
+Training Loss Avg:  0.7438116925486018
+/opt/conda/lib/python3.6/site-packages/nltk/translate/bleu_score.py:490: UserWarning: 
+Corpus/Sentence contains 0 counts of 2-gram overlaps.
+BLEU scores might be undesirable; use SmoothingFunction().
+  warnings.warn(_msg)
+/opt/conda/lib/python3.6/site-packages/nltk/translate/bleu_score.py:490: UserWarning: 
+Corpus/Sentence contains 0 counts of 3-gram overlaps.
+BLEU scores might be undesirable; use SmoothingFunction().
+  warnings.warn(_msg)
+/opt/conda/lib/python3.6/site-packages/nltk/translate/bleu_score.py:490: UserWarning: 
+Corpus/Sentence contains 0 counts of 4-gram overlaps.
+BLEU scores might be undesirable; use SmoothingFunction().
+  warnings.warn(_msg)

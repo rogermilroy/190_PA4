@@ -215,9 +215,9 @@ def save_to_file(outputs, fname):
 
 
 if __name__ == "__main__":
-    data_dir = "../BeerAdvocateDataset"
-    train_data_fname = data_dir + "/Beeradvocate_Train.csv"
-    test_data_fname = data_dir + "/Beeradvocate_Test.csv"
+    data_dir = "/datasets/cs190f-public/BeerAdvocateDataset"
+    train_data_fname = data_dir + "/BeerAdvocate_Train.csv"
+    test_data_fname = data_dir + "/BeerAdvocate_Test.csv"
     out_fname = ""
 
     # train_data = load_data(train_data_fname) # Generating the pandas DataFrame
@@ -254,7 +254,7 @@ if __name__ == "__main__":
         extras = False
         print("CUDA NOT supported")
 
-    model.load_state_dict(torch.load('./outputs/current_params.pt'))
+    #model.load_state_dict(torch.load('./outputs/current_params.pt'))
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     extras=extras, subset=True, p_val=0.1)
