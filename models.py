@@ -31,6 +31,10 @@ class baselineLSTM(nn.Module):
                             dropout=self.dropout,
                             bidirectional=self.bidirectional)
 
+        for name, param in self.lstm.named_parameters():
+            if 'weight' in name:
+                nn.init.xavier_normal_(param)
+
         self.recurrent_normed = nn.BatchNorm1d(self.hidden_dim)
 
         # initialize output layer
@@ -79,6 +83,10 @@ class gru(nn.Module):
                             num_layers=self.layers,
                             dropout=self.dropout,
                             bidirectional=self.bidirectional)
+
+        for name, param in self.gru.named_parameters():
+            if 'weight' in name:
+                nn.init.xavier_normal_(param)
 
         self.recurrent_normed = nn.BatchNorm1d(self.hidden_dim)
 
