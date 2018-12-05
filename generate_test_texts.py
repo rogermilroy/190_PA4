@@ -8,8 +8,7 @@ import torch
 
 if __name__ == '__main__':
 
-    data_dir = "datasets/cs190f-public/BeerAdvocateDataset"
-    train_data_fname = data_dir + "/Beeradvocate_Train.csv"
+    data_dir = "/datasets/cs190f-public"
     test_data_fname = data_dir + "/Beeradvocate_TestOriginal.csv"
 
     modeltype = gen_cfg['model'].lower()
@@ -36,8 +35,8 @@ if __name__ == '__main__':
         extras = False
         print("CUDA NOT supported")
 
+    model.load_state_dict(torch.load('./outputs/current_params.pt', map_location='cpu'))
     model.to(computing_device)
-    model.load_state_dict(torch.load('./outputs/current_params.pt', map_location=computing_device))
 
     test_loader = create_generation_loader(gen_cfg['batch_size'], test_data_fname, extras=extras)
 
@@ -66,12 +65,14 @@ if __name__ == '__main__':
                                                                       computing_device),
                                              gen_cfg,
                                              computing_device)
+            print(val_minibatch_count)
             b_scores = torch.tensor(get_bleu_scores(generated_val_reviews, val_text))
             bleu_score_avg += float(torch.mean(b_scores))
-            if val_samples > 2000:
+            print(bleu_score_avg)
+            if val_samples > 10000:
                 break
 
-        bleu_score_avg = (bleu_score_avg / float(val_samples))
+        bleu_score_avg = (bleu_score_avg / float(val_minibatch_count))
         print("BLEU score: ", bleu_score_avg)
 
     # save_to_file(texts, './outputs/reviews_tau_' + gen_cfg['gen_temp'] + '_' + modeltype + '.txt')

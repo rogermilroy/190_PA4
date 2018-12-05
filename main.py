@@ -165,7 +165,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                     # add average loss over validation set to array
                     validation_loss_avg = validation_loss_avg / float(val_samples)
                     validation_losses.append(validation_loss_avg)
-                    bleu_score_avg = (bleu_score_avg / float(val_samples))
+                    bleu_score_avg = (bleu_score_avg / float(val_minibatch_count))
                     bleu_scores.append(bleu_score_avg)
                     print("Validation Loss: ", validation_loss_avg)
                     print("BLEU score: ", bleu_score_avg)
@@ -254,7 +254,10 @@ if __name__ == "__main__":
         extras = False
         print("CUDA NOT supported")
 
-    model.load_state_dict(torch.load('./outputs/current_params_'+cfg['model']+'.pt'))
+    try:
+        model.load_state_dict(torch.load('./outputs/current_params_'+cfg['model']+'.pt'))
+    except Exception as e:
+       print(e) 
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     extras=extras, subset=True, p_val=0.1)
