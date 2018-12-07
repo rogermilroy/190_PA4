@@ -211,7 +211,7 @@ def create_test_loader(batch_size, seed, filename, shuffle=True, extras={}):
     return test_loader
 
 
-def create_generation_loader(batch_size, filename, extras={}):
+def create_generation_loader(batch_size, filename, extras={}, w_orig=False):
     """ Creates the DataLoader objects for the training, validation, and test sets.
 
     Params:
@@ -234,7 +234,10 @@ def create_generation_loader(batch_size, filename, extras={}):
     """
 
     # Get create a BeerTestDataset object
-    dataset = BeerTrainDataset(filename)
+    if w_orig:
+        dataset = BeerTrainDataset(filename)
+    else:
+        dataset = BeerTestDataset(filename)
 
     # Dimensions and indices of training set
     dataset_size = len(dataset)
