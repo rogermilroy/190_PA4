@@ -234,7 +234,7 @@ def create_generation_loader(batch_size, filename, extras={}):
     """
 
     # Get create a BeerTestDataset object
-    dataset = BeerTestDataset(filename)
+    dataset = BeerTrainDataset(filename)
 
     # Dimensions and indices of training set
     dataset_size = len(dataset)

@@ -8,8 +8,7 @@ import torch
 
 if __name__ == '__main__':
 
-    data_dir = "datasets/cs190f-public/BeerAdvocateDataset"
-    train_data_fname = data_dir + "/Beeradvocate_Train.csv"
+    data_dir = "/datasets/cs190f-public"
     test_data_fname = data_dir + "/Beeradvocate_Test.csv"
 
     modeltype = gen_cfg['model'].lower()
@@ -36,9 +35,9 @@ if __name__ == '__main__':
         extras = False
         print("CUDA NOT supported")
 
+    model.load_state_dict(torch.load('./outputs/current_params_' + gen_cfg['model'] + '.pt',
+                                                                         map_location='cpu'))
     model.to(computing_device)
-    model.load_state_dict(torch.load('./outputs/best_params_' +gen_cfg['model']+ '.pt',
-                                     map_location=computing_device))
 
     test_loader = create_generation_loader(gen_cfg['batch_size'], test_data_fname, extras=extras)
 

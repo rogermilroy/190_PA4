@@ -165,7 +165,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                     # add average loss over validation set to array
                     validation_loss_avg = validation_loss_avg / float(val_samples)
                     validation_losses.append(validation_loss_avg)
-                    bleu_score_avg = (bleu_score_avg / float(val_samples))
+                    bleu_score_avg = (bleu_score_avg / float(val_minibatch_count))
                     bleu_scores.append(bleu_score_avg)
                     print("Validation Loss: ", validation_loss_avg)
                     print("BLEU score: ", bleu_score_avg)
