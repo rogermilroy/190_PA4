@@ -108,7 +108,7 @@ def train(model, train_loader, val_loader, cfg, computing_device):
                 training_loss += criterion(output, targets)
 
             training_loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 10.)
             optimizer.step()
 
             # calculate loss
@@ -254,7 +254,10 @@ if __name__ == "__main__":
         extras = False
         print("CUDA NOT supported")
 
-    model.load_state_dict(torch.load('./outputs/current_params_'+cfg['model']+'.pt'))
+    try:
+        model.load_state_dict(torch.load('./outputs/current_params_'+cfg['model']+'.pt'))
+    except Exception as e:
+        print(e)
 
     train_loader, val_loader = create_split_loaders(cfg['batch_size'], 42, train_data_fname,
                                                     extras=extras, subset=True, p_val=0.1)
